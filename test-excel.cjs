@@ -1,0 +1,1 @@
+const ExcelJS = require('exceljs'); const wb = new ExcelJS.Workbook(); const ws = wb.addWorksheet('test'); ws.getCell('A1').value = 'Top'; ws.mergeCells('A2:B2'); ws.getCell('A2').value = 'Merged'; ws.spliceRows(1, 0, []); wb.xlsx.writeFile('test.xlsx').then(() => console.log('done'));

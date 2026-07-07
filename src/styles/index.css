@@ -1,0 +1,309 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+@custom-variant dark (&:is(.dark *));
+@theme {
+  --font-inter: "Inter", sans-serif;
+  
+  --color-surface: var(--surface);
+  --color-surface-dim: var(--surface-dim);
+  --color-surface-bright: var(--surface-bright);
+  --color-surface-container-lowest: var(--surface-container-lowest);
+  --color-surface-container-low: var(--surface-container-low);
+  --color-surface-container: var(--surface-container);
+  --color-surface-container-high: var(--surface-container-high);
+  --color-surface-container-highest: var(--surface-container-highest);
+  --color-on-surface: var(--on-surface);
+  --color-on-surface-variant: var(--on-surface-variant);
+  --color-inverse-surface: var(--inverse-surface);
+  --color-inverse-on-surface: var(--inverse-on-surface);
+  
+  --color-outline: var(--outline);
+  --color-outline-variant: var(--outline-variant);
+  --color-surface-tint: var(--surface-tint);
+  
+  --color-primary: var(--primary);
+  --color-on-primary: var(--on-primary);
+  --color-primary-container: var(--primary-container);
+  --color-on-primary-container: var(--on-primary-container);
+  --color-inverse-primary: var(--inverse-primary);
+  
+  --color-secondary: var(--secondary);
+  --color-on-secondary: var(--on-secondary);
+  --color-secondary-container: var(--secondary-container);
+  --color-on-secondary-container: var(--on-secondary-container);
+  
+  --color-tertiary: var(--tertiary);
+  --color-on-tertiary: var(--on-tertiary);
+  --color-tertiary-container: var(--tertiary-container);
+  --color-on-tertiary-container: var(--on-tertiary-container);
+  
+  --color-error: var(--error);
+  --color-on-error: var(--on-error);
+  --color-error-container: var(--error-container);
+  --color-on-error-container: var(--on-error-container);
+  
+  --color-primary-fixed: var(--primary-fixed);
+  --color-primary-fixed-dim: var(--primary-fixed-dim);
+  --color-on-primary-fixed: var(--on-primary-fixed);
+  --color-on-primary-fixed-variant: var(--on-primary-fixed-variant);
+  
+  --color-secondary-fixed: var(--secondary-fixed);
+  --color-secondary-fixed-dim: var(--secondary-fixed-dim);
+  --color-on-secondary-fixed: var(--on-secondary-fixed);
+  --color-on-secondary-fixed-variant: var(--on-secondary-fixed-variant);
+  
+  --color-tertiary-fixed: var(--tertiary-fixed);
+  --color-tertiary-fixed-dim: var(--tertiary-fixed-dim);
+  --color-on-tertiary-fixed: var(--on-tertiary-fixed);
+  --color-on-tertiary-fixed-variant: var(--on-tertiary-fixed-variant);
+  
+  --color-background: var(--background);
+  --color-on-background: var(--on-background);
+  --color-surface-variant: var(--surface-variant);
+  
+  --color-night-blue: var(--night-blue);
+  --color-night-blue-hover: var(--night-blue-hover);
+  --color-warm-copper: var(--warm-copper);
+  --color-warm-copper-hover: var(--warm-copper-hover);
+
+  --radius-sm: 0.125rem;
+  --radius-DEFAULT: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-full: 9999px;
+  
+  --spacing-base: 4px;
+  --spacing-xs: 8px;
+  --spacing-sm: 16px;
+  --spacing-md: 24px;
+  --spacing-lg: 40px;
+  --spacing-xl: 64px;
+  
+  --text-display-lg: 48px;
+  --text-display-lg--line-height: 56px;
+  --text-display-lg--font-weight: 700;
+  
+  --text-headline-lg: 32px;
+  --text-headline-lg--line-height: 40px;
+  --text-headline-lg--font-weight: 600;
+  
+  --text-headline-md: 24px;
+  --text-headline-md--line-height: 32px;
+  --text-headline-md--font-weight: 600;
+  
+  --text-body-lg: 18px;
+  --text-body-lg--line-height: 28px;
+  --text-body-lg--font-weight: 400;
+  
+  --text-body-md: 16px;
+  --text-body-md--line-height: 24px;
+  --text-body-md--font-weight: 400;
+  
+  --text-body-sm: 14px;
+  --text-body-sm--line-height: 20px;
+  --text-body-sm--font-weight: 400;
+  
+  --text-label-md: 14px;
+  --text-label-md--line-height: 16px;
+  --text-label-md--font-weight: 600;
+  
+  --text-label-sm: 12px;
+  --text-label-sm--line-height: 14px;
+  --text-label-sm--font-weight: 500;
+}
+
+@layer base {
+  :root {
+    /* ── 2-Color System: Navy Blue + Warm Gold ── */
+    --navy:        #1B2E4B;
+    --navy-light:  #243D60;
+    --navy-dim:    #16263F;
+    --gold:        #C4933F;
+    --gold-hover:  #A87A30;
+    --gold-light:  #F5E8D4;
+
+    /* Neutrals */
+    --surface:                  #F5F6FA;
+    --surface-dim:              #E2E8F0;
+    --surface-bright:           #FFFFFF;
+    --surface-container-lowest: #FFFFFF;
+    --surface-container-low:    #F0F4F9;
+    --surface-container:        #E8EDF5;
+    --surface-container-high:   #DDE4EE;
+    --surface-container-highest:#D4DCE9;
+    --on-surface:               #1B2E4B;
+    --on-surface-variant:       #6B7A94;
+    --inverse-surface:          #1B2E4B;
+    --inverse-on-surface:       #E8EDF5;
+    --outline:                  #94A3B8;
+    --outline-variant:          #CBD5E1;
+    --surface-tint:             #C4933F;
+
+    /* Primary = Navy */
+    --primary:                  #1B2E4B;
+    --on-primary:               #FFFFFF;
+    --card-bg:                  #FFFFFF;
+    --primary-container:        #E8EDF5;
+    --on-primary-container:     #1B2E4B;
+    --inverse-primary:          #C4933F;
+
+    /* Secondary = Muted Navy variant */
+    --secondary:                #3D5276;
+    --on-secondary:             #FFFFFF;
+    --secondary-container:      #D4DCE9;
+    --on-secondary-container:   #1B2E4B;
+
+    /* Tertiary = Gold accent */
+    --tertiary:                 #C4933F;
+    --on-tertiary:              #FFFFFF;
+    --tertiary-container:       #F5E8D4;
+    --on-tertiary-container:    #6A4E20;
+
+    /* Error */
+    --error:                    #B91C1C;
+    --on-error:                 #FFFFFF;
+    --error-container:          #FEE2E2;
+    --on-error-container:       #7F1D1D;
+
+    /* Fixed variants (keep for compat) */
+    --primary-fixed:            #D4DCE9;
+    --primary-fixed-dim:        #B8C4D6;
+    --on-primary-fixed:         #1B2E4B;
+    --on-primary-fixed-variant: #3D5276;
+    --secondary-fixed:          #D4DCE9;
+    --secondary-fixed-dim:      #B8C4D6;
+    --on-secondary-fixed:       #1B2E4B;
+    --on-secondary-fixed-variant: #3D5276;
+    --tertiary-fixed:           #F5E8D4;
+    --tertiary-fixed-dim:       #E8CFA5;
+    --on-tertiary-fixed:        #6A4E20;
+    --on-tertiary-fixed-variant:#A07030;
+
+    --background:               #F5F6FA;
+    --on-background:            #1B2E4B;
+    --surface-variant:          #E8EDF5;
+
+    /* Legacy aliases */
+    --night-blue:               #1B2E4B;
+    --night-blue-hover:         #243D60;
+    --warm-copper:              #C4933F;
+    --warm-copper-hover:        #A87A30;
+
+    /* Sidebar Light */
+    --sidebar-bg:               #FFFFFF;
+    --sidebar-hover:            #F0F4F9;
+    --sidebar-submenu:          #F5F6FA;
+    --sidebar-border:           #E2E8F0;
+    --sidebar-text:             #6B7A94;
+    --sidebar-text-hover:       #1B2E4B;
+  }
+
+  .dark {
+    /* ── Dark Mode: Navy Dark + Gold ── */
+    --surface:                  #0F1623;
+    --surface-dim:              #080E18;
+    --surface-bright:           #16212E;
+    --surface-container-lowest: #060C15;
+    --surface-container-low:    #0D1825;
+    --surface-container:        #0F1E2E;
+    --surface-container-high:   #162435;
+    --surface-container-highest:#1E2D3D;
+    --on-surface:               #E8EDF5;
+    --surface-variant:          #162435;
+    --on-surface-variant:       #8899B4;
+    --inverse-surface:          #E8EDF5;
+    --inverse-on-surface:       #1B2E4B;
+    --outline:                  #4A627E;
+    --outline-variant:          #1E2D3D;
+    --background:               #0F1623;
+    --on-background:            #E8EDF5;
+    --primary:                  #E8EDF5;
+    --on-primary:               #1B2E4B;
+    --card-bg:                  #16212E;
+    --primary-container:        #1E2D3D;
+    --on-primary-container:     #B8C4D6;
+    --surface-tint:             #C4933F;
+
+    /* Sidebar Dark */
+    --sidebar-bg:               #16212E;
+    --sidebar-hover:            #1E2D3D;
+    --sidebar-submenu:          #182030;
+    --sidebar-border:           #1E2D3D;
+    --sidebar-text:             #8899B4;
+    --sidebar-text-hover:       #E8EDF5;
+  }
+
+  body {
+    @apply bg-surface text-on-surface font-inter transition-colors duration-300;
+  }
+}
+
+@layer utilities {
+  .shadow-elevated {
+    /* Una sombra más pronunciada y suave para darle un efecto "flotante" notorio a las cards en modo claro */
+    box-shadow: 0 20px 25px -5px rgba(21, 24, 45, 0.1), 0 8px 10px -6px rgba(21, 24, 45, 0.05);
+  }
+
+  .dark .shadow-elevated {
+    /* En modo oscuro, se necesita una sombra ultra negra y un pequeño reflejo interior (inset) en el borde superior para dar un efecto premium flotante */
+    box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.95), 0 0 30px rgba(0, 0, 0, 0.8), inset 0 1px 1px rgba(255, 255, 255, 0.08);
+  }
+
+  @keyframes snakeTravel {
+    0% { stroke-dashoffset: 120; }
+    100% { stroke-dashoffset: 0; }
+  }
+
+  @keyframes slideInRight {
+    from { opacity: 0; transform: translateX(100%); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.25s ease forwards;
+  }
+
+  /* Utilidad para ocultar el scrollbar nativo */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+
+  .animate-snake-border {
+    animation: snakeTravel 3s linear infinite;
+  }
+  
+  @keyframes imagePan {
+    0% { transform: scale(1.05) translate(0, 0); }
+    50% { transform: scale(1.1) translate(-1%, -1%); }
+    100% { transform: scale(1.05) translate(0, 0); }
+  }
+
+  .animate-image-pan {
+    animation: imagePan 20s ease-in-out infinite;
+  }
+}
+
+/* Leaflet custom marker overrides */
+.sede-marker-icon {
+  background: transparent !important;
+  border: none !important;
+}
+
+.leaflet-popup-content-wrapper {
+  border-radius: 10px !important;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15) !important;
+}
+
+.leaflet-popup-tip {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+}

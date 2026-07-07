@@ -1,0 +1,126 @@
+src/components/ConfirmDialog.tsx(1,17): error TS1484: 'ReactNode' is a type and must be imported using a type-only import when 'verbatimModuleSyntax' is enabled.
+src/features/auth/components/LoginForm/LoginForm.tsx(74,52): error TS2339: Property 'data' does not exist on type 'LoginResponse'.
+src/features/auth/components/LoginForm/LoginForm.tsx(74,69): error TS2339: Property 'data' does not exist on type 'LoginResponse'.
+src/hooks/useConfirm.tsx(1,20): error TS1484: 'ReactNode' is a type and must be imported using a type-only import when 'verbatimModuleSyntax' is enabled.
+src/layouts/AdminLayout/ProfileModal.tsx(3,26): error TS6133: 'CheckCircle2' is declared but its value is never read.
+src/layouts/AdminLayout/ProfileModal.tsx(3,67): error TS6133: 'Lock' is declared but its value is never read.
+src/layouts/AdminLayout/ProfileModal.tsx(35,10): error TS6133: 'success' is declared but its value is never read.
+src/layouts/AdminLayout/ProfileModal.tsx(35,19): error TS6133: 'setSuccess' is declared but its value is never read.
+src/layouts/AdminLayout/Sidebar.tsx(17,3): error TS6133: 'Plus' is declared but its value is never read.
+src/layouts/AdminLayout/Sidebar.tsx(43,9): error TS6133: 'showToast' is declared but its value is never read.
+src/pages/admin/AdminApprovalsPage/AdminApprovalsPage.tsx(2,91): error TS6133: 'Filter' is declared but its value is never read.
+src/pages/admin/AdminApprovalsPage/AdminApprovalsPage.tsx(2,99): error TS6133: 'Building2' is declared but its value is never read.
+src/pages/admin/AdminApprovalsPage/AdminApprovalsPage.tsx(2,110): error TS6133: 'Wallet' is declared but its value is never read.
+src/pages/admin/AdminApprovalsPage/MovimientoDetailModal.tsx(3,104): error TS6133: 'DollarSign' is declared but its value is never read.
+src/pages/admin/AdminApprovalsPage/MovimientoModal.tsx(3,40): error TS6133: 'Building2' is declared but its value is never read.
+src/pages/admin/AdminComprobantesPage/AdminComprobantesPage.tsx(2,1): error TS6133: 'ReactDOM' is declared but its value is never read.
+src/pages/admin/AdminComprobantesPage/AdminComprobantesPage.tsx(3,115): error TS6133: 'X' is declared but its value is never read.
+src/pages/admin/AdminComprobantesPage/AdminComprobantesPage.tsx(23,10): error TS6133: 'tipoToView' is declared but its value is never read.
+src/pages/admin/AdminDocumentsPage/AdminDocumentsPage.tsx(3,3): error TS6133: 'FileText' is declared but its value is never read.
+src/pages/admin/AdminDocumentsPage/AdminDocumentsPage.tsx(4,32): error TS6133: 'ChevronRight' is declared but its value is never read.
+src/pages/admin/AdminDocumentsPage/AdminDocumentsPage.tsx(4,46): error TS6133: 'CheckCircle2' is declared but its value is never read.
+src/pages/admin/AdminDocumentsPage/AdminDocumentsPage.tsx(5,12): error TS6133: 'AlertCircle' is declared but its value is never read.
+src/pages/admin/AdminSedesPage/SedeModal.tsx(3,33): error TS6133: 'MapPin' is declared but its value is never read.
+src/pages/admin/AdminUsersPage/AdminUsersPage.tsx(10,1): error TS6133: 'UsuarioSedeResponse' is declared but its value is never read.
+src/pages/admin/AdminUsersPage/AdminUsersPage.tsx(13,1): error TS6133: 'UserFormData' is declared but its value is never read.
+src/pages/AdminDashboard/AdminDashboard.tsx(3,13): error TS6133: 'Loader2' is declared but its value is never read.
+src/pages/AdminDashboard/AdminDashboard.tsx(3,32): error TS6133: 'MoreVertical' is declared but its value is never read.
+src/pages/AdminDashboard/AdminDashboard.tsx(3,46): error TS6133: 'ShieldAlert' is declared but its value is never read.
+src/pages/AdminDashboard/AdminDashboard.tsx(4,33): error TS6133: 'CheckCircle2' is declared but its value is never read.
+src/pages/AdminDashboard/AdminDashboard.tsx(4,47): error TS6133: 'AlertTriangle' is declared but its value is never read.
+src/pages/AdminDashboard/AdminDashboard.tsx(5,51): error TS6133: 'Building2' is declared but its value is never read.
+src/pages/AdminDashboard/AdminDashboard.tsx(5,62): error TS6133: 'Users' is declared but its value is never read.
+src/pages/AdminDashboard/AdminDashboard.tsx(5,77): error TS6133: 'Archive' is declared but its value is never read.
+src/pages/AdminDashboard/AdminDashboard.tsx(8,45): error TS6133: 'BarChart' is declared but its value is never read.
+src/pages/AdminDashboard/AdminDashboard.tsx(8,55): error TS6133: 'Bar' is declared but its value is never read.
+src/pages/AdminDashboard/AdminDashboard.tsx(8,60): error TS6133: 'ComposedChart' is declared but its value is never read.
+src/pages/AdminDashboard/AdminDashboard.tsx(8,146): error TS6133: 'AreaChart' is declared but its value is never read.
+src/pages/AdminDashboard/AdminDashboard.tsx(8,157): error TS6133: 'Area' is declared but its value is never read.
+src/pages/AdminDashboard/AdminDashboard.tsx(11,1): error TS6133: 'reportesService' is declared but its value is never read.
+src/pages/AdminDashboard/AdminDashboard.tsx(27,10): error TS6133: 'mensual' is declared but its value is never read.
+src/pages/AdminDashboard/AdminDashboard.tsx(28,10): error TS6133: 'empresas' is declared but its value is never read.
+src/pages/AdminDashboard/AdminDashboard.tsx(29,10): error TS6133: 'usuarios' is declared but its value is never read.
+src/pages/AdminDashboard/AdminDashboard.tsx(30,10): error TS6133: 'alertas' is declared but its value is never read.
+src/pages/AdminDashboard/AdminDashboard.tsx(43,10): error TS6133: 'estadoCajaTab' is declared but its value is never read.
+src/pages/AdminDashboard/AdminDashboard.tsx(43,25): error TS6133: 'setEstadoCajaTab' is declared but its value is never read.
+src/pages/AdminDashboard/AdminDashboard.tsx(50,9): error TS6133: 'COLORS_CAJAS' is declared but its value is never read.
+src/pages/AdminDashboard/AdminDashboard.tsx(64,9): error TS6133: 'CustomBarTooltip' is declared but its value is never read.
+src/pages/AdminDashboard/AdminDashboard.tsx(135,15): error TS6133: 'strToday' is declared but its value is never read.
+src/pages/AdminDashboard/AdminDashboard.tsx(136,15): error TS6133: 'strYesterday' is declared but its value is never read.
+src/pages/AdminDashboard/AdminDashboard.tsx(162,13): error TS6133: 'transaccionesData' is declared but its value is never read.
+src/pages/AdminDashboard/AdminDashboard.tsx(758,9): error TS6133: 'totalCajas' is declared but its value is never read.
+src/pages/AdminDashboard/AdminDashboard.tsx(1286,105): error TS6133: 'idx' is declared but its value is never read.
+src/pages/CajeroDashboard/CajeroDashboard.tsx(3,13): error TS6133: 'Loader2' is declared but its value is never read.
+src/pages/CajeroDashboard/CajeroDashboard.tsx(3,32): error TS6133: 'MoreVertical' is declared but its value is never read.
+src/pages/CajeroDashboard/CajeroDashboard.tsx(3,46): error TS6133: 'ShieldAlert' is declared but its value is never read.
+src/pages/CajeroDashboard/CajeroDashboard.tsx(4,33): error TS6133: 'CheckCircle2' is declared but its value is never read.
+src/pages/CajeroDashboard/CajeroDashboard.tsx(4,47): error TS6133: 'AlertTriangle' is declared but its value is never read.
+src/pages/CajeroDashboard/CajeroDashboard.tsx(5,51): error TS6133: 'Building2' is declared but its value is never read.
+src/pages/CajeroDashboard/CajeroDashboard.tsx(5,62): error TS6133: 'Users' is declared but its value is never read.
+src/pages/CajeroDashboard/CajeroDashboard.tsx(5,77): error TS6133: 'Archive' is declared but its value is never read.
+src/pages/CajeroDashboard/CajeroDashboard.tsx(8,45): error TS6133: 'BarChart' is declared but its value is never read.
+src/pages/CajeroDashboard/CajeroDashboard.tsx(8,55): error TS6133: 'Bar' is declared but its value is never read.
+src/pages/CajeroDashboard/CajeroDashboard.tsx(8,60): error TS6133: 'ComposedChart' is declared but its value is never read.
+src/pages/CajeroDashboard/CajeroDashboard.tsx(8,146): error TS6133: 'AreaChart' is declared but its value is never read.
+src/pages/CajeroDashboard/CajeroDashboard.tsx(8,157): error TS6133: 'Area' is declared but its value is never read.
+src/pages/CajeroDashboard/CajeroDashboard.tsx(10,1): error TS6133: 'dashboardService' is declared but its value is never read.
+src/pages/CajeroDashboard/CajeroDashboard.tsx(11,1): error TS6133: 'reportesService' is declared but its value is never read.
+src/pages/CajeroDashboard/CajeroDashboard.tsx(17,1): error TS6133: 'sedeService' is declared but its value is never read.
+src/pages/CajeroDashboard/CajeroDashboard.tsx(27,10): error TS6133: 'mensual' is declared but its value is never read.
+src/pages/CajeroDashboard/CajeroDashboard.tsx(28,10): error TS6133: 'empresas' is declared but its value is never read.
+src/pages/CajeroDashboard/CajeroDashboard.tsx(29,10): error TS6133: 'usuarios' is declared but its value is never read.
+src/pages/CajeroDashboard/CajeroDashboard.tsx(30,10): error TS6133: 'alertas' is declared but its value is never read.
+src/pages/CajeroDashboard/CajeroDashboard.tsx(31,10): error TS6133: 'transacciones' is declared but its value is never read.
+src/pages/CajeroDashboard/CajeroDashboard.tsx(37,10): error TS6133: 'distSedes' is declared but its value is never read.
+src/pages/CajeroDashboard/CajeroDashboard.tsx(37,21): error TS6133: 'setDistSedes' is declared but its value is never read.
+src/pages/CajeroDashboard/CajeroDashboard.tsx(41,10): error TS6133: 'sedesMaster' is declared but its value is never read.
+src/pages/CajeroDashboard/CajeroDashboard.tsx(42,10): error TS6133: 'estadoCajaTab' is declared but its value is never read.
+src/pages/CajeroDashboard/CajeroDashboard.tsx(42,25): error TS6133: 'setEstadoCajaTab' is declared but its value is never read.
+src/pages/CajeroDashboard/CajeroDashboard.tsx(43,10): error TS6133: 'estadoCajaSede' is declared but its value is never read.
+src/pages/CajeroDashboard/CajeroDashboard.tsx(43,26): error TS6133: 'setEstadoCajaSede' is declared but its value is never read.
+src/pages/CajeroDashboard/CajeroDashboard.tsx(48,9): error TS6133: 'COLORS_SEDES' is declared but its value is never read.
+src/pages/CajeroDashboard/CajeroDashboard.tsx(49,9): error TS6133: 'COLORS_CAJAS' is declared but its value is never read.
+src/pages/CajeroDashboard/CajeroDashboard.tsx(63,9): error TS6133: 'CustomBarTooltip' is declared but its value is never read.
+src/pages/CajeroDashboard/CajeroDashboard.tsx(140,15): error TS6133: 'strToday' is declared but its value is never read.
+src/pages/CajeroDashboard/CajeroDashboard.tsx(141,15): error TS6133: 'strYesterday' is declared but its value is never read.
+src/pages/CajeroDashboard/CajeroDashboard.tsx(148,50): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+src/pages/CajeroDashboard/CajeroDashboard.tsx(149,42): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+src/pages/CajeroDashboard/CajeroDashboard.tsx(880,9): error TS6133: 'totalCajas' is declared but its value is never read.
+src/pages/CajeroDashboard/CajeroDashboard.tsx(1348,105): error TS6133: 'idx' is declared but its value is never read.
+src/pages/CajeroMovimientosPage/CajeroMovimientosPage.tsx(13,3): error TS6133: 'Calendar' is declared but its value is never read.
+src/pages/CajeroMovimientosPage/CajeroMovimientosPage.tsx(14,3): error TS6133: 'Edit' is declared but its value is never read.
+src/pages/CajeroMovimientosPage/CajeroMovimientosPage.tsx(18,3): error TS6133: 'BarChart3' is declared but its value is never read.
+src/pages/CajeroMovimientosPage/CajeroMovimientosPage.tsx(21,3): error TS6133: 'Info' is declared but its value is never read.
+src/pages/CajeroMovimientosPage/CajeroMovimientosPage.tsx(28,10): error TS6133: 'BarChart' is declared but its value is never read.
+src/pages/CajeroMovimientosPage/CajeroMovimientosPage.tsx(28,20): error TS6133: 'Bar' is declared but its value is never read.
+src/pages/CajeroMovimientosPage/CajeroMovimientosPage.tsx(28,49): error TS6133: 'YAxis' is declared but its value is never read.
+src/pages/CajeroMovimientosPage/CajeroMovimientosPage.tsx(52,10): error TS6133: 'notas' is declared but its value is never read.
+src/pages/CajeroMovimientosPage/CajeroMovimientosPage.tsx(316,10): error TS6133: 'chartMode' is declared but its value is never read.
+src/pages/CajeroMovimientosPage/CajeroMovimientosPage.tsx(316,21): error TS6133: 'setChartMode' is declared but its value is never read.
+src/pages/CajeroMovimientosPage/CajeroMovimientosPage.tsx(348,9): error TS6133: 'chartDataCajas' is declared but its value is never read.
+src/pages/CajeroMovimientosPage/CajeroMovimientosPage.tsx(802,23): error TS6133: 'rawHora' is declared but its value is never read.
+src/pages/contribuyentes/ContribuyentesCredencialesPage.tsx(2,63): error TS6133: 'Shield' is declared but its value is never read.
+src/pages/contribuyentes/ContribuyentesCredencialesPage.tsx(2,78): error TS6133: 'Clock' is declared but its value is never read.
+src/pages/contribuyentes/ContribuyentesCredencialesPage.tsx(10,7): error TS6133: 'inputCls' is declared but its value is never read.
+src/pages/contribuyentes/ContribuyentesCredencialesPage.tsx(11,7): error TS6133: 'labelCls' is declared but its value is never read.
+src/pages/contribuyentes/ContribuyentesCredencialesPage.tsx(132,17): error TS2345: Argument of type '"warning"' is not assignable to parameter of type 'ToastType'.
+src/pages/contribuyentes/ContribuyentesCredencialesPage.tsx(274,25): error TS6133: 'badge' is declared but its value is never read.
+src/pages/contribuyentes/ContribuyentesDocumentosPage.tsx(2,76): error TS6133: 'AlertTriangle' is declared but its value is never read.
+src/pages/contribuyentes/ContribuyentesDocumentosPage.tsx(81,17): error TS2345: Argument of type '"warning"' is not assignable to parameter of type 'ToastType'.
+src/pages/contribuyentes/ContribuyentesFormPage.tsx(3,35): error TS6133: 'Sparkles' is declared but its value is never read.
+src/pages/contribuyentes/ContribuyentesFormPage.tsx(3,74): error TS6133: 'ShieldAlert' is declared but its value is never read.
+src/pages/contribuyentes/ContribuyentesFormPage.tsx(71,17): error TS2345: Argument of type '"warning"' is not assignable to parameter of type 'ToastType'.
+src/pages/contribuyentes/ContribuyentesFormPage.tsx(97,17): error TS2345: Argument of type '"warning"' is not assignable to parameter of type 'ToastType'.
+src/pages/contribuyentes/ContribuyentesFormPage.tsx(101,17): error TS2345: Argument of type '"warning"' is not assignable to parameter of type 'ToastType'.
+src/pages/contribuyentes/ContribuyentesFormPage.tsx(115,9): error TS6133: 'basePath' is declared but its value is never read.
+src/pages/contribuyentes/ContribuyentesListPage.tsx(4,6): error TS6133: 'Building2' is declared but its value is never read.
+src/pages/contribuyentes/ContribuyentesRubrosPage.tsx(2,77): error TS6133: 'AlertCircle' is declared but its value is never read.
+src/pages/contribuyentes/ContribuyentesRubrosPage.tsx(117,17): error TS2345: Argument of type '"warning"' is not assignable to parameter of type 'ToastType'.
+src/pages/contribuyentes/ContribuyentesTelefonosPage.tsx(2,46): error TS6133: 'Smartphone' is declared but its value is never read.
+src/pages/contribuyentes/ContribuyentesTelefonosPage.tsx(2,58): error TS6133: 'Award' is declared but its value is never read.
+src/pages/contribuyentes/ContribuyentesTelefonosPage.tsx(21,7): error TS6133: 'inputCls' is declared but its value is never read.
+src/pages/contribuyentes/ContribuyentesTelefonosPage.tsx(22,7): error TS6133: 'labelCls' is declared but its value is never read.
+src/pages/contribuyentes/ContribuyentesTelefonosPage.tsx(123,17): error TS2345: Argument of type '"warning"' is not assignable to parameter of type 'ToastType'.
+src/pages/contribuyentes/ContribuyentesTiposDocumentoPage.tsx(117,17): error TS2345: Argument of type '"warning"' is not assignable to parameter of type 'ToastType'.
