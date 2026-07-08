@@ -13,6 +13,10 @@ export interface LoginResponse {
   message?: string;
   token?: string;
   user?: ApiUser;
+  data?: {
+    token: string;
+    usuario: ApiUser;
+  };
 }
 
 const API_URL = '/api';

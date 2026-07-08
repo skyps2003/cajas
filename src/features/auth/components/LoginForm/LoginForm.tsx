@@ -196,7 +196,7 @@ export const LoginForm: React.FC = () => {
     if (response.success) {
       const resAny = response as any;
       const userObj = resAny.user || resAny.usuario || (resAny.data && resAny.data.user) || (resAny.data && resAny.data.usuario);
-      const tokenStr = response.token || '';
+      const tokenStr = response.token || (response.data && response.data.token) || '';
 
       if (userObj && tokenStr) {
         if (rememberMe) {
