@@ -1,6 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { X, AlertTriangle } from 'lucide-react';
 import { getUpcomingDeadlines } from '../../utils/sunatSchedule';
+import { useAuth } from '../../contexts/AuthContext';
+import { contribuyenteService } from '../../services/contribuyenteService';
 
 interface SunatModalProps {
   isOpen: boolean;
@@ -9,10 +11,39 @@ interface SunatModalProps {
 
 export const SunatModal: React.FC<SunatModalProps> = ({ isOpen, onClose }) => {
   const upcomingDeadlines = getUpcomingDeadlines();
+  const { user } = useAuth();
+  const token = localStorage.getItem('auth_token') || '';
+  const [counts, setCounts] = useState<Record<string, number>>({});
 
   useEffect(() => {
+    const fetchCounts = async () => {
+      try {
+        if (!token) return;
+        const data = await contribuyenteService.getAll(token);
+        const activeData = data.filter(c => c.estado === 1);
+        
+        const newCounts: Record<string, number> = {};
+        upcomingDeadlines.forEach(d => {
+          if (d.digitos === 'Buenos Contrib.') {
+             newCounts[d.digitos] = 0; // Requires special sunat flag, defaulting to 0 for now
+          } else {
+             const count = activeData.filter(c => {
+               if (!c.ruc) return false;
+               const lastDigit = c.ruc.slice(-1);
+               return d.digitos.includes(lastDigit);
+             }).length;
+             newCounts[d.digitos] = count;
+          }
+        });
+        setCounts(newCounts);
+      } catch (error) {
+        console.error('Error fetching contribuyentes for modal counts', error);
+      }
+    };
+
     if (isOpen) {
       document.body.style.overflow = 'hidden';
+      fetchCounts();
     } else {
       document.body.style.overflow = '';
     }
@@ -48,7 +79,7 @@ export const SunatModal: React.FC<SunatModalProps> = ({ isOpen, onClose }) => {
         </div>
         <div className="p-6">
           <p className="text-slate-700 dark:text-slate-300 font-medium mb-6">
-            Recuerda que debes realizar tus declaraciones y pagos antes de las siguientes fechas límite, según el último dígito del RUC. Evita multas y recargos.
+            Hola <span className="font-bold text-rose-600 dark:text-rose-400 uppercase">{user?.name}</span>, como parte del equipo es vital tu apoyo. Recuerda que debes realizar las declaraciones y pagos de los contribuyentes a tu cargo antes de las fechas límite para evitar multas de SUNAT.
           </p>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 mb-6">
             {upcomingDeadlines.map((d, i) => (
@@ -58,6 +89,9 @@ export const SunatModal: React.FC<SunatModalProps> = ({ isOpen, onClose }) => {
                 </span>
                 <span className="text-lg font-black text-slate-800 dark:text-slate-200">
                   {d.fechaFormat}
+                </span>
+                <span className="text-[10px] font-bold text-rose-700 dark:text-rose-300 mt-1 bg-white dark:bg-rose-900/40 px-2 py-0.5 rounded-full shadow-sm border border-rose-100 dark:border-rose-800/30">
+                  {counts[d.digitos] !== undefined ? counts[d.digitos] : '...'} contribuyentes
                 </span>
               </div>
             ))}
