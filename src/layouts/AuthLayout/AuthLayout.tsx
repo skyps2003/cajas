@@ -10,7 +10,6 @@ interface AuthLayoutProps {
   children: React.ReactNode;
 }
 
-import logoImg from '../../assets/loggo.png';
 
 export const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
   return (
@@ -53,7 +52,9 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
           </svg>
 
           <div className="relative z-30 p-6 md:p-10 md:pr-20 w-full text-white">
-            <img src={logoImg} alt="Logo JJJA" className="w-48 mb-4 drop-shadow-md bg-white rounded-lg p-2" />
+            <h1 className="text-4xl md:text-5xl font-black mb-4 tracking-tighter drop-shadow-md">
+              Interoceánica<br />JJJA
+            </h1>
             <div className="w-12 h-[3px] bg-white rounded-full mb-4"></div>
             <p className="text-sm md:text-base text-white/80 font-normal">
               Construyendo la infraestructura del mañana con precisión y soluciones de ingeniería modernas.
