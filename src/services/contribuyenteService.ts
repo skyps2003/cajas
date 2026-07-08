@@ -110,18 +110,22 @@ export const contribuyenteService = {
     }
   },
 
-  toggleStatus: async (token: string, id: number): Promise<void> => {
+  updateEstado: async (token: string, id: number, estado: number): Promise<void> => {
     try {
-      const response = await fetch(`${API_BASE_URL}/contribuyentes/deactivate/${id}`, {
+      const response = await fetch(`${API_BASE_URL}/contribuyentes/estado/${id}`, {
         method: 'PATCH',
-        headers: { 'Authorization': `Bearer ${token}` }
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}` 
+        },
+        body: JSON.stringify({ estado })
       });
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
         throw new Error(errorData.message || `HTTP ${response.status}`);
       }
     } catch (error: any) {
-      console.error(`API Error (toggleStatus Contribuyente ${id}):`, error);
+      console.error(`API Error (updateEstado Contribuyente ${id}):`, error);
       throw new Error(`Error al cambiar estado de contribuyente: ${error.message || 'Desconocido'}`);
     }
   }

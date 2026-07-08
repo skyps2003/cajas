@@ -62,7 +62,7 @@ export interface Contribuyente {
   ruc: string;
   razonSocial: string;
   tipoContribuyente: 'Persona Natural' | 'Persona Jurídica';
-  estado: 'ACTIVO' | 'INACTIVO';
+  estado: 'ACTIVO' | 'INACTIVO' | 'INACTIVO TEMPORALMENTE';
   direccionFiscal: string;
   ubigeo: string;
   sede?: string;
@@ -74,7 +74,7 @@ export interface Contribuyente {
 const EMPTY_FORM = {
   ruc: '', razonSocial: '',
   tipoContribuyente: 'Persona Jurídica' as 'Persona Jurídica' | 'Persona Natural',
-  estado: 'ACTIVO' as 'ACTIVO' | 'INACTIVO',
+  estado: 'ACTIVO' as 'ACTIVO' | 'INACTIVO' | 'INACTIVO TEMPORALMENTE',
   direccionFiscal: '', ubigeo: '', id_sede: 1, email: '', telefono: ''
 };
 
@@ -285,6 +285,7 @@ const ContribuyenteModal: React.FC<ContribuyenteModalProps> = ({ isOpen, onClose
                 <label className={labelClass}>Estado del Contribuyente</label>
                 <select name="estado" value={formData.estado} onChange={handleChange} className={inputClass}>
                   <option value="ACTIVO">Activo</option>
+                  <option value="INACTIVO TEMPORALMENTE">Inactivo temporalmente</option>
                   <option value="INACTIVO">Inactivo</option>
                 </select>
               </div>
@@ -487,7 +488,7 @@ export const ContribuyentesListPage: React.FC = () => {
         ruc: c.ruc,
         razonSocial: c.razon_social,
         tipoContribuyente: (c.tipo_ruc === 1 || (c.tipo_ruc == null && c.ruc && c.ruc.startsWith('20'))) ? 'Persona Jurídica' : 'Persona Natural',
-        estado: c.estado === 1 ? 'ACTIVO' : 'INACTIVO',
+        estado: c.estado === 1 ? 'ACTIVO' : c.estado === 2 ? 'INACTIVO TEMPORALMENTE' : 'INACTIVO',
         direccionFiscal: c.direccion || '',
         ubigeo: '',
         sede: c.sede_nombre || c.sede || 'Sede Principal',
@@ -557,7 +558,7 @@ export const ContribuyentesListPage: React.FC = () => {
       correo: data.email,
       direccion: data.direccionFiscal,
       tipo_ruc: data.tipoContribuyente === 'Persona Jurídica' ? 1 : 0,
-      estado: data.estado === 'ACTIVO' ? 1 : 0,
+      estado: data.estado === 'ACTIVO' ? 1 : data.estado === 'INACTIVO TEMPORALMENTE' ? 2 : 0,
       observaciones: data.telefono ? `Tel: ${data.telefono}` : ''
     };
 
@@ -577,24 +578,24 @@ export const ContribuyentesListPage: React.FC = () => {
 
   const handleToggleEstado = async (c: Contribuyente) => {
     if (togglingId === c.id) return;
-    const newEstadoStr = c.estado === 'ACTIVO' ? 'INACTIVO' : 'ACTIVO';
-    const fallbackSede = sedes.length > 0 ? sedes[0].id : 1;
+    
+    let newEstadoStr: 'ACTIVO' | 'INACTIVO' | 'INACTIVO TEMPORALMENTE';
+    let newEstadoNum: number;
+    if (c.estado === 'ACTIVO') {
+        newEstadoStr = 'INACTIVO TEMPORALMENTE';
+        newEstadoNum = 2;
+    } else if (c.estado === 'INACTIVO TEMPORALMENTE') {
+        newEstadoStr = 'INACTIVO';
+        newEstadoNum = 0;
+    } else {
+        newEstadoStr = 'ACTIVO';
+        newEstadoNum = 1;
+    }
     
     try {
       setTogglingId(c.id);
-      const payload = {
-        id_sede: c.id_sede || fallbackSede,
-        razon_social: c.razonSocial,
-        ruc: c.ruc,
-        correo: c.email || '',
-        direccion: c.direccionFiscal,
-        tipo_ruc: c.tipoContribuyente === 'Persona Jurídica' ? 1 : 0,
-        estado: newEstadoStr === 'ACTIVO' ? 1 : 0,
-        observaciones: c.telefono ? `Tel: ${c.telefono}` : ''
-      };
-      
-      await contribuyenteService.update(token, c.id, payload);
-      setContribuyentes(prev => prev.map(item => item.id === c.id ? { ...item, estado: newEstadoStr as 'ACTIVO' | 'INACTIVO' } : item));
+      await contribuyenteService.updateEstado(token, c.id, newEstadoNum);
+      setContribuyentes(prev => prev.map(item => item.id === c.id ? { ...item, estado: newEstadoStr } : item));
       showToast('success', 'Estado Actualizado', `El estado de ${c.razonSocial} ahora es ${newEstadoStr}.`);
     } catch (e: any) {
       showToast('error', 'Error', 'No se pudo cambiar el estado: ' + e.message);
@@ -603,10 +604,11 @@ export const ContribuyentesListPage: React.FC = () => {
     }
   };
 
-  const getStatusStyle = (estado: 'ACTIVO' | 'INACTIVO') =>
-    estado === 'ACTIVO'
-      ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/20'
-      : 'bg-red-100 text-red-700 dark:bg-red-500/10 dark:text-red-400 border border-red-200 dark:border-red-500/20';
+  const getStatusStyle = (estado: 'ACTIVO' | 'INACTIVO' | 'INACTIVO TEMPORALMENTE') => {
+    if (estado === 'ACTIVO') return 'bg-emerald-100 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/20';
+    if (estado === 'INACTIVO TEMPORALMENTE') return 'bg-amber-100 text-amber-700 dark:bg-amber-500/10 dark:text-amber-400 border border-amber-200 dark:border-amber-500/20';
+    return 'bg-red-100 text-red-700 dark:bg-red-500/10 dark:text-red-400 border border-red-200 dark:border-red-500/20';
+  };
 
   const filtered = contribuyentes.filter(c => {
     const q = searchTerm.toLowerCase();
@@ -704,6 +706,7 @@ export const ContribuyentesListPage: React.FC = () => {
           className="px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-semibold text-slate-600 dark:text-slate-300 focus:outline-none shadow-sm">
           <option value="TODOS">Todos los estados</option>
           <option value="ACTIVO">Activos</option>
+          <option value="INACTIVO TEMPORALMENTE">Inactivos Temporalmente</option>
           <option value="INACTIVO">Inactivos</option>
         </select>
         <select value={filterTipo} onChange={e => { setFilterTipo(e.target.value); setCurrentPage(1); }}
@@ -801,7 +804,7 @@ export const ContribuyentesListPage: React.FC = () => {
                       disabled={togglingId === c.id}
                       className={`inline-flex px-2 py-0.5 rounded-full text-[10px] font-bold uppercase transition-colors hover:opacity-80 cursor-pointer ${getStatusStyle(c.estado)} ${togglingId === c.id ? 'opacity-50 cursor-not-allowed' : ''}`}
                     >
-                      {togglingId === c.id ? '...' : c.estado}
+                      {togglingId === c.id ? '...' : c.estado === 'INACTIVO TEMPORALMENTE' ? 'INACT. TEMP.' : c.estado}
                     </button>
                   </td>
                   <td className="px-6 py-4 text-center text-xs font-bold text-rose-600 dark:text-rose-400 whitespace-nowrap">
