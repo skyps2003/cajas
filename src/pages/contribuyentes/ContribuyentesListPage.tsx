@@ -18,6 +18,7 @@ import { sedeService } from '../../services/sedeService';
 import type { SedeResponse } from '../../services/sedeService';
 import { getUpcomingDeadlines } from '../../utils/sunatSchedule';
 import { AlertTriangle } from 'lucide-react';
+import { SunatModal } from '../../components/modals/SunatModal';
 import { TelefonoModal } from '../../components/modals/TelefonoModal';
 import { CredencialModal } from '../../components/modals/CredencialModal';
 import { DocumentoModal } from '../../components/modals/DocumentoModal';
@@ -336,6 +337,17 @@ export const ContribuyentesListPage: React.FC = () => {
   const [sedes, setSedes] = useState<SedeResponse[]>([]);
   const [actionLoading, setActionLoading] = useState<{ id: number, type: 'view' | 'download' } | null>(null);
   const upcomingDeadlines = getUpcomingDeadlines();
+  const [showSunatModal, setShowSunatModal] = useState(true);
+
+  const getDeadlineForRuc = (ruc: string) => {
+    if (!upcomingDeadlines.length || !ruc) return '-';
+    const lastDigit = ruc.slice(-1);
+    const match = upcomingDeadlines.find(d => {
+      if (d.digitos === 'Buenos Contrib.') return false;
+      return d.digitos.includes(lastDigit);
+    });
+    return match ? match.fechaFormat : '-';
+  };
   const { isOpen: isConfirmOpen, title: confirmTitle, message: confirmMessage, confirm, close: closeConfirm, onConfirm: handleConfirm } = useConfirm();
   const itemsPerPage = 6;
 
@@ -756,12 +768,13 @@ export const ContribuyentesListPage: React.FC = () => {
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm table-fixed">
             <colgroup>
-              <col className={isAdmin ? "w-[30%] sm:w-[35%]" : "w-[45%] sm:w-[50%]"} />
-              <col className="w-[15%] sm:w-[15%]" />
-              <col className="w-[15%] sm:w-[15%]" />
-              {isAdmin && <col className="w-[15%] sm:w-[15%]" />}
+              <col className={isAdmin ? "w-[30%] sm:w-[30%]" : "w-[40%] sm:w-[45%]"} />
+              <col className="w-[12%] sm:w-[15%]" />
+              <col className="w-[12%] sm:w-[15%]" />
+              {isAdmin && <col className="w-[12%] sm:w-[10%]" />}
               <col className="w-[12%] sm:w-[10%]" />
-              <col className="w-[13%] sm:w-[10%]" />
+              <col className="w-[10%] sm:w-[10%]" />
+              <col className="w-[12%] sm:w-[10%]" />
             </colgroup>
             <thead className="bg-[#1B2E4B] text-white">
               <tr>
@@ -781,6 +794,9 @@ export const ContribuyentesListPage: React.FC = () => {
                 )}
                 <th className="px-6 py-4 font-semibold text-xs tracking-wider text-center cursor-pointer hover:bg-[#2A4365] transition-colors select-none" onClick={() => handleSort('estado')}>
                   ESTADO <SortIcon column="estado" />
+                </th>
+                <th className="px-6 py-4 font-semibold text-xs tracking-wider text-center select-none">
+                  FECHA DECLARACIÓN
                 </th>
                 <th className="px-6 py-4 font-semibold text-xs tracking-wider text-center">ACCIONES</th>
               </tr>
@@ -814,6 +830,9 @@ export const ContribuyentesListPage: React.FC = () => {
                     >
                       {togglingId === c.id ? '...' : c.estado}
                     </button>
+                  </td>
+                  <td className="px-6 py-4 text-center text-xs font-bold text-rose-600 dark:text-rose-400 whitespace-nowrap">
+                    {getDeadlineForRuc(c.ruc)}
                   </td>
                   <td className="px-6 py-4">
                     <div className="flex items-center justify-center gap-1.5">
@@ -1108,14 +1127,18 @@ export const ContribuyentesListPage: React.FC = () => {
         </div>
       )}
 
-      {/* Modal Registrar / Editar */}
-      <ContribuyenteModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onSave={handleSave}
-        editData={editItem}
-        sedes={sedes}
-      />
+      {/* Modals */}
+      <SunatModal isOpen={showSunatModal} onClose={() => setShowSunatModal(false)} />
+      
+      {isModalOpen && (
+        <ContribuyenteModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onSave={handleSave}
+          editData={editItem}
+          sedes={sedes}
+        />
+      )}
 
       {detailItem && (
         <>
