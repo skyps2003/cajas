@@ -1,4 +1,4 @@
-const API_BASE_URL = '/api';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://caja.corporacionjjja.com/api';
 
 export interface DocumentoResponse {
   id: number;
@@ -85,3 +85,4 @@ export const documentoService = {
     window.URL.revokeObjectURL(url);
   }
 };
+

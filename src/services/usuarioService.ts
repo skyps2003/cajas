@@ -16,7 +16,7 @@ export interface ApiResponse<T> {
   message?: string;
 }
 
-const API_BASE_URL = '/api';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://caja.corporacionjjja.com/api';
 
 export const usuarioService = {
   getAll: async (token: string): Promise<UsuarioResponse[]> => {
@@ -217,3 +217,4 @@ export const usuarioService = {
     }
   }
 };
+

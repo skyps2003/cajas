@@ -13,7 +13,7 @@ export interface ApiResponse<T> {
   id?: number;
 }
 
-const API_BASE_URL = '/api';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://caja.corporacionjjja.com/api';
 
 export const tipoTelefonoService = {
   getAll: async (token: string): Promise<TipoTelefonoResponse[]> => {
@@ -91,3 +91,4 @@ export const tipoTelefonoService = {
     }
   }
 };
+

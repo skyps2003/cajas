@@ -19,7 +19,7 @@ export interface LoginResponse {
   };
 }
 
-const API_URL = '/api';
+const API_URL = import.meta.env.VITE_API_URL || 'https://caja.corporacionjjja.com/api';
 
 export const AuthService = {
   login: async (correo: string, password: string): Promise<LoginResponse> => {
@@ -130,3 +130,4 @@ export const AuthService = {
     }
   }
 };
+

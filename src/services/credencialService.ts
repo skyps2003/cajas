@@ -1,4 +1,4 @@
-const API_BASE_URL = '/api';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://caja.corporacionjjja.com/api';
 
 export interface CredencialResponse {
   id: number;
@@ -87,3 +87,4 @@ export const credencialService = {
     return result;
   }
 };
+
