@@ -1,30 +1,31 @@
 # 🏦 SISTEMA FINANCIERO CORPORATIVO
 # MANUAL DE USUARIO Y OPERACIONES (VERSIÓN EXTENDIDA)
 
-Este documento es la guía definitiva y obligatoria para todos los empleados, auditores y administradores que interactúan con el Sistema Financiero Corporativo. Aquí encontrarás documentado, campo por campo y pantalla por pantalla, el 100% de la funcionalidad del sistema.
+Este documento es la guía definitiva y obligatoria para todos los empleados, auditores y administradores que interactúan con el Sistema Financiero Corporativo. Aquí encontrarás documentado, campo por campo y pantalla por pantalla, el 100% de la funcionalidad del sistema con capturas visuales de referencia.
 
 ---
 
 ## 📖 ÍNDICE DE CONTENIDOS
 
 1. [CAPÍTULO 1: INTRODUCCIÓN Y CONCEPTOS BÁSICOS](#capítulo-1-introducción-y-conceptos-básicos)
-2. [CAPÍTULO 2: ACCESO Y NAVEGACIÓN](#capítulo-2-acceso-y-navegación)
+2. [CAPÍTULO 2: ACCESO Y NAVEGACIÓN (LOGIN)](#capítulo-2-acceso-y-navegación-login)
 3. [CAPÍTULO 3: MÓDULO DE CAJA Y MOVIMIENTOS (CAJEROS)](#capítulo-3-módulo-de-caja-y-movimientos-cajeros)
 4. [CAPÍTULO 4: GESTIÓN INTEGRAL DE CONTRIBUYENTES](#capítulo-4-gestión-integral-de-contribuyentes)
 5. [CAPÍTULO 5: BANDEJA DE APROBACIONES (ADMINISTRADOR)](#capítulo-5-bandeja-de-aprobaciones-administrador)
 6. [CAPÍTULO 6: CONFIGURACIÓN CENTRAL (ADMINISTRADOR)](#capítulo-6-configuración-central-administrador)
-7. [CAPÍTULO 7: RESOLUCIÓN DE PROBLEMAS FRECUENTES (FAQ)](#capítulo-7-resolución-de-problemas-frecuentes-faq)
+7. [CAPÍTULO 7: REPORTES Y PDF](#capítulo-7-reportes-y-pdf)
+8. [CAPÍTULO 8: GUÍA TÉCNICA Y DE INSTALACIÓN (DESARROLLADORES)](#capítulo-8-guía-técnica-y-de-instalación-desarrolladores)
 
 ---
 
 ## 🏛️ CAPÍTULO 1: INTRODUCCIÓN Y CONCEPTOS BÁSICOS
 
-El Sistema Financiero Corporativo es una plataforma web centralizada (`React + Vite + TypeScript`) diseñada para llevar el control estricto del flujo de dinero (ingresos y egresos), la base de datos de clientes/proveedores, y la arquitectura organizativa de una empresa con múltiples sucursales (Sedes) y personerías jurídicas (Empresas).
+El Sistema Financiero Corporativo es una plataforma web centralizada diseñada para llevar el control estricto del flujo de dinero (ingresos y egresos), la base de datos de clientes/proveedores, y la arquitectura organizativa de una empresa con múltiples sucursales (Sedes) y personerías jurídicas (Empresas).
 
 ### Jerarquía de Roles
 El sistema está rigurosamente dividido en dos niveles de seguridad:
 1. **Administrador (Nivel 1):** Acceso irrestricto. Puede crear usuarios, configurar empresas, crear nuevas cajas, establecer series de facturación y **es el único que puede aprobar transacciones financieras sensibles**.
-2. **Cajero / Operador (Nivel 2):** Perfil operativo. Su labor es atender operaciones diarias, registrar movimientos en su caja asignada, y crear perfiles de nuevos contribuyentes (clientes). Sus egresos importantes requieren autorización.
+2. **Cajero / Operador (Nivel 2):** Perfil operativo. Su labor es atender operaciones diarias, registrar movimientos en su caja asignada, y crear perfiles de nuevos contribuyentes.
 
 ### Glosario del Sistema
 * **Sede:** Ubicación física de la sucursal (ej. Oficina Miraflores).
@@ -35,168 +36,177 @@ El sistema está rigurosamente dividido en dos niveles de seguridad:
 
 ---
 
-## 🔑 CAPÍTULO 2: ACCESO Y NAVEGACIÓN
+## 🔑 CAPÍTULO 2: ACCESO Y NAVEGACIÓN (LOGIN)
 
-### 2.1. Inicio de Sesión (Login)
-* Ingresa a la URL del sistema.
-* **Correo Electrónico:** Ingresa el correo corporativo registrado por RRHH.
+La puerta de entrada a la plataforma. Toda la conexión está cifrada de punto a punto para garantizar la seguridad de los datos.
+
+![Pantalla de Login](docs/img/login.png)
+
+### 2.1. Pantalla de Inicio de Sesión
+* **Correo Electrónico:** Ingresa el correo corporativo (ej. cajero@empresa.com).
 * **Contraseña:** Si es tu primer ingreso, usa la contraseña temporal entregada por tu administrador.
-* El sistema encripta la comunicación de punta a punta.
+* Al iniciar sesión con éxito, el sistema te redirigirá a tu Dashboard correspondiente (Admin o Cajero) dependiendo de tu rol configurado.
 
-### 2.2. Anatomía de la Pantalla
-El sistema se compone de tres áreas principales:
-1. **Barra de Navegación Lateral (Menú):** Ubicada a la izquierda. Se adapta a tu rol. El Admin verá "Configuración", el Cajero no.
-2. **Barra Superior (Header):** Muestra tu nombre, tu Rol, y el botón de cerrar sesión.
-3. **Área de Trabajo:** El cuerpo central donde ocurren las operaciones.
-
-### 2.3. Estándar de Ventanas Emergentes (Modales)
-En este sistema, no necesitas ir de página en página para hacer cambios simples.
-Cuando quieras crear o editar algo (un usuario, un número de teléfono), se abrirá un **Modal**.
-* Todo modal tiene el texto gris `FORMULARIO DE GESTIÓN`.
-* Posee un botón mostaza para **GUARDAR** y un botón claro para **DESCARTAR** (cancelar sin hacer cambios).
-* **¡Importante!** Si haces clic fuera del modal (en el fondo oscuro), el modal **no** se cerrará. Esto previene que pierdas datos si haces clic por accidente. Debes presionar explícitamente "Descartar" o la "X".
-
-![Modal de Gestión](docs/modal-gestion.png)
+### 2.2. Estructura de Navegación
+Una vez dentro, el layout base consta de:
+* **Barra Lateral (Menú):** Módulos disponibles según el nivel de seguridad.
+* **Cabecera (Header):** Muestra al usuario conectado, sede asignada y botón para Salir.
+* **Área Central:** Contiene los gráficos, tablas y formularios interactivos.
 
 ---
 
 ## 💵 CAPÍTULO 3: MÓDULO DE CAJA Y MOVIMIENTOS (CAJEROS)
 
-Este es el módulo donde trabajarán los cajeros el 90% de su turno.
+Este es el módulo central donde el personal operativo gestionará el flujo del dinero. 
 
-### 3.1. Cajero Dashboard
-Al entrar, el cajero ve su resumen diario:
-* **Saldo Inicial:** Con cuánto dinero abrió la caja hoy.
-* **Ingresos del Día:** Sumatoria de depósitos / cobranzas.
-* **Egresos del Día:** Sumatoria de pagos a proveedores o retiros.
-* **Saldo Actual:** El dinero que físicamente debe haber en el cajón o cuenta bancaria vinculada.
+![Dashboard del Cajero](docs/img/dashboard-cajero.png)
 
-### 3.2. Registro de Nuevo Movimiento
-Para ingresar una operación, haz clic en **"Registrar Movimiento"**. Debes llenar **ESTRICTAMENTE** los siguientes campos:
-1. **Tipo de Movimiento:** Selecciona `INGRESO` o `EGRESO`.
-2. **Monto:** Introduce el valor numérico (no se aceptan montos negativos).
-3. **Moneda:** Soles (PEN) o Dólares (USD).
-4. **Contribuyente:** Usando un buscador integrado, escribe el DNI o RUC del cliente/proveedor. El sistema autocompletará el nombre.
-5. **Tipo de Comprobante:** Selecciona si es Factura, Boleta, Recibo de Egresos, o Sin Comprobante.
-6. **Número de Comprobante:** Si aplica, ingresa la serie y correlativo físico (Ej. `F001-000034`).
-7. **Concepto / Observaciones:** Describe *por qué* está ingresando o saliendo el dinero (Ej. "Pago por mantenimiento de aire acondicionado del mes de Julio").
+### 3.1. Dashboard Principal del Cajero
+Al entrar, se visualizan:
+* **Tarjetas Superiores:** Saldo actual, ingresos del día y egresos del día.
+* **Gráficos Dinámicos:** Visualización en tiempo real del "Flujo Neto" y la "Evolución por Caja". Los gráficos permiten interacción (clic para ampliar en la misma pantalla) y cambio de vista (Histórico / Mensual).
+* **Tabla de Movimientos Recientes:** El historial del día en curso.
 
-*Nota: Dependiendo de las reglas dictadas por gerencia, si el monto del EGRESO supera el límite de autorización de la caja, el sistema bloqueará el dinero pero el movimiento quedará en estado `PENDIENTE`. El dinero no se da físicamente hasta que el Administrador lo apruebe.*
+### 3.2. Formulario: Registrar Movimiento
+Cuando haces clic en el botón "Nuevo Movimiento", se abre el siguiente modal:
+
+![Formulario de Registro de Movimiento](docs/img/form-movimiento.png)
+
+Debes llenar **ESTRICTAMENTE** los siguientes campos:
+1. **Tipo:** `INGRESO` o `EGRESO`.
+2. **Monto:** Introduce el valor numérico en la moneda de tu caja.
+3. **Moneda:** Automática según la caja o seleccionable.
+4. **Contribuyente:** Buscador inteligente integrado. Escribe RUC/DNI y el sistema autocompleta el nombre. (Si no existe, deberás ir al módulo de contribuyentes a registrarlo primero).
+5. **Tipo de Comprobante:** Factura, Boleta, Recibo de Egresos, etc.
+6. **Número de Comprobante:** Formato estándar (Ej. `F001-000034`).
+7. **Concepto:** Descripción extensa y justificada de la operación.
+8. **Imagen/Adjunto:** (Opcional/Obligatorio según la regla) Carga de la foto del recibo físico.
+
+> **Importante:** Si un Cajero registra un `EGRESO` que supera el umbral permitido, el saldo no se descontará de inmediato. Quedará en estado `PENDIENTE` hasta que el Admin lo apruebe.
 
 ---
 
 ## 📇 CAPÍTULO 4: GESTIÓN INTEGRAL DE CONTRIBUYENTES
 
-El menú "Contribuyentes" concentra la información de las personas/empresas externas al sistema.
+El menú "Contribuyentes" gestiona todo el ciclo de vida de los clientes, proveedores y personal de planilla externo.
 
-### 4.1. Listado Principal de Contribuyentes
-* Contiene una barra de búsqueda inteligente.
-* Puedes ver el ID, RUC/DNI, Razón Social, Correo y Estado.
-* Haz clic en "Agregar Contribuyente" para registrar uno nuevo. Debes ingresar su DNI, consultar sus nombres (si hay conexión a RENIEC/SUNAT habilitada), correo, y dirección fiscal.
+![Vista Principal de Contribuyentes](docs/img/contribuyentes-directorio.png)
 
-### 4.2. Módulo de Teléfonos
-Guarda el directorio de contacto de clientes/proveedores.
-* **ID Contribuyente:** Se vincula automáticamente o debes ingresarlo.
-* **Número:** El número telefónico (ej. 987654321).
-* **Tipo de Línea:** Celular, Fijo, WhatsApp, u Otro.
-* **Nombre de Contacto:** El nombre de la persona dueña de la línea (muy útil en empresas grandes).
-* **Descripción / Área:** Para qué es este teléfono (ej. "Área de Cobranzas").
-* **Checkbox Principal:** Marca esto si es el teléfono de emergencias o contacto oficial.
+### 4.1. Directorio Principal (Formulario de Contribuyente)
+Para registrar un nuevo cliente o proveedor:
+1. **Tipo de Documento:** DNI o RUC.
+2. **Número de Documento.**
+3. **Nombres/Razón Social:** Identificador principal.
+4. **Correo y Dirección Fiscal.**
+5. **Estado:** Activo o Inactivo.
 
-### 4.3. Módulo de Documentos
-Archivero digital. Aquí se cargan PDFs o imágenes importantes vinculadas al contribuyente.
-* **ID Contribuyente:** Propietario del archivo.
-* **Nombre del Documento:** Título descriptivo (ej. "Contrato Marco 2026").
-* **Tipo (ID):** Seleccionar si es Ficha RUC, Contrato Comercial, etc.
-* **Rubro (ID):** Opcional, vincularlo a un área económica.
-* **Archivo Adjunto:** Botón para cargar el archivo físico desde tu PC. El archivo quedará almacenado de manera segura en el servidor.
+![Formulario de Nuevo Contribuyente](docs/img/form-contribuyente.png)
 
-### 4.4. Módulo de Credenciales
-(Exclusivo para accesos confidenciales, usualmente manejados por contabilidad).
-* Permite almacenar usuarios y claves de plataformas del estado o privadas vinculadas al cliente (Clave SOL SUNAT, AFP Net).
-* **Campos:** Sistema/Entidad, Usuario Acceso, Contraseña, Observaciones, Estado Operativo (Activo/Inactivo).
-* *Por auditoría, cada vez que un cajero o administrador visualiza la contraseña, el sistema registra el evento.*
+### 4.2. Teléfonos y Contactos
+Permite agregar múltiples números a un mismo contribuyente.
+* **Número:** El teléfono en sí.
+* **Tipo:** Celular, Fijo, WhatsApp.
+* **Contacto:** Nombre específico de quien contesta (Ej. "Juan - Asistente de Cobranzas").
+* **Principal:** Un checkbox para indicar si es la vía de comunicación principal.
 
-### 4.5. Módulo de Tipos de Documento
-Configuración interna. Permite declarar **qué** documentos se permiten en el sistema.
-* **Nombre del Tipo:** Ej. "Certificado de Dominio".
-* **Descripción:** Para qué sirve.
-* **Formatos Permitidos:** Define qué archivos se pueden subir (ej. `.pdf, .jpg, .png`). Intentar subir un `.exe` o archivo no listado generará un error.
-* **Obligatorio:** Seleccionar SÍ o NO (Indica si el sistema no dejará procesar al contribuyente si le falta este documento).
+![Formulario de Teléfono](docs/img/form-telefonos.png)
 
-### 4.6. Módulo de Rubros Comerciales
-Clasifica financieramente al contribuyente, especialmente útil para impuestos.
-* **Nombre del Rubro:** Ej. "Transporte de Carga".
-* **Código SUNAT:** Ej. "027". Importante para facturación electrónica.
-* **Tasa de Detracción:** Permite elegir (4%, 9%, 10%, 12%, No Sujeto). Así, si un Cajero paga a este contribuyente, el sistema puede alertar que debe retener un porcentaje.
+### 4.3. Gestión Documental (Archivos Digitales)
+Repositorio en la nube para guardar evidencias físicas (Fichas RUC, DNI escaneado, Contratos).
+* Seleccionas al contribuyente.
+* Subes el archivo (PDF, JPG).
+* Le asignas un nombre descriptivo y su categoría.
+
+![Formulario de Documentos](docs/img/form-documentos.png)
+
+### 4.4. Credenciales Confidenciales
+Caja fuerte virtual de usuarios y contraseñas externas (Clave SOL, AFP Net).
+* **Entidad:** Sistema al que pertenece.
+* **Usuario:** ID de acceso.
+* **Clave:** Contraseña (oculta por defecto y auditada si se visualiza).
+
+![Formulario de Credenciales](docs/img/form-credenciales.png)
+
+### 4.5. Configuración de Tipos de Documento y Rubros
+*(Acceso restringido para Cajeros en su mayoría)*
+Define qué clase de documentos permite subir el sistema (con sus extensiones de archivo) y en qué rubros comerciales se agrupan los proveedores (con su % de detracción).
 
 ---
 
 ## 🛡️ CAPÍTULO 5: BANDEJA DE APROBACIONES (ADMINISTRADOR)
 
-Si eres Administrador, tienes una vista crítica llamada `Aprobaciones de Movimientos`.
+Módulo exclusivo de la gerencia para auditar salidas de dinero fuertes y evitar fraudes o errores humanos.
 
-1. **La Bandeja de Pendientes:** Todos los egresos que superen ciertos límites o pagos específicos ingresados por los cajeros caen aquí.
-2. **Auditoría Previa:**
-   * Haz clic en ver detalles del movimiento.
-   * Revisa quién lo solicitó (Cajero).
-   * Revisa el comprobante físico adjuntado.
-   * Verifica los documentos del Contribuyente para asegurarse de que todo está en regla.
-3. **Decisión:**
-   * **BOTÓN APROBAR:** El dinero se descuenta de la caja. El Cajero recibe luz verde.
-   * **BOTÓN RECHAZAR:** Debes escribir un motivo obligatorio (Ej. "La factura adjunta está borrosa, pedir nueva al proveedor"). El Cajero recibirá el rechazo.
+![Bandeja de Aprobaciones](docs/img/aprobaciones.png)
+
+### 5.1. Proceso de Revisión
+1. **Listado:** Se muestran las tarjetas con las operaciones que el sistema marcó como `Pendientes de Aprobación`.
+2. **Detalle:** Al hacer clic en revisar, se despliega la información completa: Cajero que emite, Monto, Contribuyente, y Recibo/Foto adjunta.
+3. **Botón Aprobar (Verde):** Autoriza el pago. El saldo se descuenta inmediatamente de la caja del cajero.
+4. **Botón Rechazar (Rojo):** Deniega el pago. Se exige de forma obligatoria que el Admin escriba un motivo ("Falta firma del gerente" o "Monto excede lo pactado"). El cajero recibe el rechazo de inmediato.
+
+![Formulario de Rechazo](docs/img/form-rechazo-aprobacion.png)
 
 ---
 
 ## ⚙️ CAPÍTULO 6: CONFIGURACIÓN CENTRAL (ADMINISTRADOR)
 
-Para que el Cajero pueda trabajar, el Administrador primero debe armar la "estructura" del negocio. Estos módulos se operan de arriba hacia abajo:
+El corazón de la empresa. Aquí se definen las reglas del negocio.
 
-### 6.1. Gestión de Empresas (`AdminEmpresasPage`)
-* Define bajo qué razones sociales opera tu corporación.
-* **Datos a agregar:** Razón Social, RUC, Dirección, Representante Legal, Teléfono y Estado.
+![Panel de Configuración](docs/img/configuracion-general.png)
 
-### 6.2. Gestión de Sedes (`AdminSedesPage`)
-* Son los establecimientos físicos donde trabaja tu personal.
-* **Datos a agregar:** Nombre de Sede (ej. "Principal San Isidro"), Ubicación (dirección exacta), Empresa Asociada (cada sede pertenece a una empresa).
+### 6.1. Gestión de Empresas
+Define las razones sociales (RUC) bajo las cuales se factura y opera.
 
-### 6.3. Gestión de Cajas (`AdminBoxTypesPage`)
-* Las "bóvedas" lógicas del sistema.
-* **Datos a agregar:** Nombre de la caja (ej. "Ventanilla 1", "Caja Fuerte"), Moneda (Soles o Dólares), Empresa vinculada, Sede vinculada, Saldo de Apertura Inicial.
-* Puedes tener cajas inactivas (ej. una cuenta de banco cerrada).
+![Formulario de Empresa](docs/img/form-empresa.png)
 
-### 6.4. Configuración de Comprobantes (`AdminComprobantesPage`)
-* Alimenta el selector de recibos del Cajero.
-* **Datos a agregar:** Tipo (Factura, Boleta, Recibo de Egresos), Serie (Ej. `F001`, `B002`), Sede a la que pertenece esa serie.
+### 6.2. Gestión de Sedes
+Sucursales vinculadas a una empresa.
+* **Nombre de Sede:** Identificador.
+* **Empresa Vinculada:** De qué RUC depende.
+* **Ubicación Física.**
 
-### 6.5. Gestión de Usuarios (`AdminUsersPage`)
-* Control de acceso humano al sistema.
-* Haz clic en **Agregar Usuario**.
-* **Identificación:** Selecciona si es DNI, CE o Pasaporte y escribe el número.
-* **Nombres y Apellidos:** Datos personales del empleado.
-* **Correo:** Para acceso y notificaciones.
-* **Rol de Acceso:** Decide su jerarquía. `Administrador` o `Cajero / Operador`.
-* **Sede Asignada:** Fundamental. Un cajero asignado a la "Sede Surco" NO podrá ver la caja ni el dinero de la "Sede San Borja".
-* **Contraseña:** Asígnale una contraseña temporal.
+![Formulario de Sedes](docs/img/form-sedes.png)
+
+### 6.3. Gestión de Cajas (Centro de Costos)
+Las bóvedas de dinero.
+
+![Formulario de Caja](docs/img/form-caja.png)
+
+* **Nombre:** "Caja Chica A", "Banco de Crédito Cuenta 1".
+* **Sede:** Dónde se ubica esta caja.
+* **Moneda:** PEN o USD.
+* **Saldo Inicial:** Monto de apertura en el sistema.
+
+### 6.4. Comprobantes (Series)
+Configuración de talonarios de facturación.
+* **Sede y Empresa.**
+* **Tipo de Comprobante:** Boleta, Factura.
+* **Serie:** Ej. F001, B002. Obligatorio para que el cajero pueda emitir comprobantes legales.
+
+![Formulario de Series de Comprobantes](docs/img/form-comprobantes.png)
+
+### 6.5. Usuarios y Permisos
+Control de personal.
+
+![Formulario de Usuarios](docs/img/form-usuarios.png)
+
+* **Identidad:** DNI y Nombres.
+* **Rol:** Admin vs Cajero.
+* **Sede:** Restringe qué puede ver el usuario. (Un usuario no puede ver dinero de una sede a la que no pertenece).
 
 ---
 
-## 🆘 CAPÍTULO 7: RESOLUCIÓN DE PROBLEMAS FRECUENTES (FAQ)
+## 📊 CAPÍTULO 7: REPORTES Y PDF
 
-**1. Hago clic en "Guardar" y el botón se queda girando (cargando) y no pasa nada.**
-* *Solución:* Verifica tu conexión a internet. El sistema posee *Skeletons* (pantallas de carga grises) que te avisan si la red es lenta. Si demora más de 10 segundos, recarga la página (F5).
+El sistema cuenta con un motor de exportación avanzado (`jspdf`).
 
-**2. Soy Cajero y necesito crear un nuevo tipo de Documento (Ej. "Carnet de Sanidad").**
-* *Solución:* Por reglas del sistema, el Cajero no puede crear reglas globales de negocio. Debes solicitar a tu Administrador que ingrese a `Tipos de Documento` y lo cree por ti.
+### 7.1. Exportación de Tablas de Movimientos
+* Al presionar el botón de **PDF**, se compilará un documento oficial en formato A4 (horizontal) con membrete de la empresa.
+* Si el historial tiene múltiples páginas, el salto de página automático garantiza que ninguna fila pise el encabezado y se respeten los amplios márgenes preconfigurados.
+* Los reportes PDF contienen metadatos (quién lo imprimió, hora y fecha exacta) para validez legal interna.
 
-**3. Registré un Egreso y el dinero no se descontó de mi saldo.**
-* *Solución:* El movimiento probablemente esté "Pendiente de Aprobación". Comunícate con tu Administrador para que revise su Bandeja de Aprobaciones. Una vez aprobado, tu saldo bajará inmediatamente.
-
-**4. No encuentro el número de DNI de un cliente al buscarlo para registrar un pago.**
-* *Solución:* El cliente no existe en la base de datos local. Dirígete a `Menú -> Contribuyentes -> Directorio` y haz clic en "Agregar Contribuyente". Tras guardarlo, ya aparecerá en la caja.
-
----
-_Manual oficial del sistema. Queda estrictamente prohibida su divulgación a personal no autorizado. Desarrollado con los más altos estándares de seguridad y encriptación._
+![Reporte PDF Ejemplo](docs/img/ejemplo-pdf.png)
 
 ---
 
@@ -206,25 +216,28 @@ Si eres parte del equipo de desarrollo, aquí tienes las instrucciones para desp
 
 ### 8.1. Tecnologías Principales
 * **Frontend:** React 18, Vite, TypeScript.
-* **Estilos:** Tailwind CSS (con variables CSS personalizadas para modo claro/oscuro).
-* **Gráficos:** Recharts (Gráficos interactivos, de áreas con degradados y líneas dinámicas).
+* **Estilos:** Tailwind CSS (Variables CSS personalizadas para Light/Dark Mode).
+* **Gráficos Dinámicos:** Recharts (Áreas dinámicas, interactividad in-line para expandir vistas en cuadrículas).
 * **Iconografía:** Lucide React.
-* **Reportes:** jspdf y jspdf-autotable para la generación de reportes financieros en PDF con membretes personalizados.
+* **Generación de Reportes PDF:** `jspdf` y `jspdf-autotable`.
 
-### 8.2. Pasos para la Instalación Local
-1. Clona el repositorio en tu máquina local.
-2. Asegúrate de tener Node.js (versión 18+ recomendada) instalado.
-3. Abre una terminal en la raíz del proyecto y ejecuta:
+### 8.2. Instalación Local
+1. Clona el repositorio oficial desde GitHub: `git clone [url]`
+2. Instala Node.js (v18+).
+3. Abre terminal en raíz y corre la instalación de paquetes:
    ```bash
    npm install
    ```
-4. Para iniciar el servidor de desarrollo, ejecuta:
+4. Inicia el servidor de prueba:
    ```bash
    npm run dev
    ```
-5. El sistema estará disponible en `http://localhost:5173`.
+5. Accede mediante tu navegador a `http://localhost:5173`.
 
-### 8.3. Novedades y Características UI
-* **Dashboards Interactivos:** Los gráficos del panel de control ahora permiten una expansión fluida (inline) para ver a detalle los montos en modo "Histórico" o "Mensual".
-* **Modo Oscuro/Claro:** Soporte nativo y sincronizado de temas visuales de alto contraste.
-* **Componentes Optimizados:** Animaciones fluidas en tablas, menús laterales expansibles y modales interactivos para una experiencia de usuario premium.
+### 8.3. Arquitectura UI Reciente
+* **Gráficos Expansibles (In-line):** Al hacer clic en un gráfico (Dashboard Cajero/Admin), este no despliega un modal bloqueante, sino que realiza una transición suave (`transition-all`) para ocupar un `col-span-2` en el Grid, maximizando el detalle.
+* **Visualización de Ejes (X-Axis):** Configuración de superposición optimizada mediante `minTickGap={30}` en Recharts.
+* **Linear Gradients:** Estilos de "Cristal Emborronado" en las series de Cajas (`<defs><linearGradient>`).
+
+---
+_Fin del Manual. Sujeto a revisiones y actualizaciones constantes._
