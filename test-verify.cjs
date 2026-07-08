@@ -1,1 +1,0 @@
-const ExcelJS = require('exceljs'); const wb = new ExcelJS.Workbook(); wb.xlsx.readFile('test.xlsx').then(() => { const ws = wb.getWorksheet('test'); console.log('A2:', ws.getCell('A2').value); console.log('A3:', ws.getCell('A3').value); console.log('Merge:', ws.model.merges); });
