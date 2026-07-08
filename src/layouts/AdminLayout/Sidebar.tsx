@@ -77,7 +77,9 @@ const Sidebar: React.FC<SidebarProps> = ({ isExpanded, toggleSidebar, role, isMo
         `}
       >
         <div className={`flex justify-center items-center mb-4 transition-all duration-300 ${isExpanded ? 'px-6' : 'px-2'}`}>
-          <img src="/src/assets/loggo.png" alt="Logo JJJA" className={`bg-white rounded-lg p-1 shadow-sm transition-all duration-300 ${isExpanded ? 'h-12 w-auto' : 'h-8 w-8 object-cover'}`} />
+          <div className="w-8 h-8 rounded-lg bg-[var(--sidebar-active)] text-white flex items-center justify-center font-bold text-sm transition-all duration-300">
+            JJ
+          </div>
         </div>
 
       {/* Toggle Sidebar Button - Modern Outward Bump Style */}

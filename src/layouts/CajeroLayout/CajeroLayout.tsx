@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { Menu } from 'lucide-react';
 import Sidebar from '../AdminLayout/Sidebar';
+import logoImg from '../../assets/loggo.png';
 
 export const CajeroLayout: React.FC = () => {
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
@@ -20,10 +21,7 @@ export const CajeroLayout: React.FC = () => {
       {/* Mobile Top Bar */}
       <div className="md:hidden flex items-center justify-between p-4 bg-[var(--sidebar-bg)] border-b border-[var(--sidebar-border)] z-30 shadow-sm">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-night-blue flex items-center justify-center">
-            <span className="text-white font-bold text-sm">JJ</span>
-          </div>
-          <span className="font-bold text-[var(--sidebar-text-hover)] text-lg">Corp. JJJA</span>
+          <img src={logoImg} alt="Logo JJJA" className="h-10 object-contain bg-white rounded-md p-1" />
         </div>
         <button onClick={toggleMobileSidebar} className="p-2 rounded-md text-[var(--sidebar-text)] hover:bg-[var(--sidebar-hover)] hover:text-[var(--sidebar-text-hover)] transition-colors">
           <Menu size={24} />
