@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { 
   Download, Loader2, Calendar, MoreVertical, ShieldAlert,
   ArrowUpRight, ArrowDownRight, CheckCircle2, AlertTriangle, 
-  ChevronDown, ChevronLeft, ChevronRight, Search, Building2, Users, Wallet, Archive
+  ChevronDown, ChevronLeft, ChevronRight, Search, Building2, Users, Wallet, Archive, X
 } from 'lucide-react';
 import { 
   PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, ComposedChart, Line, YAxis, Legend, CartesianGrid, Tooltip as RechartsTooltip, XAxis, AreaChart, Area, LineChart 
@@ -46,7 +46,9 @@ export const CajeroDashboard: React.FC = () => {
   const [estadoCajaTab, setEstadoCajaTab] = useState<'general' | 'sede'>('general');
   const [estadoCajaSede, setEstadoCajaSede] = useState<string>('');
   const [searchTerm, setSearchTerm] = useState('');
-  const [visibleCount, setVisibleCount] = useState(4);
+  const [visibleCount, setVisibleCount] = useState(10);
+  const [chartViewMode, setChartViewMode] = useState<'historico' | 'mensual'>('historico');
+  const [expandedChart, setExpandedChart] = useState<'flujo' | 'cajas' | null>(null);
   const [saldoHoy, setSaldoHoy] = useState({ ingresos: 0, egresos: 0, total: 0, variacion: 0 });
 
   const COLORS_SEDES = ['#1A1E38', '#C4933F', '#cfdaf1', '#10b981'];
@@ -720,7 +722,7 @@ export const CajeroDashboard: React.FC = () => {
           5: { halign: 'right', cellWidth: 60 },
           6: { halign: 'right', cellWidth: 60 },
         },
-        margin: { bottom: 60 },
+        margin: { top: 150, bottom: 150 },
         didParseCell: function(data) {
           if (data.section === 'body' && data.column.index === 3) {
             if (data.cell.raw === 'INGRESO') {
@@ -847,21 +849,47 @@ export const CajeroDashboard: React.FC = () => {
   }
 
   // Preparamos datos históricos para el gráfico a partir de transacciones reales
-  const baseDate = calendarViewDate;
-  const currentMonth = baseDate.getMonth();
-  const currentYear = baseDate.getFullYear();
-  const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-
   const flowMap = new Map();
   const cajasFlowMap = new Map();
   const cajasUnicas = new Map<string, string>();
 
-  // Inicializar todos los días del mes actual en 0
-  for (let i = 1; i <= daysInMonth; i++) {
-    const dayStr = i.toString().padStart(2, '0');
-    const monthStr = (currentMonth + 1).toString().padStart(2, '0');
-    const nameStr = `${dayStr}/${monthStr}`;
-    const timeKey = new Date(currentYear, currentMonth, i).getTime();
+  let startDate = new Date();
+  let endDate = new Date();
+  
+  if (chartViewMode === 'historico') {
+    if (allTransacciones.length > 0) {
+      const dates = allTransacciones.map(tx => {
+        if (tx.fecha) {
+           const [y, m, d_] = tx.fecha.split('-');
+           return new Date(Number(y), Number(m) - 1, Number(d_)).getTime();
+        }
+        return new Date(tx.updated_at || new Date()).getTime();
+      });
+      startDate = new Date(Math.min(...dates));
+      endDate = new Date(Math.max(...dates, new Date().getTime()));
+    }
+  } else {
+    // Mensual
+    const currentMonth = calendarViewDate.getMonth();
+    const currentYear = calendarViewDate.getFullYear();
+    startDate = new Date(currentYear, currentMonth, 1);
+    endDate = new Date(currentYear, currentMonth + 1, 0); // Last day of month
+  }
+
+  // Ensure start is before or equal to end
+  if (startDate > endDate) startDate = new Date(endDate);
+
+  // Set hours to 0 to avoid skipping days or DST issues
+  startDate.setHours(0,0,0,0);
+  endDate.setHours(0,0,0,0);
+
+  // Generate all days in range
+  for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
+    const dayStr = d.getDate().toString().padStart(2, '0');
+    const monthStr = (d.getMonth() + 1).toString().padStart(2, '0');
+    const yearStr = d.getFullYear().toString().substring(2);
+    const nameStr = `${dayStr}/${monthStr}/${yearStr}`;
+    const timeKey = d.getTime();
 
     flowMap.set(nameStr, {
       name: nameStr,
@@ -879,31 +907,39 @@ export const CajeroDashboard: React.FC = () => {
     if (!tx.fecha) return;
     const [y, m, d] = tx.fecha.split('-');
     
-    // Solo procesar si pertenece al mes actual
-    if (Number(y) === currentYear && Number(m) === currentMonth + 1) {
-      const nameStr = `${d.padStart(2, '0')}/${m.padStart(2, '0')}`;
-      const monto = Number(tx.monto) || 0;
-      const isIngreso = tx.tipo_movimiento === 1 || tx.tipo_movimiento === true;
-      const neto = isIngreso ? monto : -monto;
-
-      // 1. Flujo General
-      const current = flowMap.get(nameStr);
-      if (current) {
-        current.flujo += neto;
+    const txDate = new Date(Number(y), Number(m) - 1, Number(d));
+    
+    if (chartViewMode === 'mensual') {
+      const currentMonth = calendarViewDate.getMonth();
+      const currentYear = calendarViewDate.getFullYear();
+      if (txDate.getMonth() !== currentMonth || txDate.getFullYear() !== currentYear) {
+        return;
       }
+    }
+    
+    // Procesar todos los registros que pasen el filtro
+    const nameStr = `${d.padStart(2, '0')}/${m.padStart(2, '0')}/${y.substring(2)}`;
+    const monto = Number(tx.monto) || 0;
+    const isIngreso = tx.tipo_movimiento === 1 || tx.tipo_movimiento === true;
+    const neto = isIngreso ? monto : -monto;
 
-      // 2. Movimientos por Cajas
-      const cajaName = tx.caja || 'Otros';
-      const cajaColor = tx.caja_color || '#8b5cf6';
-      if (!cajasUnicas.has(cajaName)) {
-        cajasUnicas.set(cajaName, cajaColor);
-      }
+    // 1. Flujo General
+    const current = flowMap.get(nameStr);
+    if (current) {
+      current.flujo += neto;
+    }
 
-      const currentCaja = cajasFlowMap.get(nameStr);
-      if (currentCaja) {
-        if (currentCaja[cajaName] === undefined) currentCaja[cajaName] = 0;
-        currentCaja[cajaName] += neto;
-      }
+    // 2. Movimientos por Cajas
+    const cajaName = tx.caja || 'Otros';
+    const cajaColor = tx.caja_color || '#8b5cf6';
+    if (!cajasUnicas.has(cajaName)) {
+      cajasUnicas.set(cajaName, cajaColor);
+    }
+
+    const currentCaja = cajasFlowMap.get(nameStr);
+    if (currentCaja) {
+      if (currentCaja[cajaName] === undefined) currentCaja[cajaName] = 0;
+      currentCaja[cajaName] += neto;
     }
   });
 
@@ -1183,41 +1219,96 @@ export const CajeroDashboard: React.FC = () => {
         <div className="lg:col-span-3 bg-white dark:bg-[#1a1f2e] border border-gray-100 dark:border-[var(--sidebar-border)] rounded-2xl p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
           <div className="flex justify-between items-center mb-8">
             <h3 className="text-xs font-bold text-[var(--sidebar-text)] uppercase tracking-widest">Estadísticas</h3>
-            <span className="text-[10px] font-bold text-[var(--sidebar-text)] border border-gray-100 dark:border-[var(--sidebar-border)] px-2 py-1 rounded bg-[var(--sidebar-bg)]">Histórico</span>
+            <select
+              value={chartViewMode}
+              onChange={(e) => setChartViewMode(e.target.value as 'historico' | 'mensual')}
+              className="text-[10px] font-bold text-[var(--sidebar-text)] border border-gray-100 dark:border-[var(--sidebar-border)] px-2 py-1 rounded bg-[var(--sidebar-bg)] outline-none cursor-pointer"
+            >
+              <option value="historico">Histórico</option>
+              <option value="mensual">Mensual</option>
+            </select>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 h-[360px]" id="charts-line">
+          <div className={`grid grid-cols-1 ${expandedChart ? 'md:grid-cols-1' : 'md:grid-cols-2'} gap-12 transition-all duration-300 ${expandedChart ? 'min-h-[600px]' : 'h-[360px]'}`} id="charts-line">
             {chartDataMensual.length > 0 ? (
               <>
-                <div className="flex flex-col h-full">
-                  <h4 className="text-[10px] font-bold text-[var(--sidebar-text)] uppercase mb-6 text-center tracking-widest">Flujo Neto Mensual</h4>
-                  <ResponsiveContainer width="100%" height="100%">
-                    <LineChart data={chartDataMensual} margin={{ top: 10, right: 10, left: 0, bottom: 10 }}>
-                      <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--sidebar-border)" opacity={0.5} />
-                      <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#94a3b8', fontWeight: 600 }} dy={10} />
-                      <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#94a3b8', fontWeight: 600 }} dx={-10} tickFormatter={(val) => `S/${val}`} />
-                      <RechartsTooltip formatter={(val: any) => `S/ ${Number(val).toLocaleString('en-US', {minimumFractionDigits: 2})}`} contentStyle={{backgroundColor: 'var(--sidebar-bg)', borderColor: 'var(--sidebar-border)', color: 'var(--sidebar-text-hover)', fontSize: '12px', fontWeight: 'bold', borderRadius: '8px'}} />
-                      <Legend iconType="circle" wrapperStyle={{ fontSize: '10px', fontWeight: 'bold', paddingTop: '20px' }} />
-                      <Line type="monotone" dataKey="flujo" name="Flujo Neto" stroke="#3b82f6" strokeWidth={3} dot={false} activeDot={{ r: 5 }} />
-                    </LineChart>
-                  </ResponsiveContainer>
-                </div>
+                {(!expandedChart || expandedChart === 'flujo') && (
+                  <div 
+                    className="flex flex-col h-full cursor-pointer hover:opacity-90 transition-opacity relative group" 
+                    onClick={() => setExpandedChart(expandedChart === 'flujo' ? null : 'flujo')}
+                  >
+                    <div className="flex justify-between items-center mb-6">
+                      <h4 className="text-[10px] font-bold text-[var(--sidebar-text)] uppercase tracking-widest text-center flex-1">
+                        Flujo Neto {chartViewMode === 'historico' ? 'Histórico' : 'Mensual'}
+                      </h4>
+                      {expandedChart === 'flujo' && (
+                        <button 
+                          onClick={(e) => { e.stopPropagation(); setExpandedChart(null); }}
+                          className="absolute right-0 top-0 text-slate-400 hover:text-rose-500 bg-slate-50 hover:bg-rose-50 dark:bg-slate-800/50 dark:hover:bg-rose-900/20 p-1.5 rounded-full transition-all"
+                        >
+                          <X size={16} />
+                        </button>
+                      )}
+                    </div>
+                    <ResponsiveContainer width="100%" height="100%">
+                      <AreaChart data={chartDataMensual} margin={{ top: expandedChart ? 30 : 10, right: expandedChart ? 40 : 10, left: expandedChart ? 20 : 0, bottom: expandedChart ? 40 : 10 }}>
+                        <defs>
+                          <linearGradient id="colorFlujoModal" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.4}/>
+                            <stop offset="95%" stopColor="#3b82f6" stopOpacity={0}/>
+                          </linearGradient>
+                        </defs>
+                        <CartesianGrid strokeDasharray={expandedChart ? "4 4" : "3 3"} vertical={false} stroke="var(--sidebar-border)" opacity={expandedChart ? 0.4 : 0.5} />
+                        <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: expandedChart ? 13 : 10, fill: expandedChart ? '#64748b' : '#94a3b8', fontWeight: 600 }} dy={expandedChart ? 20 : 10} minTickGap={30} />
+                        <YAxis axisLine={false} tickLine={false} tick={{ fontSize: expandedChart ? 13 : 10, fill: expandedChart ? '#64748b' : '#94a3b8', fontWeight: 600 }} dx={-15} tickFormatter={(val) => `S/${val}`} />
+                        <RechartsTooltip formatter={(val: any) => `S/ ${Number(val).toLocaleString('en-US', {minimumFractionDigits: 2})}`} contentStyle={expandedChart ? {backgroundColor: 'var(--sidebar-bg)', borderColor: 'var(--sidebar-border)', color: 'var(--sidebar-text-hover)', fontSize: '15px', fontWeight: 'bold', borderRadius: '12px', padding: '16px', boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)'} : {backgroundColor: 'var(--sidebar-bg)', borderColor: 'var(--sidebar-border)', color: 'var(--sidebar-text-hover)', fontSize: '12px', fontWeight: 'bold', borderRadius: '8px'}} />
+                        <Legend iconType="circle" wrapperStyle={{ fontSize: expandedChart ? '13px' : '10px', fontWeight: 'bold', paddingTop: expandedChart ? '30px' : '20px' }} />
+                        <Area type="monotone" dataKey="flujo" name="Flujo Neto" stroke="#3b82f6" fillOpacity={1} fill="url(#colorFlujoModal)" strokeWidth={expandedChart ? 4 : 3} activeDot={{ r: expandedChart ? 8 : 5, strokeWidth: 0, fill: '#3b82f6' }} />
+                      </AreaChart>
+                    </ResponsiveContainer>
+                  </div>
+                )}
 
-                <div className="flex flex-col h-full">
-                  <h4 className="text-[10px] font-bold text-[var(--sidebar-text)] uppercase mb-6 text-center tracking-widest">Evolución por Caja</h4>
-                  <ResponsiveContainer width="100%" height="100%">
-                    <LineChart data={chartDataCajas} margin={{ top: 10, right: 10, left: 0, bottom: 10 }}>
-                      <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--sidebar-border)" opacity={0.5} />
-                      <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#94a3b8', fontWeight: 600 }} dy={10} />
-                      <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#94a3b8', fontWeight: 600 }} dx={-10} tickFormatter={(val) => `S/${val}`} />
-                      <RechartsTooltip shared={false} formatter={(val: any) => `S/ ${Number(val).toLocaleString('en-US', {minimumFractionDigits: 2})}`} contentStyle={{backgroundColor: 'var(--sidebar-bg)', borderColor: 'var(--sidebar-border)', color: 'var(--sidebar-text-hover)', fontSize: '12px', fontWeight: 'bold', borderRadius: '8px'}} />
-                      <Legend iconType="circle" wrapperStyle={{ fontSize: '10px', fontWeight: 'bold', paddingTop: '10px' }} />
-                      {arrayCajas.map((cajaInfo) => (
-                        <Line key={cajaInfo.name} type="monotone" dataKey={cajaInfo.name} name={cajaInfo.name} stroke={cajaInfo.color} strokeWidth={3} dot={false} activeDot={{ r: 5 }} />
-                      ))}
-                    </LineChart>
-                  </ResponsiveContainer>
-                </div>
+                {(!expandedChart || expandedChart === 'cajas') && (
+                  <div 
+                    className="flex flex-col h-full cursor-pointer hover:opacity-90 transition-opacity relative group" 
+                    onClick={() => setExpandedChart(expandedChart === 'cajas' ? null : 'cajas')}
+                  >
+                    <div className="flex justify-between items-center mb-6">
+                      <h4 className="text-[10px] font-bold text-[var(--sidebar-text)] uppercase tracking-widest text-center flex-1">
+                        Evolución por Caja
+                      </h4>
+                      {expandedChart === 'cajas' && (
+                        <button 
+                          onClick={(e) => { e.stopPropagation(); setExpandedChart(null); }}
+                          className="absolute right-0 top-0 text-slate-400 hover:text-rose-500 bg-slate-50 hover:bg-rose-50 dark:bg-slate-800/50 dark:hover:bg-rose-900/20 p-1.5 rounded-full transition-all"
+                        >
+                          <X size={16} />
+                        </button>
+                      )}
+                    </div>
+                    <ResponsiveContainer width="100%" height="100%">
+                      <AreaChart data={chartDataCajas} margin={{ top: expandedChart ? 30 : 10, right: expandedChart ? 40 : 10, left: expandedChart ? 20 : 0, bottom: expandedChart ? 40 : 10 }}>
+                        <defs>
+                          {arrayCajas.map((cajaInfo, index) => (
+                            <linearGradient key={`grad-${cajaInfo.name}`} id={`colorCaja-${index}`} x1="0" y1="0" x2="0" y2="1">
+                              <stop offset="5%" stopColor={cajaInfo.color} stopOpacity={0.4}/>
+                              <stop offset="95%" stopColor={cajaInfo.color} stopOpacity={0}/>
+                            </linearGradient>
+                          ))}
+                        </defs>
+                        <CartesianGrid strokeDasharray={expandedChart ? "4 4" : "3 3"} vertical={false} stroke="var(--sidebar-border)" opacity={expandedChart ? 0.4 : 0.5} />
+                        <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: expandedChart ? 13 : 10, fill: expandedChart ? '#64748b' : '#94a3b8', fontWeight: 600 }} dy={expandedChart ? 20 : 10} minTickGap={30} />
+                        <YAxis axisLine={false} tickLine={false} tick={{ fontSize: expandedChart ? 13 : 10, fill: expandedChart ? '#64748b' : '#94a3b8', fontWeight: 600 }} dx={-15} tickFormatter={(val) => `S/${val}`} />
+                        <RechartsTooltip shared={false} formatter={(val: any) => `S/ ${Number(val).toLocaleString('en-US', {minimumFractionDigits: 2})}`} contentStyle={expandedChart ? {backgroundColor: 'var(--sidebar-bg)', borderColor: 'var(--sidebar-border)', color: 'var(--sidebar-text-hover)', fontSize: '15px', fontWeight: 'bold', borderRadius: '12px', padding: '16px', boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)'} : {backgroundColor: 'var(--sidebar-bg)', borderColor: 'var(--sidebar-border)', color: 'var(--sidebar-text-hover)', fontSize: '12px', fontWeight: 'bold', borderRadius: '8px'}} />
+                        <Legend iconType="circle" wrapperStyle={{ fontSize: expandedChart ? '13px' : '10px', fontWeight: 'bold', paddingTop: expandedChart ? '30px' : '10px' }} />
+                        {arrayCajas.map((cajaInfo, index) => (
+                          <Area key={cajaInfo.name} type="monotone" dataKey={cajaInfo.name} name={cajaInfo.name} stroke={cajaInfo.color} fillOpacity={1} fill={`url(#colorCaja-${index})`} strokeWidth={expandedChart ? 4 : 3} activeDot={{ r: expandedChart ? 8 : 5, strokeWidth: 0, fill: cajaInfo.color }} />
+                        ))}
+                      </AreaChart>
+                    </ResponsiveContainer>
+                  </div>
+                )}
               </>
             ) : (
               <div className="flex h-full items-center justify-center text-[var(--sidebar-text)] text-sm font-medium w-full col-span-1 md:col-span-2">
@@ -1519,7 +1610,7 @@ export const CajeroDashboard: React.FC = () => {
         {filteredTransacciones.length > visibleCount && (
           <div className="bg-[var(--sidebar-bg)] border-t border-gray-100 dark:border-[var(--sidebar-border)] p-3 text-center">
             <button 
-              onClick={() => setVisibleCount(prev => prev + 4)}
+              onClick={() => setVisibleCount(prev => prev + 10)}
               className="text-[10px] font-black text-[var(--sidebar-text)] uppercase tracking-widest hover:text-[var(--sidebar-text-hover)] transition-colors"
             >
               Cargar más transacciones
@@ -1527,6 +1618,8 @@ export const CajeroDashboard: React.FC = () => {
           </div>
         )}
       </div>
+
+
 
     </div>
   );

@@ -76,7 +76,9 @@ export const CajeroMovimientosPage: React.FC = () => {
   const loadData = async () => {
     try {
       const [resCajas, resEmpresas, resTipos, resMovs] = await Promise.all([
-        CajaService.getCajasSedeSaldos(jwt),
+        user?.sedeId 
+          ? CajaService.getCajasSedeSaldosById(jwt, user.sedeId) 
+          : CajaService.getCajasSedeSaldos(jwt),
         EmpresaService.getEmpresas(jwt),
         TipoComprobanteService.getTiposComprobante(jwt),
         user?.sedeId 
@@ -461,12 +463,17 @@ export const CajeroMovimientosPage: React.FC = () => {
                       // Solo guarda el vínculo con la empresa — NO toca el RUC del comprobante
                       setEmpresaBuscada(emp || null);
                     }}
-                    className="w-full bg-[var(--sidebar-bg)] border border-[var(--sidebar-border)] rounded-lg pl-3 pr-10 py-2.5 text-sm focus:ring-2 focus:ring-[#C4933F] focus:border-transparent outline-none text-[var(--sidebar-text-hover)] appearance-none"
+                    className="w-full bg-[var(--sidebar-bg)] border border-[var(--sidebar-border)] rounded-lg pl-3 pr-10 py-2.5 text-sm focus:ring-2 focus:ring-[#C4933F] focus:border-transparent outline-none text-[var(--sidebar-text-hover)] appearance-none truncate"
                   >
                     <option value="">Seleccionar Empresa...</option>
-                    {empresas.map(emp => (
-                      <option key={emp.id} value={emp.id}>{emp.razon_social} ({emp.ruc})</option>
-                    ))}
+                    {empresas.map(emp => {
+                      const displayText = `${emp.razon_social} (${emp.ruc})`;
+                      return (
+                        <option key={emp.id} value={emp.id} title={displayText}>
+                          {displayText.length > 55 ? displayText.substring(0, 55) + '...' : displayText}
+                        </option>
+                      );
+                    })}
                   </select>
                   <ChevronDown className="absolute right-3 top-2.5 text-[var(--sidebar-text)] pointer-events-none" size={18} />
                 </div>
