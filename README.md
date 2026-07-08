@@ -197,5 +197,34 @@ Para que el Cajero pueda trabajar, el Administrador primero debe armar la "estru
 
 ---
 _Manual oficial del sistema. Queda estrictamente prohibida su divulgación a personal no autorizado. Desarrollado con los más altos estándares de seguridad y encriptación._
-#   c a j a s  
- 
+
+---
+
+## 💻 CAPÍTULO 8: GUÍA TÉCNICA Y DE INSTALACIÓN (DESARROLLADORES)
+
+Si eres parte del equipo de desarrollo, aquí tienes las instrucciones para desplegar el entorno local:
+
+### 8.1. Tecnologías Principales
+* **Frontend:** React 18, Vite, TypeScript.
+* **Estilos:** Tailwind CSS (con variables CSS personalizadas para modo claro/oscuro).
+* **Gráficos:** Recharts (Gráficos interactivos, de áreas con degradados y líneas dinámicas).
+* **Iconografía:** Lucide React.
+* **Reportes:** jspdf y jspdf-autotable para la generación de reportes financieros en PDF con membretes personalizados.
+
+### 8.2. Pasos para la Instalación Local
+1. Clona el repositorio en tu máquina local.
+2. Asegúrate de tener Node.js (versión 18+ recomendada) instalado.
+3. Abre una terminal en la raíz del proyecto y ejecuta:
+   ```bash
+   npm install
+   ```
+4. Para iniciar el servidor de desarrollo, ejecuta:
+   ```bash
+   npm run dev
+   ```
+5. El sistema estará disponible en `http://localhost:5173`.
+
+### 8.3. Novedades y Características UI
+* **Dashboards Interactivos:** Los gráficos del panel de control ahora permiten una expansión fluida (inline) para ver a detalle los montos en modo "Histórico" o "Mensual".
+* **Modo Oscuro/Claro:** Soporte nativo y sincronizado de temas visuales de alto contraste.
+* **Componentes Optimizados:** Animaciones fluidas en tablas, menús laterales expansibles y modales interactivos para una experiencia de usuario premium.
