@@ -1113,7 +1113,8 @@ export const CajeroDashboard: React.FC = () => {
   });
 
   return (
-    <div className="p-4 sm:p-6 w-full space-y-4 animate-fade-in">
+    <>
+      <div className="p-4 sm:p-6 w-full space-y-4 animate-fade-in">
       
       {/* HEADER */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4">
@@ -1622,11 +1623,11 @@ export const CajeroDashboard: React.FC = () => {
           </div>
         )}
       </div>
-
-      {/* MODAL SUNAT ALERTS */}
-      <SunatModal isOpen={showSunatModal} onClose={() => setShowSunatModal(false)} />
-
     </div>
+
+    {/* MODAL SUNAT ALERTS */}
+    <SunatModal isOpen={showSunatModal} onClose={() => setShowSunatModal(false)} />
+    </>
   );
 };
 
