@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { X, ArrowUpRight, ArrowDownRight, Building2, Wallet, MapPin, User, FileText, Hash, CreditCard, DollarSign, AlignLeft, Calendar } from 'lucide-react';
+import { X, ArrowUpRight, ArrowDownRight, Building2, Wallet, MapPin, User, FileText, Hash, CreditCard, AlignLeft, Calendar } from 'lucide-react';
 import type { MovimientoResponse } from '../../../services/movimientoService';
 
 interface MovimientoDetailModalProps {

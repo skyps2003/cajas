@@ -46,7 +46,7 @@ export const TelefonoModal: React.FC<TelefonoModalProps> = ({
       loadTipos();
       if (editingRegistro) {
         setFormData({
-          id_tipo_telefono: editingRegistro.tipo_telefono_id || 2,
+          id_tipo_telefono: editingRegistro.id_tipo_telefono || 2,
           numero: editingRegistro.numero,
           nombre_contacto: editingRegistro.nombre_contacto || '',
           descripcion: editingRegistro.descripcion || '',

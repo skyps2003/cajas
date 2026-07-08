@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import {
-  FileText, Download, FileSpreadsheet, Building2,
-  SlidersHorizontal, Calendar, ChevronRight, CheckCircle2,
-  Loader2, AlertCircle, TrendingUp, Users, Box, ListChecks, TrendingDown
+  Download, FileSpreadsheet, Building2,
+  SlidersHorizontal, Calendar, 
+  Loader2, TrendingUp, Users, Box, ListChecks, TrendingDown
 } from 'lucide-react';
 import { useToast } from '../../../components/Toast/ToastContext';
 import { useAuth } from '../../../contexts/AuthContext';

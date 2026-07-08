@@ -84,7 +84,7 @@ export const ContribuyentesTiposDocumentoPage: React.FC = () => {
       await tipoDocumentoService.toggleStatus(user.token, id);
       setTipos(prev => prev.map(t => 
         t.id === id 
-          ? { ...t, estado: (t.estado == 1 || t.estado === true || t.estado === '1') ? 0 : 1 } 
+          ? { ...t, estado: (t.estado == 1 || t.estado === true || Number(t.estado) === 1) ? 0 : 1 } 
           : t
       ));
       const newState = (currentEstado == 1 || currentEstado === true || currentEstado === '1') ? 'INACTIVO' : 'ACTIVO';

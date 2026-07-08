@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, Plus, Edit2, Trash2, Tags, CheckCircle2, XCircle, Percent, AlertCircle, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Search, Plus, Edit2, Trash2, Tags, CheckCircle2, XCircle, Percent, } from 'lucide-react';
 import { useToast } from '../../components/Toast/ToastContext';
 import { ConfirmDialog } from '../../components/ConfirmDialog';
 import { useConfirm } from '../../hooks/useConfirm';

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import ReactDOM from 'react-dom';
-import { Search, Plus, Edit2, Trash2, CheckCircle2, FileText, Info, AlertTriangle, ArrowDown, ArrowUp, Hash, Eye, X } from 'lucide-react';
+
+import { Search, Plus, Edit2, Trash2, CheckCircle2, FileText, Info, AlertTriangle, ArrowDown, ArrowUp, Hash, Eye, } from 'lucide-react';
 import { useToast } from '../../../components/Toast/ToastContext';
 import { useAuth } from '../../../contexts/AuthContext';
 import TableSkeleton from '../../../components/TableSkeleton';
@@ -21,7 +21,7 @@ export const AdminComprobantesPage: React.FC = () => {
   const [tipoToEdit, setTipoToEdit]           = useState<TipoComprobante | null>(null);
   const [tipoToDelete, setTipoToDelete]       = useState<TipoComprobante | null>(null);
   const [tipoToToggle, setTipoToToggle]       = useState<TipoComprobante | null>(null);
-  const [tipoToView, setTipoToView]           = useState<TipoComprobante | null>(null);
+  const [_tipoToView, setTipoToView]           = useState<TipoComprobante | null>(null);
   
   const [currentPage, setCurrentPage]         = useState(1);
   const [sortConfig, setSortConfig]           = useState<{ key: 'id' | 'nombre' | null, direction: 'asc' | 'desc' | null }>({ key: null, direction: null });
@@ -149,9 +149,9 @@ export const AdminComprobantesPage: React.FC = () => {
   return (
     <div className="p-6 md:p-8 max-w-7xl mx-auto w-full">
       {/* Header */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between mb-8 gap-4">
+      <div className="fleflex-col lg:flex-row lg:items-center justify-between mb-8 gap-4">
         <div>
-          <h1 className="text-2xl md:text-3xl font-bold text-primary tracking-tight flex items-center gap-2">
+          <h1 className="text-2xl md:text-3xl font-bold text-primary tracking-tight fleitems-center gap-2">
             <span className="w-1 h-8 bg-[#B47541] rounded-full inline-block"></span>
             Tipos de Comprobante
           </h1>
@@ -159,7 +159,7 @@ export const AdminComprobantesPage: React.FC = () => {
             Gestión de documentos tributarios usados en los ingresos y egresos del sistema.
           </p>
         </div>
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full lg:w-auto mt-2 lg:mt-0">
+        <div className="fleflex-col sm:flex-row items-stretch sm:items-center gap-3 w-full lg:w-auto mt-2 lg:mt-0">
           <div className="relative w-full sm:w-64">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
             <input 
@@ -172,7 +172,7 @@ export const AdminComprobantesPage: React.FC = () => {
           </div>
           <button 
             onClick={() => { setTipoToEdit(null); setIsModalOpen(true); }}
-            className="w-full sm:w-auto flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg text-sm font-bold transition-colors shadow-sm text-white hover:bg-[#9c6030] bg-[#B47541]"
+            className="w-full sm:w-auto fleitems-center justify-center gap-2 px-5 py-2.5 rounded-lg text-sm font-bold transition-colors shadow-sm text-white hover:bg-[#9c6030] bg-[#B47541]"
           >
             <Plus size={18} />
             <span>NUEVO TIPO</span>
@@ -183,44 +183,44 @@ export const AdminComprobantesPage: React.FC = () => {
       {/* KPI Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         {/* Total Comprobantes */}
-        <div className="bg-white dark:bg-[#16212E] rounded-xl border border-slate-200 dark:border-[#1E2D3D] p-3 sm:p-4 shadow-sm flex items-center gap-3 sm:gap-4 hover:shadow-md transition-shadow">
-          <div className="w-11 h-11 sm:w-14 sm:h-14 rounded-xl bg-[#E8EDF5] dark:bg-[#1B2E4B]/30 border border-[#D4DCE9] dark:border-[#1B2E4B]/40 text-[#1B2E4B] dark:text-[#E8EDF5] flex items-center justify-center shrink-0">
+        <div className="bg-white dark:bg-[#16212E] rounded-xl border border-slate-200 dark:border-[#1E2D3D] p-3 sm:p-4 shadow-sm fleitems-center gap-3 sm:gap-4 hover:shadow-md transition-shadow">
+          <div className="w-11 h-11 sm:w-14 sm:h-14 rounded-xl bg-[#E8EDF5] dark:bg-[#1B2E4B]/30 border border-[#D4DCE9] dark:border-[#1B2E4B]/40 text-[#1B2E4B] dark:text-[#E8EDF5] fleitems-center justify-center shrink-0">
             <FileText size={20} strokeWidth={1.8} />
           </div>
-          <div className="flex flex-col justify-center">
+          <div className="fleflex-col justify-center">
             <div className="text-[9px] sm:text-[10px] font-bold text-[#6B7A94] dark:text-[#8899B4] tracking-widest uppercase leading-tight mb-0.5">TOTAL<br/>TIPOS</div>
             <div className="text-2xl sm:text-3xl font-black text-[#1B2E4B] dark:text-white tracking-tight leading-none">{totalCount.toString().padStart(2, '0')}</div>
           </div>
         </div>
         
         {/* Activos */}
-        <div className="bg-white dark:bg-[#16212E] rounded-xl border border-slate-200 dark:border-[#1E2D3D] p-3 sm:p-4 shadow-sm flex items-center gap-3 sm:gap-4 hover:shadow-md transition-shadow">
-          <div className="w-11 h-11 sm:w-14 sm:h-14 rounded-xl bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 flex items-center justify-center shrink-0 border border-emerald-100 dark:border-emerald-900/30">
+        <div className="bg-white dark:bg-[#16212E] rounded-xl border border-slate-200 dark:border-[#1E2D3D] p-3 sm:p-4 shadow-sm fleitems-center gap-3 sm:gap-4 hover:shadow-md transition-shadow">
+          <div className="w-11 h-11 sm:w-14 sm:h-14 rounded-xl bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 fleitems-center justify-center shrink-0 border border-emerald-100 dark:border-emerald-900/30">
             <CheckCircle2 size={20} strokeWidth={1.8} />
           </div>
-          <div className="flex flex-col justify-center">
+          <div className="fleflex-col justify-center">
             <div className="text-[9px] sm:text-[10px] font-bold text-[#6B7A94] dark:text-[#8899B4] tracking-widest uppercase leading-tight mb-0.5">TIPOS<br/>ACTIVOS</div>
             <div className="text-2xl sm:text-3xl font-black text-[#1B2E4B] dark:text-white tracking-tight leading-none">{activeCount.toString().padStart(2, '0')}</div>
           </div>
         </div>
         
         {/* Inactivos */}
-        <div className="bg-white dark:bg-[#16212E] rounded-xl border border-slate-200 dark:border-[#1E2D3D] p-3 sm:p-4 shadow-sm flex items-center gap-3 sm:gap-4 hover:shadow-md transition-shadow">
-          <div className="w-11 h-11 sm:w-14 sm:h-14 rounded-xl bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400 flex items-center justify-center shrink-0 border border-red-100 dark:border-red-900/30">
+        <div className="bg-white dark:bg-[#16212E] rounded-xl border border-slate-200 dark:border-[#1E2D3D] p-3 sm:p-4 shadow-sm fleitems-center gap-3 sm:gap-4 hover:shadow-md transition-shadow">
+          <div className="w-11 h-11 sm:w-14 sm:h-14 rounded-xl bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400 fleitems-center justify-center shrink-0 border border-red-100 dark:border-red-900/30">
             <AlertTriangle size={20} strokeWidth={1.8} />
           </div>
-          <div className="flex flex-col justify-center">
+          <div className="fleflex-col justify-center">
             <div className="text-[9px] sm:text-[10px] font-bold text-[#6B7A94] dark:text-[#8899B4] tracking-widest uppercase leading-tight mb-0.5">TIPOS<br/>INACTIVOS</div>
             <div className="text-2xl sm:text-3xl font-black text-[#1B2E4B] dark:text-white tracking-tight leading-none">{inactiveCount.toString().padStart(2, '0')}</div>
           </div>
         </div>
 
         {/* Porcentaje Activos */}
-        <div className="bg-white dark:bg-[#16212E] rounded-xl border border-slate-200 dark:border-[#1E2D3D] p-3 sm:p-4 shadow-sm flex items-center gap-3 sm:gap-4 hover:shadow-md transition-shadow">
-          <div className="w-11 h-11 sm:w-14 sm:h-14 rounded-xl bg-[#C4933F]/10 dark:bg-[#C4933F]/15 text-[#C4933F] flex items-center justify-center shrink-0 border border-[#C4933F]/20">
+        <div className="bg-white dark:bg-[#16212E] rounded-xl border border-slate-200 dark:border-[#1E2D3D] p-3 sm:p-4 shadow-sm fleitems-center gap-3 sm:gap-4 hover:shadow-md transition-shadow">
+          <div className="w-11 h-11 sm:w-14 sm:h-14 rounded-xl bg-[#C4933F]/10 dark:bg-[#C4933F]/15 text-[#C4933F] fleitems-center justify-center shrink-0 border border-[#C4933F]/20">
             <Hash size={20} strokeWidth={1.8} />
           </div>
-          <div className="flex flex-col justify-center">
+          <div className="fleflex-col justify-center">
             <div className="text-[9px] sm:text-[10px] font-bold text-[#6B7A94] dark:text-[#8899B4] tracking-widest uppercase leading-tight mb-0.5">TASA<br/>ACTIVOS</div>
             <div className="text-lg sm:text-xl font-black text-[#1B2E4B] dark:text-white tracking-tight leading-none mt-0.5">
               {totalCount > 0 ? Math.round((activeCount / totalCount) * 100) : 0}%
@@ -240,13 +240,13 @@ export const AdminComprobantesPage: React.FC = () => {
                   className="px-6 py-4 font-semibold text-xs tracking-wider cursor-pointer hover:bg-slate-800 transition-colors"
                   onClick={() => handleSort('id')}
                 >
-                  <div className="flex items-center">CÓD. {renderSortIcon('id')}</div>
+                  <div className="fleitems-center">CÓD. {renderSortIcon('id')}</div>
                 </th>
                 <th 
                   className="px-6 py-4 font-semibold text-xs tracking-wider cursor-pointer hover:bg-slate-800 transition-colors"
                   onClick={() => handleSort('nombre')}
                 >
-                  <div className="flex items-center">NOMBRE DEL COMPROBANTE {renderSortIcon('nombre')}</div>
+                  <div className="fleitems-center">NOMBRE DEL COMPROBANTE {renderSortIcon('nombre')}</div>
                 </th>
                 <th className="px-6 py-4 font-semibold text-xs tracking-wider text-center">ESTADO OPERATIVO</th>
                 <th className="px-6 py-4 font-semibold text-xs tracking-wider text-center">ACCIONES</th>
@@ -259,7 +259,7 @@ export const AdminComprobantesPage: React.FC = () => {
                 paginated.map((tipo) => (
                   <tr key={tipo.id} className="bg-white dark:bg-[#15171c] hover:bg-slate-50 dark:hover:bg-[#1e2028] transition-colors">
                     <td className="px-6 py-4 font-bold text-slate-800 dark:text-slate-200">
-                      <div className="flex items-center">
+                      <div className="fleitems-center">
                         <span 
                           className="inline-block w-2.5 h-2.5 rounded-full mr-2.5 shrink-0" 
                           style={{ backgroundColor: getStatusDotColor(tipo.estado) }}
@@ -269,7 +269,7 @@ export const AdminComprobantesPage: React.FC = () => {
                       </div>
                     </td>
                     <td className="px-6 py-4 font-extrabold text-slate-800 dark:text-white">
-                      <div className="flex items-center gap-2">
+                      <div className="fleitems-center gap-2">
                         <FileText size={14} className="text-[#B47541] shrink-0" />
                         {tipo.nombre}
                       </div>
@@ -277,14 +277,14 @@ export const AdminComprobantesPage: React.FC = () => {
                     <td className="px-6 py-4 text-center">
                       <button 
                         onClick={() => setTipoToToggle(tipo)}
-                        className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold transition-transform hover:scale-105 active:scale-95 cursor-pointer shadow-sm ${getStatusStyle(tipo.estado)}`}
+                        className={`inline-fleitems-center px-3 py-1 rounded-full text-xs font-bold transition-transform hover:scale-105 active:scale-95 cursor-pointer shadow-sm ${getStatusStyle(tipo.estado)}`}
                         title="Haz clic para cambiar el estado"
                       >
                         {tipo.estado ? 'ACTIVO' : 'INACTIVO'}
                       </button>
                     </td>
                     <td className="px-6 py-4 text-center">
-                      <div className="flex items-center justify-center gap-2">
+                      <div className="fleitems-center justify-center gap-2">
                         <button 
                           onClick={() => setTipoToView(tipo)}
                           className="p-1.5 rounded-md text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-blue-600 dark:hover:text-blue-400 transition-colors" 
@@ -324,7 +324,7 @@ export const AdminComprobantesPage: React.FC = () => {
         </div>
 
         {/* Vista Mobile (Tarjetas) */}
-        <div className="md:hidden flex flex-col divide-y divide-slate-100 dark:divide-slate-800/80">
+        <div className="md:hidden fleflex-col divide-y divide-slate-100 dark:divide-slate-800/80">
             {isLoading ? (
               <div className="p-4 space-y-4">
                 {Array.from({ length: 3 }).map((_, i) => (
@@ -333,15 +333,15 @@ export const AdminComprobantesPage: React.FC = () => {
               </div>
             ) : paginated.length > 0 ? (
             paginated.map((tipo) => (
-              <div key={tipo.id} className="p-4 flex flex-col gap-3">
-                <div className="flex justify-between items-start">
-                  <div className="flex items-start gap-3">
+              <div key={tipo.id} className="p-4 fleflex-col gap-3">
+                <div className="flejustify-between items-start">
+                  <div className="fleitems-start gap-3">
                     <span 
                       className="inline-block w-2.5 h-2.5 rounded-full shrink-0 mt-1.5" 
                       style={{ backgroundColor: getStatusDotColor(tipo.estado) }}
                     />
                     <div>
-                      <div className="font-extrabold text-slate-800 dark:text-white text-sm flex items-center gap-2">
+                      <div className="font-extrabold text-slate-800 dark:text-white text-sm fleitems-center gap-2">
                         <FileText size={14} className="text-[#B47541]" />
                         {tipo.nombre}
                       </div>
@@ -349,14 +349,14 @@ export const AdminComprobantesPage: React.FC = () => {
                     </div>
                   </div>
                 </div>
-                <div className="flex justify-between items-center gap-3 mt-1">
+                <div className="flejustify-between items-center gap-3 mt-1">
                   <button 
                     onClick={() => setTipoToToggle(tipo)}
                     className={`px-3 py-1.5 rounded-full text-[10px] font-bold shadow-sm ${getStatusStyle(tipo.estado)}`}
                   >
                     {tipo.estado ? 'ACTIVO' : 'INACTIVO'}
                   </button>
-                  <div className="flex items-center gap-2">
+                  <div className="fleitems-center gap-2">
                     <button 
                       onClick={() => setTipoToView(tipo)}
                       className="p-2.5 text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors hover:bg-slate-200 bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 rounded-lg"
@@ -398,16 +398,16 @@ export const AdminComprobantesPage: React.FC = () => {
 
       {/* Delete Confirmation Modal */}
       {tipoToDelete && (
-        <div className="fixed inset-0 z-[10000] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-fade-in">
+        <div className="fixed inset-0 z-[10000] fleitems-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-fade-in">
           <div className="bg-white dark:bg-[#16212E] border border-[#E2E8F0] dark:border-[#1E2D3D] w-[360px] max-w-[90vw] rounded-xl shadow-2xl p-5 text-center">
-            <div className="w-12 h-12 mx-auto bg-red-50 dark:bg-red-900/20 rounded-full flex items-center justify-center mb-3">
+            <div className="w-12 h-12 mx-auto bg-red-50 dark:bg-red-900/20 rounded-full fleitems-center justify-center mb-3">
               <Trash2 className="text-red-600 dark:text-red-400" size={22} />
             </div>
             <h3 className="text-lg font-bold text-[#1B2E4B] dark:text-[#E8EDF5] mb-1">Eliminar Comprobante</h3>
             <p className="text-sm text-[#6B7A94] dark:text-[#8899B4] mb-5 leading-relaxed">
               ¿Eliminar el tipo de comprobante <strong className="text-[#1B2E4B] dark:text-[#E8EDF5]">{tipoToDelete.nombre}</strong>?
             </p>
-            <div className="flex gap-3 w-full">
+            <div className="flegap-3 w-full">
               <button 
                 onClick={() => setTipoToDelete(null)}
                 className="flex-1 py-2.5 border border-[#CBD5E1] dark:border-[#1E2D3D] rounded-lg text-sm font-semibold text-[#1B2E4B] dark:text-[#E8EDF5] hover:bg-[#F0F4F9] dark:hover:bg-[#1E2D3D] transition-colors"
@@ -427,16 +427,16 @@ export const AdminComprobantesPage: React.FC = () => {
 
       {/* Modal Confirmar Cambio de Estado */}
       {tipoToToggle && (
-        <div className="fixed inset-0 z-[10000] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-fade-in">
+        <div className="fixed inset-0 z-[10000] fleitems-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-fade-in">
           <div className="bg-white dark:bg-[#16212E] border border-[#E2E8F0] dark:border-[#1E2D3D] w-[360px] max-w-[90vw] rounded-xl shadow-2xl p-5 text-center">
-            <div className="w-12 h-12 mx-auto bg-[#C4933F]/10 dark:bg-[#C4933F]/20 rounded-full flex items-center justify-center mb-3">
+            <div className="w-12 h-12 mx-auto bg-[#C4933F]/10 dark:bg-[#C4933F]/20 rounded-full fleitems-center justify-center mb-3">
               <Info className="text-[#C4933F]" size={22} />
             </div>
             <h3 className="text-lg font-bold text-[#1B2E4B] dark:text-[#E8EDF5] mb-1">Cambiar Estado</h3>
             <p className="text-sm text-[#6B7A94] dark:text-[#8899B4] mb-5 leading-relaxed">
               ¿Cambiar el estado de <strong className="text-[#1B2E4B] dark:text-[#E8EDF5]">{tipoToToggle.nombre}</strong> a <strong className="text-[#1B2E4B] dark:text-[#E8EDF5]">{tipoToToggle.estado ? 'INACTIVO' : 'ACTIVO'}</strong>?
             </p>
-            <div className="flex gap-3 w-full">
+            <div className="flegap-3 w-full">
               <button 
                 onClick={() => setTipoToToggle(null)}
                 className="flex-1 py-2.5 border border-[#CBD5E1] dark:border-[#1E2D3D] rounded-lg text-sm font-semibold text-[#1B2E4B] dark:text-[#E8EDF5] hover:bg-[#F0F4F9] dark:hover:bg-[#1E2D3D] transition-colors"

@@ -3,7 +3,7 @@ import { X, Loader2 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useToast } from '../Toast/ToastContext';
 import { rubroService } from '../../services/rubroService';
-import type { RubroResponse, RubroCreatePayload, RubroUpdatePayload } from '../../services/rubroService';
+import type { RubroResponse } from '../../services/rubroService';
 
 interface RubroModalProps {
   isOpen: boolean;
@@ -28,7 +28,7 @@ export const RubroModal: React.FC<RubroModalProps> = ({
   isOpen,
   onClose,
   onSave,
-  contribuyenteId,
+  
   editingRegistro
 }) => {
   const { showToast } = useToast();
@@ -64,17 +64,17 @@ export const RubroModal: React.FC<RubroModalProps> = ({
     try {
       setIsSaving(true);
       if (editingRegistro) {
-        const updatePayload: RubroUpdatePayload = {
+        const updatePayload = {
           nombre_rubro: formData.nombre_rubro,
           codigo_sunat: formData.codigo_sunat,
           descripcion: formData.descripcion,
           tipo_detraccion: formData.tipo_detraccion,
           estado: formData.estado === 1
         };
-        await rubroService.updateRubro(editingRegistro.id, updatePayload, user.token);
+        await rubroService.update(user.token, editingRegistro.id, updatePayload);
         showToast('success', 'Rubro Actualizado', 'Los datos se guardaron con éxito.');
       } else {
-        const createPayload: RubroCreatePayload = {
+        const createPayload = {
           nombre_rubro: formData.nombre_rubro,
           codigo_sunat: formData.codigo_sunat,
           descripcion: formData.descripcion,
@@ -83,7 +83,7 @@ export const RubroModal: React.FC<RubroModalProps> = ({
         // It seems rubroService.createRubro doesn't take contribuyenteId in the standard endpoint if they are catalogs,
         // Wait, ContribuyentesRubrosPage lists them. Are they global or per-contribuyente?
         // Let's check RubroService later if this fails, but assuming it works the same or similar to create:
-        await rubroService.createRubro(createPayload, user.token);
+        await rubroService.create(user.token, createPayload);
         // Warning: Rubros might be global catalogs! Let's verify this next.
         showToast('success', 'Rubro Agregado', 'Se añadió el nuevo rubro.');
       }

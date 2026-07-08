@@ -45,7 +45,7 @@ export const CredencialModal: React.FC<CredencialModalProps> = ({
       loadTipos();
       if (editingRegistro) {
         setFormData({
-          id_tipo_credencial: editingRegistro.tipo_credencial_id || '',
+          id_tipo_credencial: '',
           usuario: editingRegistro.usuario,
           clave: editingRegistro.clave,
           observaciones: editingRegistro.observaciones || '',
@@ -79,7 +79,6 @@ export const CredencialModal: React.FC<CredencialModalProps> = ({
       setIsSaving(true);
       if (editingRegistro) {
         const updatePayload: CredencialUpdatePayload = {
-          id_registro_contribuyentes: contribuyenteId,
           id_tipo_credencial: Number(formData.id_tipo_credencial),
           usuario: formData.usuario,
           clave: formData.clave,

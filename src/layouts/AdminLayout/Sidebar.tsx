@@ -7,15 +7,15 @@ import {
   Wallet,
   Landmark,
   SlidersHorizontal,
-  FileText,
+  
   Sun,
   LogOut,
   ChevronDown,
   ChevronRight,
   ChevronLeft,
   User,
-  Plus,
-  Phone,
+  
+  
   KeyRound,
   Tags,
   Smartphone,
@@ -41,7 +41,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isExpanded, toggleSidebar, role, isMo
   const [isContribuyentesOpen, setIsContribuyentesOpen] = useState(true);
   const { theme, toggleTheme } = useTheme();
   const { user, logout } = useAuth();
-  const { showToast } = useToast();
+  const { showToast: _showToast } = useToast();
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const isLightMode = theme === 'light';
 

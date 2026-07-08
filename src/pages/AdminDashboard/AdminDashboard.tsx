@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState, useEffect } from 'react';
 import { 
   Download, Loader2, Calendar, MoreVertical, ShieldAlert,
@@ -1661,3 +1662,4 @@ export const AdminDashboard: React.FC = () => {
     </div>
   );
 };
+

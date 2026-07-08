@@ -7,10 +7,10 @@ import TableSkeleton from '../../../components/TableSkeleton';
 import { usuarioService } from '../../../services/usuarioService';
 import type { UsuarioResponse } from '../../../services/usuarioService';
 import { usuarioSedeService } from '../../../services/usuarioSedeService';
-import type { UsuarioSedeResponse } from '../../../services/usuarioSedeService';
+
 import { sedeService } from '../../../services/sedeService';
 import type { SedeResponse } from '../../../services/sedeService';
-import type { UserFormData } from './UserModal';
+
 import { Pagination } from '../../../components/Pagination';
 
 export interface UserData extends UsuarioResponse {

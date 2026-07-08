@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
-import { X, Search, Info, Plus, MapPin, AlertCircle, CheckCircle2 } from 'lucide-react';
+import { X, Search, Info, Plus, AlertCircle, CheckCircle2 } from 'lucide-react';
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents, useMap } from 'react-leaflet';
 import { useTheme } from '../../../contexts';
 

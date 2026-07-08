@@ -10,22 +10,16 @@ import {
   PlusCircle, 
   FileText, 
   Search, 
-  Calendar, 
-  Edit, 
-  ChevronLeft, 
-  ChevronRight,
   ChevronDown,
-  BarChart3,
   TrendingUp,
   TrendingDown,
-  Info,
   Eye,
   Edit2,
   Trash2,
   X,
   CheckCircle2
 } from 'lucide-react';
-import { BarChart, Bar, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { AreaChart, Area, XAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { Pagination } from '../../components/Pagination';
 
 export const CajeroMovimientosPage: React.FC = () => {
@@ -50,7 +44,6 @@ export const CajeroMovimientosPage: React.FC = () => {
   const [razonSocial, setRazonSocial] = useState('');
   const [serie, setSerie] = useState('');
   const [correlativo, setCorrelativo] = useState('');
-  const [notas, setNotas] = useState('');
   
   const [empresaBuscada, setEmpresaBuscada] = useState<Empresa | null>(null);
 
@@ -239,7 +232,6 @@ export const CajeroMovimientosPage: React.FC = () => {
     setRazonSocial('');
     setSerie('');
     setCorrelativo('');
-    setNotas('');
     setFecha(new Date().toISOString().split('T')[0]);
     setEmpresaBuscada(null);
   };
@@ -318,9 +310,6 @@ export const CajeroMovimientosPage: React.FC = () => {
     });
   }
 
-  // Chart State
-  const [chartMode, setChartMode] = useState<'semanal' | 'cajas'>('semanal');
-
   // Dynamic Chart Data Computation
   const last7Days = Array.from({ length: 7 }).map((_, i) => {
     const d = new Date();
@@ -348,27 +337,6 @@ export const CajeroMovimientosPage: React.FC = () => {
     });
     
     return { name, ingresos, egresos };
-  });
-
-  // 2. Data por Cajas (Flujo Neto por caja por día)
-  const chartDataCajas = last7Days.map(dateStr => {
-    const [y, m, d] = dateStr.split('-');
-    const dateObj = new Date(Number(y), Number(m) - 1, Number(d));
-    const name = daysOfWeek[dateObj.getDay()];
-    
-    const row: any = { name };
-    cajas.forEach(c => {
-      let flujoNeto = 0;
-      movimientos.forEach(mov => {
-        const mDate = (mov.fecha || (mov as any).created_at || '').split('T')[0];
-        if (mDate === dateStr && (mov.caja_id === c.id || (mov as any).caja === c.nombre)) {
-          flujoNeto += mov.tipo_movimiento ? Number(mov.monto) : -Number(mov.monto);
-        }
-      });
-      row[c.nombre] = flujoNeto;
-    });
-    
-    return row;
   });
 
   // Table Filtering logic
@@ -810,7 +778,6 @@ export const CajeroMovimientosPage: React.FC = () => {
                 const caja = cajas.find(c => c.id === mov.caja_id);
                 const isIngreso = mov.tipo_movimiento;
                 
-                const rawHora = (mov as any).hora;
                 const rawFecha = mov.fecha || (mov as any).created_at;
                 let displayFecha = '-';
                 if (rawFecha) {

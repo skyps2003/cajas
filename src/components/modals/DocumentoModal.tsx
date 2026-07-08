@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Loader2, UploadCloud, ChevronDown, File, CheckCircle2 } from 'lucide-react';
+import { X, Loader2, UploadCloud, ChevronDown, File } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useToast } from '../Toast/ToastContext';
 import { documentoService } from '../../services/documentoService';
@@ -7,7 +7,7 @@ import type { DocumentoResponse } from '../../services/documentoService';
 import { tipoDocumentoService } from '../../services/tipoDocumentoService';
 import type { TipoDocumentoResponse } from '../../services/tipoDocumentoService';
 import { rubroService } from '../../services/rubroService';
-import type { RubroResponse } from '../../services/rubroService';
+
 
 interface DocumentoModalProps {
   isOpen: boolean;
@@ -38,14 +38,13 @@ export const DocumentoModal: React.FC<DocumentoModalProps> = ({
   const { user } = useAuth();
   
   const [tiposDocumento, setTiposDocumento] = useState<TipoDocumentoResponse[]>([]);
-  const [rubros, setRubros] = useState<RubroResponse[]>([]);
+
   
   const [formData, setFormData] = useState<any>({ ...EMPTY_FORM });
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isSaving, setIsSaving] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
-  const [isRubroOpen, setIsRubroOpen] = useState(false);
-  const [rubroSearch, setRubroSearch] = useState('');
+
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
@@ -54,7 +53,7 @@ export const DocumentoModal: React.FC<DocumentoModalProps> = ({
       loadDependencies();
       if (editingDocumento) {
         setFormData({
-          id_tipo_documento: editingDocumento.tipo_documento_id || '',
+          id_tipo_documento: '',
           nombre_documento: editingDocumento.nombre_documento || '',
           observaciones: editingDocumento.observaciones || '',
           estado: editingDocumento.estado
@@ -71,18 +70,17 @@ export const DocumentoModal: React.FC<DocumentoModalProps> = ({
   const loadDependencies = async () => {
     if (!user?.token) return;
     try {
-      const [tdRes, rubrosRes] = await Promise.all([
+      const [tdRes] = await Promise.all([
         tipoDocumentoService.getAll(user.token),
         rubroService.getAll(user.token)
       ]);
       setTiposDocumento(tdRes);
-      setRubros(rubrosRes);
 
       // Si estamos editando y faltaban los IDs, tratamos de matchearlos por nombre
       if (editingDocumento) {
-        setFormData(prev => ({
+        setFormData((prev: any) => ({
           ...prev,
-          id_tipo_documento: prev.id_tipo_documento || editingDocumento.id_tipo_documento || tdRes.find(t => t.nombre_tipo_documento === editingDocumento.tipo_documento)?.id.toString() || '',
+          id_tipo_documento: prev.id_tipo_documento || tdRes.find(t => t.nombre_tipo_documento === editingDocumento.tipo_documento)?.id.toString() || '',
         }));
       }
     } catch (error) {

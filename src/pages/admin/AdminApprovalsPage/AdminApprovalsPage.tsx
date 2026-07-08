@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Plus, Edit2, Trash2, ArrowUpRight, ArrowDownRight, Activity, DollarSign, Filter, Building2, Wallet, Eye } from 'lucide-react';
+import { Search, Plus, Edit2, Trash2, ArrowUpRight, ArrowDownRight, Activity, DollarSign, Eye } from 'lucide-react';
 import { useToast } from '../../../components/Toast/ToastContext';
 import { useAuth } from '../../../contexts/AuthContext';
 import { movimientoService } from '../../../services/movimientoService';

@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { AuthService } from '../features/auth/services/AuthService';
-import { usuarioSedeService } from '../services/usuarioSedeService';
+
 
 type UserRole = 'admin' | 'cajero';
 

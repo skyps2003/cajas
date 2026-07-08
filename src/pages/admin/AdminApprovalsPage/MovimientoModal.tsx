@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import { X, AlertCircle, CheckCircle2, Building2 } from 'lucide-react';
+import { X, AlertCircle, CheckCircle2, } from 'lucide-react';
 import { EmpresaService } from '../../../features/empresas/services/EmpresaService';
 import { CajaService } from '../../../features/cajas/services/CajaService';
 import type { Empresa } from '../../../features/empresas/services/EmpresaService';

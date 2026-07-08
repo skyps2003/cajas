@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import { X, AlertCircle, CheckCircle2, Eye, EyeOff, User, Upload, Lock, Shield } from 'lucide-react';
+import { X, AlertCircle, Eye, EyeOff, User, Upload, Shield } from 'lucide-react';
 import { useAuth } from '../../contexts';
 import { usuarioService } from '../../services/usuarioService';
 import { useToast } from '../../components/Toast/ToastContext';
@@ -33,7 +33,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen, onClose }) =
   
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<string | null>(null);
+  const [_success, _setSuccess] = useState<string | null>(null);
   
   const fileInputRef = useRef<HTMLInputElement>(null);
 
