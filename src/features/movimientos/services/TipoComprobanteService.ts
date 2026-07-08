@@ -4,7 +4,7 @@ export interface TipoComprobante {
   estado: boolean;
 }
 
-const API_URL = '/api';
+const API_URL = import.meta.env.VITE_API_URL || 'https://caja.corporacionjjja.com/api';
 
 export const TipoComprobanteService = {
   getTiposComprobante: async (token: string): Promise<{ success: boolean; data?: TipoComprobante[]; message?: string }> => {
@@ -52,3 +52,4 @@ export const TipoComprobanteService = {
     }
   }
 };
+

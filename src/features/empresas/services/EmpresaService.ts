@@ -7,7 +7,7 @@ export interface Empresa {
   color: string;
 }
 
-const API_URL = '/api';
+const API_URL = import.meta.env.VITE_API_URL || 'https://caja.corporacionjjja.com/api';
 
 export const EmpresaService = {
   getEmpresas: async (token: string): Promise<{ success: boolean; data?: Empresa[]; message?: string }> => {
@@ -118,3 +118,4 @@ export const EmpresaService = {
     }
   }
 };
+

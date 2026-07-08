@@ -36,7 +36,7 @@ export interface Movimiento {
   };
 }
 
-const API_URL = '/api';
+const API_URL = import.meta.env.VITE_API_URL || 'https://caja.corporacionjjja.com/api';
 
 export const MovimientoService = {
   getMovimientos: async (token: string, filters?: { empresa_id?: number; caja_id?: number; tipo_movimiento?: boolean; fecha_desde?: string; fecha_hasta?: string }): Promise<{ success: boolean; data?: Movimiento[]; message?: string }> => {
@@ -153,3 +153,4 @@ export const MovimientoService = {
     }
   }
 };
+

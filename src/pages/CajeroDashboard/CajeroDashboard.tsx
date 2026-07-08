@@ -1251,7 +1251,7 @@ export const CajeroDashboard: React.FC = () => {
                         </button>
                       )}
                     </div>
-                    <ResponsiveContainer width="100%" height="100%">
+                    <ResponsiveContainer width="100%" height="100%" minHeight={1} minWidth={1}>
                       <AreaChart data={chartDataMensual} margin={{ top: expandedChart ? 30 : 10, right: expandedChart ? 40 : 10, left: expandedChart ? 20 : 0, bottom: expandedChart ? 40 : 10 }}>
                         <defs>
                           <linearGradient id="colorFlujoModal" x1="0" y1="0" x2="0" y2="1">
@@ -1288,7 +1288,7 @@ export const CajeroDashboard: React.FC = () => {
                         </button>
                       )}
                     </div>
-                    <ResponsiveContainer width="100%" height="100%">
+                    <ResponsiveContainer width="100%" height="100%" minHeight={1} minWidth={1}>
                       <AreaChart data={chartDataCajas} margin={{ top: expandedChart ? 30 : 10, right: expandedChart ? 40 : 10, left: expandedChart ? 20 : 0, bottom: expandedChart ? 40 : 10 }}>
                         <defs>
                           {arrayCajas.map((cajaInfo, index) => (
@@ -1337,7 +1337,7 @@ export const CajeroDashboard: React.FC = () => {
               <h4 className="text-xs font-semibold text-[var(--sidebar-text-hover)] mb-4">Saldos por Empresas</h4>
               <div className="w-full h-[200px] relative">
                 {distEmpresas.length > 0 ? (
-                  <ResponsiveContainer width="100%" height="100%">
+                  <ResponsiveContainer width="100%" height="100%" minHeight={1} minWidth={1}>
                     <PieChart>
                       <Pie data={distEmpresas} innerRadius={60} outerRadius={80} dataKey="value" stroke="var(--sidebar-bg)" strokeWidth={3}>
                         {distEmpresas.map((entry, index) => (
@@ -1366,7 +1366,7 @@ export const CajeroDashboard: React.FC = () => {
               <h4 className="text-xs font-semibold text-[var(--sidebar-text-hover)] mb-4">Saldos por Cajas</h4>
               <div className="w-full h-[200px] relative">
                 {distCajas.length > 0 ? (
-                  <ResponsiveContainer width="100%" height="100%">
+                  <ResponsiveContainer width="100%" height="100%" minHeight={1} minWidth={1}>
                     <PieChart>
                       <Pie data={distCajas} innerRadius={60} outerRadius={80} dataKey="value" stroke="var(--sidebar-bg)" strokeWidth={3}>
                         {distCajas.map((entry, index) => (
@@ -1411,7 +1411,7 @@ export const CajeroDashboard: React.FC = () => {
           <div className="flex flex-col items-center relative w-full flex-1 min-h-[200px]">
             <div className="w-full h-[200px] relative">
               {distContribuyentesTipo.length > 0 ? (
-                <ResponsiveContainer width="100%" height="100%">
+                <ResponsiveContainer width="100%" height="100%" minHeight={1} minWidth={1}>
                   <PieChart>
                     <Pie data={distContribuyentesTipo} innerRadius={60} outerRadius={80} dataKey="value" stroke="var(--sidebar-bg)" strokeWidth={3}>
                       {distContribuyentesTipo.map((entry, index) => (
@@ -1444,7 +1444,7 @@ export const CajeroDashboard: React.FC = () => {
           <div className="flex flex-col items-center relative w-full flex-1 min-h-[200px]">
             <div className="w-full h-[200px] relative">
               {distContribuyentesTerminal.length > 0 ? (
-                <ResponsiveContainer width="100%" height="100%">
+                <ResponsiveContainer width="100%" height="100%" minHeight={1} minWidth={1}>
                   <PieChart>
                     <Pie data={distContribuyentesTerminal} innerRadius={60} outerRadius={80} dataKey="value" stroke="var(--sidebar-bg)" strokeWidth={3}>
                       {distContribuyentesTerminal.map((entry, index) => (
@@ -1625,4 +1625,5 @@ export const CajeroDashboard: React.FC = () => {
     </div>
   );
 };
+
 
