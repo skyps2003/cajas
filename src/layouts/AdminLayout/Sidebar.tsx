@@ -76,6 +76,10 @@ const Sidebar: React.FC<SidebarProps> = ({ isExpanded, toggleSidebar, role, isMo
           ${isMobileOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
         `}
       >
+        <div className={`flex justify-center items-center mb-4 transition-all duration-300 ${isExpanded ? 'px-6' : 'px-2'}`}>
+          <img src="/src/assets/loggo.png" alt="Logo JJJA" className={`bg-white rounded-lg p-1 shadow-sm transition-all duration-300 ${isExpanded ? 'h-12 w-auto' : 'h-8 w-8 object-cover'}`} />
+        </div>
+
       {/* Toggle Sidebar Button - Modern Outward Bump Style */}
       <div className="hidden md:flex absolute -right-[24px] top-10 w-[26px] h-20 z-50 items-center justify-end pointer-events-none text-[var(--sidebar-border)]">
         <svg width="26" height="80" viewBox="0 0 26 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="absolute left-0 top-0">

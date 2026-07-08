@@ -1,4 +1,4 @@
-// Servicio SUNAT - Consulta de RUC via proxy /api/peru → https://api.apis.net.pe
+// Servicio SUNAT - Consulta de RUC via proxy https://api.apis.net.pe → https://api.apis.net.pe
 // RUC que comienza en 10 = Persona Natural
 // RUC que comienza en 20 = Persona Jurídica
 
@@ -34,7 +34,7 @@ export const sunatService = {
       throw new Error('El RUC debe tener exactamente 11 dígitos numéricos.');
     }
 
-    const response = await fetch(`/api/peru/v1/ruc?numero=${ruc}`);
+    const response = await fetch(`https://api.apis.net.pe/v1/ruc?numero=${ruc}`);
 
     if (!response.ok) {
       if (response.status === 404) {
@@ -93,4 +93,5 @@ export const sunatService = {
     };
   },
 };
+
 
