@@ -1148,32 +1148,6 @@ export const CajeroDashboard: React.FC = () => {
         </div>
       </div>
 
-      {/* SUNAT ALERTS */}
-      {upcomingDeadlines.length > 0 && (
-        <div className="bg-gradient-to-r from-rose-50 to-orange-50 dark:from-rose-900/20 dark:to-orange-900/20 border border-rose-200 dark:border-rose-800/50 rounded-2xl p-4 shadow-sm flex flex-col md:flex-row items-start gap-4 mb-6">
-          <div className="bg-rose-100 dark:bg-rose-800/50 p-2.5 rounded-xl flex-shrink-0 mt-1">
-            <AlertTriangle size={24} className="text-rose-600 dark:text-rose-400" />
-          </div>
-          <div className="flex-1 w-full">
-            <h3 className="text-base font-bold text-rose-800 dark:text-rose-300 mb-1 flex items-center gap-2">
-              Vencimientos SUNAT - Periodo {upcomingDeadlines[0].periodo}
-              <span className="bg-rose-200 text-rose-800 dark:bg-rose-900/80 dark:text-rose-200 text-[10px] uppercase font-black px-2 py-0.5 rounded-full tracking-wider">Atención</span>
-            </h3>
-            <p className="text-sm text-rose-700 dark:text-rose-400/80 mb-3 font-medium">
-              Recuerda realizar las declaraciones antes de las siguientes fechas límite según el último dígito del RUC:
-            </p>
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-2">
-              {upcomingDeadlines.map((d, i) => (
-                <div key={i} className="bg-white/80 dark:bg-[#1a1f2e]/80 backdrop-blur-sm border border-rose-100 dark:border-rose-800/30 rounded-lg p-2 text-center flex flex-col justify-center">
-                  <span className="text-[10px] font-bold text-rose-500/80 dark:text-rose-400/80 uppercase tracking-widest">{d.digitos === 'Buenos Contrib.' ? 'BUENOS C.' : `RUC ${d.digitos}`}</span>
-                  <span className="text-[13px] font-black text-rose-700 dark:text-rose-300">{d.fechaFormat}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
-
       {/* ROW 1: TOP CARDS */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         
