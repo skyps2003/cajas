@@ -605,9 +605,9 @@ export const ContribuyentesListPage: React.FC = () => {
   };
 
   const getStatusStyle = (estado: 'ACTIVO' | 'INACTIVO' | 'INACTIVO TEMPORALMENTE') => {
-    if (estado === 'ACTIVO') return 'bg-emerald-50 text-emerald-600 dark:bg-emerald-500/10 dark:text-emerald-400 border border-emerald-200/60 dark:border-emerald-500/20 shadow-sm';
-    if (estado === 'INACTIVO TEMPORALMENTE') return 'bg-amber-50 text-amber-600 dark:bg-amber-500/10 dark:text-amber-400 border border-amber-200/60 dark:border-amber-500/20 shadow-sm';
-    return 'bg-red-50 text-red-600 dark:bg-red-500/10 dark:text-red-400 border border-red-200/60 dark:border-red-500/20 shadow-sm';
+    if (estado === 'ACTIVO') return 'bg-[#d1fae5] text-[#047857] dark:bg-emerald-500/20 dark:text-emerald-400 border border-[#a7f3d0] dark:border-emerald-500/30 shadow-sm';
+    if (estado === 'INACTIVO TEMPORALMENTE') return 'bg-[#fef3c7] text-[#b45309] dark:bg-amber-500/20 dark:text-amber-400 border border-[#fde68a] dark:border-amber-500/30 shadow-sm';
+    return 'bg-[#fee2e2] text-[#b91c1c] dark:bg-red-500/20 dark:text-red-400 border border-[#fecaca] dark:border-red-500/30 shadow-sm';
   };
 
   const filtered = contribuyentes.filter(c => {
@@ -802,7 +802,7 @@ export const ContribuyentesListPage: React.FC = () => {
                     <button 
                       onClick={() => handleToggleEstado(c)}
                       disabled={togglingId === c.id}
-                      className={`inline-flex px-2.5 py-1 rounded-md text-[10px] font-bold uppercase transition-colors hover:opacity-80 cursor-pointer whitespace-nowrap tracking-wider ${getStatusStyle(c.estado)} ${togglingId === c.id ? 'opacity-50 cursor-not-allowed' : ''}`}
+                      className={`inline-flex px-3 py-1 rounded-full text-[10px] font-bold uppercase transition-colors hover:opacity-80 cursor-pointer whitespace-nowrap tracking-wider ${getStatusStyle(c.estado)} ${togglingId === c.id ? 'opacity-50 cursor-not-allowed' : ''}`}
                     >
                       {togglingId === c.id ? '...' : c.estado === 'INACTIVO TEMPORALMENTE' ? 'INACT. TEMP.' : c.estado}
                     </button>
