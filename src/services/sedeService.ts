@@ -118,10 +118,7 @@ export const sedeService = {
         method: 'PATCH',
         headers: { 'Authorization': `Bearer ${token}` }
       });
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`HTTP ${response.status} - ${errorText}`);
-      }
+      if (!response.ok) throw new Error('Error en el servidor');
     } catch (error: any) {
       console.error(`API Error (toggleStatus ${id}):`, error);
       throw new Error(`Error al cambiar estado de sede: ${error.message || 'Desconocido'}`);
