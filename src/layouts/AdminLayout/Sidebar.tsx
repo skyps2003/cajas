@@ -291,6 +291,30 @@ const Sidebar: React.FC<SidebarProps> = ({ isExpanded, toggleSidebar, role, isMo
                     label="Lista de contribuyentes" 
                     onClick={() => navigate('/cajero/contribuyentes')}
                   />
+                  <SubMenuItem 
+                    isActive={location.pathname === '/cajero/contribuyentes/rubros'} 
+                    icon={<Tags size={16} />} 
+                    label="Rubros" 
+                    onClick={() => navigate('/cajero/contribuyentes/rubros')} 
+                  />
+                  <SubMenuItem 
+                    isActive={location.pathname === '/cajero/contribuyentes/tipos-credencial'} 
+                    icon={<KeyRound size={16} />} 
+                    label="Tipos de credenciales" 
+                    onClick={() => navigate('/cajero/contribuyentes/tipos-credencial')} 
+                  />
+                  <SubMenuItem 
+                    isActive={location.pathname === '/cajero/contribuyentes/tipos-telefono'} 
+                    icon={<Smartphone size={16} />} 
+                    label="Tipos de teléfono" 
+                    onClick={() => navigate('/cajero/contribuyentes/tipos-telefono')} 
+                  />
+                  <SubMenuItem 
+                    isActive={location.pathname === '/cajero/contribuyentes/tipos-documento'} 
+                    icon={<SlidersHorizontal size={16} />} 
+                    label="Tipos de documentos" 
+                    onClick={() => navigate('/cajero/contribuyentes/tipos-documento')} 
+                  />
                 </div>
               )}
             </>

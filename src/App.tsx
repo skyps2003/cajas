@@ -77,6 +77,10 @@ function App() {
                 <Route path="contribuyentes/telefonos" element={<ContribuyentesTelefonosPage />} />
                 <Route path="contribuyentes/credenciales" element={<ContribuyentesCredencialesPage />} />
                 <Route path="contribuyentes/documentos" element={<ContribuyentesDocumentosPage />} />
+                <Route path="contribuyentes/rubros" element={<ContribuyentesRubrosPage />} />
+                <Route path="contribuyentes/tipos-credencial" element={<ContribuyentesTiposCredencialesPage />} />
+                <Route path="contribuyentes/tipos-telefono" element={<ContribuyentesTiposTelefonoPage />} />
+                <Route path="contribuyentes/tipos-documento" element={<ContribuyentesTiposDocumentoPage />} />
               </Route>
             </Route>
 
