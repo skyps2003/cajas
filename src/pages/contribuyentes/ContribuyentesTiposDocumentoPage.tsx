@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, Plus, Edit2, Trash2, FileText, File, CheckCircle2, XCircle, ShieldAlert } from 'lucide-react';
+import { X, Search, Plus, Edit2, Trash2, FileText, File, CheckCircle2, XCircle, ShieldAlert } from 'lucide-react';
 import { useToast } from '../../components/Toast/ToastContext';
 import { ConfirmDialog } from '../../components/ConfirmDialog';
 import { useConfirm } from '../../hooks/useConfirm';
@@ -322,7 +322,7 @@ export const ContribuyentesTiposDocumentoPage: React.FC = () => {
               onClick={() => setIsModalOpen(false)}
               className="absolute right-4 top-4 bg-slate-50 hover:bg-slate-200 dark:bg-[#1E2D3D] dark:hover:bg-[#2A3F54] text-slate-500 hover:text-rose-500 dark:text-slate-400 dark:hover:text-rose-400 p-2 rounded-full transition-all duration-300 z-10 hover:rotate-90 shadow-sm border border-slate-200/60 dark:border-slate-700/50"
             >
-              <XCircle size={18} />
+              <X size={18} />
             </button>
 
             <div className="p-5 sm:p-6 overflow-y-auto no-scrollbar flex-1">
