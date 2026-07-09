@@ -124,19 +124,17 @@ export const usuarioService = {
     }
   },
 
-  toggleStatus: async (token: string, id: number): Promise<void> => {
+  toggleStatus: async (token: string, id: number): Promise<{ success: boolean; message?: string }> => {
     try {
       const response = await fetch(`${API_BASE_URL}/usuario/deactivate/${id}`, {
         method: 'PATCH',
         headers: { 'Authorization': `Bearer ${token}` }
       });
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.message || `HTTP ${response.status}`);
-      }
-    } catch (error: any) {
+      if (!response.ok) throw new Error('Error en el servidor');
+      return { success: true };
+    } catch (error) {
       console.error(`API Error (toggleStatus Usuario ${id}):`, error);
-      throw new Error(`Error al cambiar estado de usuario: ${error.message || 'Desconocido'}`);
+      return { success: false, message: 'Error de red' };
     }
   },
 
