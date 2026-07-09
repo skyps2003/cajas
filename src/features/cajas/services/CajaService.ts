@@ -113,17 +113,21 @@ export const CajaService = {
     }
   },
 
-  toggleStatus: async (token: string, id: number): Promise<{ success: boolean; message?: string }> => {
+  updateEstado: async (token: string, id: number, estado: number): Promise<{ success: boolean; message?: string }> => {
     try {
-      const response = await fetch(`${API_URL}/caja/deactivate/${id}`, {
+      const response = await fetch(`${API_URL}/caja/estado/${id}`, {
         method: 'PATCH',
-        headers: { 'Authorization': `Bearer ${token}` }
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ estado })
       });
-      if (!response.ok) throw new Error('Error en el servidor');
-      return { success: true };
-    } catch (error) {
-      console.error('Error toggling status:', error);
-      return { success: false, message: 'Error de red' };
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      return await response.json();
+    } catch (error: any) {
+      console.error('Error updating status:', error);
+      return { success: false, message: `Error al cambiar estado: ${error.message || 'Desconocido'}` };
     }
   }
 };

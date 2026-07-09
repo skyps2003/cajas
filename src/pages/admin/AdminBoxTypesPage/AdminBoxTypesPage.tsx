@@ -159,7 +159,8 @@ export const AdminBoxTypesPage: React.FC = () => {
     if (!boxToToggle) return;
     const apiId = boxToToggle._apiId;
     if (!apiId) return;
-    const res = await CajaService.toggleStatus(user?.token || '', apiId);
+    const nuevoEstado = boxToToggle.status === 'ACTIVO' ? 0 : 1;
+    const res = await CajaService.updateEstado(user?.token || '', apiId, nuevoEstado);
     if (res.success) {
       showToast('info', 'Estado actualizado', `El estado de ${boxToToggle.name} fue actualizado.`);
       loadData();

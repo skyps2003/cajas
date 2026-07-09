@@ -401,11 +401,16 @@ export const AdminSedesPage: React.FC = () => {
               <button 
                 onClick={async () => {
                   try {
-                    await sedeService.toggleStatus(user?.token || '', sedeToToggle.id);
-                    const newStatus = sedeToToggle.estado ? 'INACTIVO' : 'ACTIVO';
-                    showToast('info', 'Estado actualizado', `${sedeToToggle.nombre} ahora está ${newStatus}.`);
-                    setSedeToToggle(null);
-                    fetchSedes();
+                    const nuevoEstado = sedeToToggle.estado ? 0 : 1;
+                    const res = await sedeService.updateEstado(user?.token || '', sedeToToggle.id, nuevoEstado);
+                    if (res.success) {
+                      const newStatus = sedeToToggle.estado ? 'INACTIVO' : 'ACTIVO';
+                      showToast('info', 'Estado actualizado', `${sedeToToggle.nombre} ahora está ${newStatus}.`);
+                      setSedeToToggle(null);
+                      fetchSedes();
+                    } else {
+                      showToast('error', 'Error al cambiar estado', res.message || 'Error de red');
+                    }
                   } catch (error: any) {
                     showToast('error', 'Error al cambiar estado', error.message);
                   }
