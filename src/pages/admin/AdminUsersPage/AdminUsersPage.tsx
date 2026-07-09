@@ -232,9 +232,14 @@ export const AdminUsersPage: React.FC = () => {
                                 onClick={async () => {
                                   try {
                                     const token = user?.token || '';
-                                    await usuarioSedeService.toggleStatus(token, asig.id);
-                                    showToast('success', 'Sede actualizada', `Estado de ${asig.sede} modificado.`);
-                                    fetchData();
+                                    const nuevoEstado = asig.estado ? 0 : 1;
+                                    const res = await usuarioSedeService.updateEstado(token, asig.id, nuevoEstado);
+                                    if (res.success) {
+                                      showToast('success', 'Sede actualizada', `Estado de ${asig.sede} modificado.`);
+                                      fetchData();
+                                    } else {
+                                      showToast('error', 'Error al cambiar sede', res.message || 'Error de red');
+                                    }
                                   } catch (error: any) {
                                     showToast('error', 'Error al cambiar sede', error.message);
                                   }

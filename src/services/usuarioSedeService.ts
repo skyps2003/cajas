@@ -111,19 +111,21 @@ export const usuarioSedeService = {
     }
   },
 
-  toggleStatus: async (token: string, id: number): Promise<void> => {
+  updateEstado: async (token: string, id: number, estado: number): Promise<{ success: boolean; message?: string }> => {
     try {
-      const response = await fetch(`${API_BASE_URL}/usuario-sede/deactivate/${id}`, {
+      const response = await fetch(`${API_BASE_URL}/usuario-sede/estado/${id}`, {
         method: 'PATCH',
-        headers: { 'Authorization': `Bearer ${token}` }
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ estado })
       });
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`HTTP ${response.status} - ${errorText}`);
-      }
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      return await response.json();
     } catch (error: any) {
-      console.error(`API Error (toggleStatus UsuarioSede ${id}):`, error);
-      throw new Error(`Error al cambiar estado de asignación: ${error.message || 'Desconocido'}`);
+      console.error(`API Error (updateEstado UsuarioSede ${id}):`, error);
+      return { success: false, message: `Error al cambiar estado de asignación: ${error.message || 'Desconocido'}` };
     }
   }
 };
