@@ -771,7 +771,7 @@ export const ContribuyentesListPage: React.FC = () => {
                 <th className="px-6 py-4 font-semibold text-xs tracking-wider text-center cursor-pointer transition-colors select-none" onClick={() => handleSort('estado')}>
                   ESTADO <SortIcon column="estado" />
                 </th>
-                <th className="px-6 py-4 font-semibold text-xs tracking-wider text-center select-none whitespace-nowrap">
+                <th className="px-6 py-4 font-semibold text-xs tracking-wider text-center select-none">
                   FECHA DECLARACIÓN
                 </th>
                 <th className="px-6 py-4 font-semibold text-xs tracking-wider text-center">ACCIONES</th>
