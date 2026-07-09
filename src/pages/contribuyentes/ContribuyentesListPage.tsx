@@ -605,9 +605,9 @@ export const ContribuyentesListPage: React.FC = () => {
   };
 
   const getStatusStyle = (estado: 'ACTIVO' | 'INACTIVO' | 'INACTIVO TEMPORALMENTE') => {
-    if (estado === 'ACTIVO') return 'bg-emerald-100 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/20';
-    if (estado === 'INACTIVO TEMPORALMENTE') return 'bg-amber-100 text-amber-700 dark:bg-amber-500/10 dark:text-amber-400 border border-amber-200 dark:border-amber-500/20';
-    return 'bg-red-100 text-red-700 dark:bg-red-500/10 dark:text-red-400 border border-red-200 dark:border-red-500/20';
+    if (estado === 'ACTIVO') return 'bg-emerald-50 text-emerald-600 dark:bg-emerald-500/10 dark:text-emerald-400 border border-emerald-200/60 dark:border-emerald-500/20 shadow-sm';
+    if (estado === 'INACTIVO TEMPORALMENTE') return 'bg-amber-50 text-amber-600 dark:bg-amber-500/10 dark:text-amber-400 border border-amber-200/60 dark:border-amber-500/20 shadow-sm';
+    return 'bg-red-50 text-red-600 dark:bg-red-500/10 dark:text-red-400 border border-red-200/60 dark:border-red-500/20 shadow-sm';
   };
 
   const filtered = contribuyentes.filter(c => {
@@ -744,37 +744,37 @@ export const ContribuyentesListPage: React.FC = () => {
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm table-fixed">
             <colgroup>
-              <col className={isAdmin ? "w-[30%] sm:w-[30%]" : "w-[40%] sm:w-[45%]"} />
-              <col className="w-[12%] sm:w-[15%]" />
-              <col className="w-[12%] sm:w-[15%]" />
-              {isAdmin && <col className="w-[12%] sm:w-[10%]" />}
+              <col className={isAdmin ? "w-[28%] sm:w-[28%]" : "w-[35%] sm:w-[40%]"} />
+              <col className="w-[12%] sm:w-[14%]" />
+              <col className="w-[12%] sm:w-[14%]" />
+              {isAdmin && <col className="w-[14%] sm:w-[12%]" />}
+              <col className="w-[12%] sm:w-[12%]" />
               <col className="w-[12%] sm:w-[10%]" />
               <col className="w-[10%] sm:w-[10%]" />
-              <col className="w-[12%] sm:w-[10%]" />
             </colgroup>
-            <thead className="bg-[#1B2E4B] text-white">
+            <thead className="bg-[#F8FAFC] dark:bg-[#0B1320] text-slate-600 dark:text-slate-300 border-b border-slate-200 dark:border-[#1E2D3D]">
               <tr>
-                <th className="px-6 py-4 font-semibold text-xs tracking-wider cursor-pointer hover:bg-[#2A4365] transition-colors select-none" onClick={() => handleSort('razonSocial')}>
-                  CONTRIBUYENTE <SortIcon column="razonSocial" />
+                <th className="px-6 py-4 font-bold text-[11px] uppercase tracking-widest cursor-pointer hover:bg-slate-100 dark:hover:bg-[#162130] transition-colors select-none group" onClick={() => handleSort('razonSocial')}>
+                  <div className="flex items-center gap-1.5">CONTRIBUYENTE <span className="text-slate-400 group-hover:text-slate-600 dark:group-hover:text-slate-200"><SortIcon column="razonSocial" /></span></div>
                 </th>
-                <th className="px-6 py-4 font-semibold text-xs tracking-wider cursor-pointer hover:bg-[#2A4365] transition-colors select-none" onClick={() => handleSort('ruc')}>
-                  RUC <SortIcon column="ruc" />
+                <th className="px-6 py-4 font-bold text-[11px] uppercase tracking-widest cursor-pointer hover:bg-slate-100 dark:hover:bg-[#162130] transition-colors select-none group" onClick={() => handleSort('ruc')}>
+                  <div className="flex items-center gap-1.5">RUC <span className="text-slate-400 group-hover:text-slate-600 dark:group-hover:text-slate-200"><SortIcon column="ruc" /></span></div>
                 </th>
-                <th className="px-6 py-4 font-semibold text-xs tracking-wider cursor-pointer hover:bg-[#2A4365] transition-colors select-none" onClick={() => handleSort('tipoContribuyente')}>
-                  TIPO <SortIcon column="tipoContribuyente" />
+                <th className="px-6 py-4 font-bold text-[11px] uppercase tracking-widest cursor-pointer hover:bg-slate-100 dark:hover:bg-[#162130] transition-colors select-none group" onClick={() => handleSort('tipoContribuyente')}>
+                  <div className="flex items-center gap-1.5">TIPO <span className="text-slate-400 group-hover:text-slate-600 dark:group-hover:text-slate-200"><SortIcon column="tipoContribuyente" /></span></div>
                 </th>
                 {isAdmin && (
-                  <th className="px-6 py-4 font-semibold text-xs tracking-wider cursor-pointer hover:bg-[#2A4365] transition-colors select-none" onClick={() => handleSort('sede')}>
-                    SEDE <SortIcon column="sede" />
+                  <th className="px-6 py-4 font-bold text-[11px] uppercase tracking-widest cursor-pointer hover:bg-slate-100 dark:hover:bg-[#162130] transition-colors select-none group" onClick={() => handleSort('sede')}>
+                    <div className="flex items-center gap-1.5">SEDE <span className="text-slate-400 group-hover:text-slate-600 dark:group-hover:text-slate-200"><SortIcon column="sede" /></span></div>
                   </th>
                 )}
-                <th className="px-6 py-4 font-semibold text-xs tracking-wider text-center cursor-pointer hover:bg-[#2A4365] transition-colors select-none" onClick={() => handleSort('estado')}>
-                  ESTADO <SortIcon column="estado" />
+                <th className="px-6 py-4 font-bold text-[11px] uppercase tracking-widest text-center cursor-pointer hover:bg-slate-100 dark:hover:bg-[#162130] transition-colors select-none group" onClick={() => handleSort('estado')}>
+                  <div className="flex items-center justify-center gap-1.5">ESTADO <span className="text-slate-400 group-hover:text-slate-600 dark:group-hover:text-slate-200"><SortIcon column="estado" /></span></div>
                 </th>
-                <th className="px-6 py-4 font-semibold text-xs tracking-wider text-center select-none">
-                  FECHA DECLARACIÓN
+                <th className="px-6 py-4 font-bold text-[11px] uppercase tracking-widest text-center select-none whitespace-nowrap">
+                  F. DECLARACIÓN
                 </th>
-                <th className="px-6 py-4 font-semibold text-xs tracking-wider text-center">ACCIONES</th>
+                <th className="px-6 py-4 font-bold text-[11px] uppercase tracking-widest text-center">ACCIONES</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 dark:divide-[#1E2D3D]">
@@ -798,19 +798,21 @@ export const ContribuyentesListPage: React.FC = () => {
                       {c.sede}
                     </td>
                   )}
-                  <td className="px-6 py-4 text-center">
+                  <td className="px-6 py-5 text-center">
                     <button 
                       onClick={() => handleToggleEstado(c)}
                       disabled={togglingId === c.id}
-                      className={`inline-flex px-2 py-0.5 rounded-full text-[10px] font-bold uppercase transition-colors hover:opacity-80 cursor-pointer ${getStatusStyle(c.estado)} ${togglingId === c.id ? 'opacity-50 cursor-not-allowed' : ''}`}
+                      className={`inline-flex px-2.5 py-1 rounded-md text-[10px] font-bold uppercase transition-colors hover:opacity-80 cursor-pointer whitespace-nowrap tracking-wider ${getStatusStyle(c.estado)} ${togglingId === c.id ? 'opacity-50 cursor-not-allowed' : ''}`}
                     >
                       {togglingId === c.id ? '...' : c.estado === 'INACTIVO TEMPORALMENTE' ? 'INACT. TEMP.' : c.estado}
                     </button>
                   </td>
-                  <td className="px-6 py-4 text-center text-xs font-bold text-rose-600 dark:text-rose-400 whitespace-nowrap">
-                    {getDeadlineForRuc(c.ruc)}
+                  <td className="px-6 py-5 text-center">
+                    <div className="inline-flex items-center justify-center px-2.5 py-1 rounded-md bg-rose-50 dark:bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-100 dark:border-rose-500/20">
+                      <span className="text-xs font-bold whitespace-nowrap">{getDeadlineForRuc(c.ruc)}</span>
+                    </div>
                   </td>
-                  <td className="px-6 py-4">
+                  <td className="px-6 py-5">
                     <div className="flex items-center justify-center gap-1.5">
                       <button onClick={() => handleOpenDetail(c)} className="p-1.5 rounded-md text-slate-500 hover:bg-blue-50 dark:hover:bg-blue-500/10 hover:text-blue-600 dark:hover:text-blue-400 transition-colors" title="Ver detalle">
                         <Eye size={16} />
