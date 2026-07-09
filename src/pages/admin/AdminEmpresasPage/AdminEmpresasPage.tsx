@@ -88,7 +88,8 @@ export const AdminEmpresasPage: React.FC = () => {
 
   const handleToggleStatus = async () => {
     if (!empresaToToggle) return;
-    const res = await EmpresaService.toggleStatus(user?.token || '', empresaToToggle.id);
+    const nuevoEstado = empresaToToggle.estado ? 0 : 1;
+    const res = await EmpresaService.updateEstado(user?.token || '', empresaToToggle.id, nuevoEstado);
     if (res.success) {
       showToast('info', 'Estado actualizado', 'El estado fue actualizado correctamente.');
       loadData();

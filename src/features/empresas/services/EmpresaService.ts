@@ -73,39 +73,28 @@ export const EmpresaService = {
     }
   },
 
-  toggleStatus: async (
+  updateEstado: async (
     token: string,
-    id: number
+    id: number,
+    estado: number
   ): Promise<{ success: boolean; message?: string }> => {
     try {
-      const url = `${API_URL}/empresa/deactivate/${id}`;
-
-      console.log('URL EMPRESA:', url);
-      console.log('TOKEN:', token ? 'sí existe' : 'no existe');
-      console.log('ID EMPRESA:', id);
-
-      const response = await fetch(url, {
+      const response = await fetch(`${API_URL}/empresa/estado/${id}`, {
         method: 'PATCH',
         headers: {
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`
-        }
+        },
+        body: JSON.stringify({ estado })
       });
 
-      const text = await response.text();
-
-      console.log('STATUS EMPRESA:', response.status);
-      console.log('RESPUESTA EMPRESA:', text);
-
       if (!response.ok) {
-        throw new Error(`HTTP ${response.status} - ${text}`);
+        throw new Error(`HTTP ${response.status}`);
       }
 
-      return text
-        ? JSON.parse(text)
-        : { success: true };
-
+      return await response.json();
     } catch (error: any) {
-      console.error('Error toggling status empresa:', error);
+      console.error('Error updating status empresa:', error);
       return {
         success: false,
         message: error.message || 'Error de red'
