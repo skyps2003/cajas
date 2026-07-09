@@ -752,29 +752,29 @@ export const ContribuyentesListPage: React.FC = () => {
               <col className="w-[12%] sm:w-[10%]" />
               <col className="w-[10%] sm:w-[10%]" />
             </colgroup>
-            <thead className="bg-[#F8FAFC] dark:bg-[#0B1320] text-slate-600 dark:text-slate-300 border-b border-slate-200 dark:border-[#1E2D3D]">
+            <thead className="bg-[#1B2E4B] text-white">
               <tr>
-                <th className="px-6 py-4 font-bold text-[11px] uppercase tracking-widest cursor-pointer hover:bg-slate-100 dark:hover:bg-[#162130] transition-colors select-none group" onClick={() => handleSort('razonSocial')}>
-                  <div className="flex items-center gap-1.5">CONTRIBUYENTE <span className="text-slate-400 group-hover:text-slate-600 dark:group-hover:text-slate-200"><SortIcon column="razonSocial" /></span></div>
+                <th className="px-6 py-4 font-semibold text-xs tracking-wider cursor-pointer transition-colors select-none" onClick={() => handleSort('razonSocial')}>
+                  CONTRIBUYENTE <SortIcon column="razonSocial" />
                 </th>
-                <th className="px-6 py-4 font-bold text-[11px] uppercase tracking-widest cursor-pointer hover:bg-slate-100 dark:hover:bg-[#162130] transition-colors select-none group" onClick={() => handleSort('ruc')}>
-                  <div className="flex items-center gap-1.5">RUC <span className="text-slate-400 group-hover:text-slate-600 dark:group-hover:text-slate-200"><SortIcon column="ruc" /></span></div>
+                <th className="px-6 py-4 font-semibold text-xs tracking-wider cursor-pointer transition-colors select-none" onClick={() => handleSort('ruc')}>
+                  RUC <SortIcon column="ruc" />
                 </th>
-                <th className="px-6 py-4 font-bold text-[11px] uppercase tracking-widest cursor-pointer hover:bg-slate-100 dark:hover:bg-[#162130] transition-colors select-none group" onClick={() => handleSort('tipoContribuyente')}>
-                  <div className="flex items-center gap-1.5">TIPO <span className="text-slate-400 group-hover:text-slate-600 dark:group-hover:text-slate-200"><SortIcon column="tipoContribuyente" /></span></div>
+                <th className="px-6 py-4 font-semibold text-xs tracking-wider cursor-pointer transition-colors select-none" onClick={() => handleSort('tipoContribuyente')}>
+                  TIPO <SortIcon column="tipoContribuyente" />
                 </th>
                 {isAdmin && (
-                  <th className="px-6 py-4 font-bold text-[11px] uppercase tracking-widest cursor-pointer hover:bg-slate-100 dark:hover:bg-[#162130] transition-colors select-none group" onClick={() => handleSort('sede')}>
-                    <div className="flex items-center gap-1.5">SEDE <span className="text-slate-400 group-hover:text-slate-600 dark:group-hover:text-slate-200"><SortIcon column="sede" /></span></div>
+                  <th className="px-6 py-4 font-semibold text-xs tracking-wider cursor-pointer transition-colors select-none" onClick={() => handleSort('sede')}>
+                    SEDE <SortIcon column="sede" />
                   </th>
                 )}
-                <th className="px-6 py-4 font-bold text-[11px] uppercase tracking-widest text-center cursor-pointer hover:bg-slate-100 dark:hover:bg-[#162130] transition-colors select-none group" onClick={() => handleSort('estado')}>
-                  <div className="flex items-center justify-center gap-1.5">ESTADO <span className="text-slate-400 group-hover:text-slate-600 dark:group-hover:text-slate-200"><SortIcon column="estado" /></span></div>
+                <th className="px-6 py-4 font-semibold text-xs tracking-wider text-center cursor-pointer transition-colors select-none" onClick={() => handleSort('estado')}>
+                  ESTADO <SortIcon column="estado" />
                 </th>
-                <th className="px-6 py-4 font-bold text-[11px] uppercase tracking-widest text-center select-none whitespace-nowrap">
-                  F. DECLARACIÓN
+                <th className="px-6 py-4 font-semibold text-xs tracking-wider text-center select-none whitespace-nowrap">
+                  FECHA DECLARACIÓN
                 </th>
-                <th className="px-6 py-4 font-bold text-[11px] uppercase tracking-widest text-center">ACCIONES</th>
+                <th className="px-6 py-4 font-semibold text-xs tracking-wider text-center">ACCIONES</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 dark:divide-[#1E2D3D]">
