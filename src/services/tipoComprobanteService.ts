@@ -72,7 +72,8 @@ export const tipoComprobanteService = {
         method: 'PATCH',
         headers: { 'Authorization': `Bearer ${token}` }
       });
-      return await response.json();
+      if (!response.ok) throw new Error('Error en el servidor');
+      return { success: true };
     } catch (error) {
       console.error('Error toggling tipo comprobante status:', error);
       return { success: false, message: 'Error de red' };
