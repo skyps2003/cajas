@@ -207,10 +207,10 @@ export const ContribuyentesTiposTelefonoPage: React.FC = () => {
                   <tr key={t.id} className="hover:bg-slate-50 dark:hover:bg-[#1E2D3D]/50 transition-colors">
                     <td className="px-6 py-4 font-semibold text-slate-800 dark:text-slate-100">{t.nombre}</td>
                     <td className="px-6 py-4 text-center">
-                      <span className={`inline-flex px-2 py-0.5 rounded-full text-[10px] font-bold border ${
+                      <span className={`inline-flex px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border shadow-sm ${
                         t.estado 
-                          ? 'bg-emerald-100 text-emerald-700 border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-400' 
-                          : 'bg-red-100 text-red-700 border-red-200 dark:bg-red-500/10 dark:text-red-400'
+                          ? 'bg-[#d1fae5] text-[#047857] border-[#a7f3d0] dark:bg-emerald-500/20 dark:text-emerald-400 dark:border-emerald-500/30' 
+                          : 'bg-[#fee2e2] text-[#b91c1c] border-[#fecaca] dark:bg-red-500/20 dark:text-red-400 dark:border-red-500/30'
                       }`}>
                         {t.estado ? 'ACTIVO' : 'INACTIVO'}
                       </span>

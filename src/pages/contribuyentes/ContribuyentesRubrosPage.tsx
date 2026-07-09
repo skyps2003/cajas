@@ -268,10 +268,10 @@ export const ContribuyentesRubrosPage: React.FC = () => {
                       </span>
                     </td>
                     <td className="px-4 py-3.5 text-center whitespace-nowrap">
-                      <span className={`inline-flex px-2.5 py-1 rounded-md text-[10px] font-bold border ${
+                      <span className={`inline-flex px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border shadow-sm ${
                         r.estado 
-                          ? 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/20' 
-                          : 'bg-red-50 text-red-700 border-red-200 dark:bg-red-500/10 dark:text-red-400 dark:border-red-500/20'
+                          ? 'bg-[#d1fae5] text-[#047857] border-[#a7f3d0] dark:bg-emerald-500/20 dark:text-emerald-400 dark:border-emerald-500/30' 
+                          : 'bg-[#fee2e2] text-[#b91c1c] border-[#fecaca] dark:bg-red-500/20 dark:text-red-400 dark:border-red-500/30'
                       }`}>
                         {r.estado ? 'ACTIVO' : 'INACTIVO'}
                       </span>
