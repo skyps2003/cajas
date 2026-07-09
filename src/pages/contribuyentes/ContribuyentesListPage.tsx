@@ -866,7 +866,7 @@ export const ContribuyentesListPage: React.FC = () => {
                 <h2 className="text-lg font-bold text-[#1B2E4B] dark:text-[#E8EDF5] leading-snug">{detailItem.razonSocial}</h2>
                 <div className="flex flex-wrap items-center gap-2 mt-2">
                   <span className="font-mono text-xs bg-[#1B2E4B]/5 dark:bg-[#1B2E4B]/40 text-[#1B2E4B] dark:text-[#B8C4D6] px-2 py-0.5 rounded border border-[#1B2E4B]/10 dark:border-[#1B2E4B]/30">RUC: {detailItem.ruc}</span>
-                  <span className="text-[10px] px-2 py-0.5 rounded-full font-bold border bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/20">{detailItem.estado}</span>
+                  <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold ${getStatusStyle(detailItem.estado as any)}`}>{detailItem.estado}</span>
                   <span className="text-[10px] text-slate-500 dark:text-slate-400">{detailItem.tipoContribuyente} · {detailItem.sede}</span>
                 </div>
               </div>
