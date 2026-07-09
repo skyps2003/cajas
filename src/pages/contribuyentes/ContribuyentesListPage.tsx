@@ -606,7 +606,7 @@ export const ContribuyentesListPage: React.FC = () => {
 
   const getStatusStyle = (estado: 'ACTIVO' | 'INACTIVO' | 'INACTIVO TEMPORALMENTE') => {
     if (estado === 'ACTIVO') return 'bg-[#d1fae5] text-[#047857] dark:bg-emerald-500/20 dark:text-emerald-400 border border-[#a7f3d0] dark:border-emerald-500/30 shadow-sm';
-    if (estado === 'INACTIVO TEMPORALMENTE') return 'bg-[#fef3c7] text-[#b45309] dark:bg-amber-500/20 dark:text-amber-400 border border-[#fde68a] dark:border-amber-500/30 shadow-sm';
+    if (estado === 'INACTIVO TEMPORALMENTE') return 'bg-[#fef08a] text-[#854d0e] dark:bg-yellow-500/20 dark:text-yellow-400 border border-[#fde047] dark:border-yellow-500/30 shadow-sm';
     return 'bg-[#fee2e2] text-[#b91c1c] dark:bg-red-500/20 dark:text-red-400 border border-[#fecaca] dark:border-red-500/30 shadow-sm';
   };
 
@@ -804,7 +804,7 @@ export const ContribuyentesListPage: React.FC = () => {
                       disabled={togglingId === c.id}
                       className={`inline-flex px-3 py-1 rounded-full text-[10px] font-bold uppercase transition-colors hover:opacity-80 cursor-pointer whitespace-nowrap tracking-wider ${getStatusStyle(c.estado)} ${togglingId === c.id ? 'opacity-50 cursor-not-allowed' : ''}`}
                     >
-                      {togglingId === c.id ? '...' : c.estado === 'INACTIVO TEMPORALMENTE' ? 'INACT. TEMP.' : c.estado}
+                      {togglingId === c.id ? '...' : c.estado}
                     </button>
                   </td>
                   <td className="px-6 py-5 text-center">
