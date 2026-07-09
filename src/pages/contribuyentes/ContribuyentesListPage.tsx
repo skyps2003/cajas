@@ -804,7 +804,7 @@ export const ContribuyentesListPage: React.FC = () => {
                       disabled={togglingId === c.id}
                       className={`inline-flex px-3 py-1 rounded-full text-[10px] font-bold uppercase transition-colors hover:opacity-80 cursor-pointer whitespace-nowrap tracking-wider ${getStatusStyle(c.estado)} ${togglingId === c.id ? 'opacity-50 cursor-not-allowed' : ''}`}
                     >
-                      {togglingId === c.id ? '...' : c.estado}
+                      {togglingId === c.id ? '...' : c.estado === 'INACTIVO TEMPORALMENTE' ? 'INACT. TEMP.' : c.estado}
                     </button>
                   </td>
                   <td className="px-6 py-5 text-center">
