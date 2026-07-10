@@ -738,42 +738,96 @@ export const AdminDashboard: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="p-4 sm:p-6 w-full space-y-6 animate-pulse">
+      <div className="p-4 sm:p-6 w-full space-y-4 animate-pulse">
         {/* HEADER SKELETON */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4">
           <div className="space-y-2">
             <div className="h-8 w-48 bg-[var(--sidebar-bg)] dark:bg-slate-800 rounded-md"></div>
             <div className="h-4 w-64 bg-[var(--sidebar-bg)] dark:bg-slate-800 rounded-md"></div>
           </div>
-          <div className="flex gap-3">
+          <div className="flex items-center gap-3 w-full md:w-auto">
             <div className="h-10 w-28 bg-[var(--sidebar-bg)] dark:bg-slate-800 rounded-lg"></div>
-            <div className="h-10 w-32 bg-[var(--sidebar-bg)] dark:bg-slate-800 rounded-lg"></div>
           </div>
         </div>
 
         {/* ROW 1: SKELETON */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {[1,2,3].map(i => (
-            <div key={i} className="h-44 bg-white dark:bg-[#1a1f2e] border border-gray-100 dark:border-[var(--sidebar-border)] rounded-2xl p-6">
-              <div className="h-4 w-32 bg-slate-100 dark:bg-slate-800 rounded mb-4"></div>
-              <div className="h-8 w-40 bg-slate-100 dark:bg-slate-800 rounded mb-6"></div>
-              <div className="h-12 w-full bg-slate-100 dark:bg-slate-800 rounded"></div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="bg-white dark:bg-[#1a1f2e] border border-gray-100 dark:border-[var(--sidebar-border)] rounded-2xl p-6 flex flex-col justify-between min-h-[220px]">
+            <div className="h-4 w-40 bg-slate-200 dark:bg-slate-700 rounded mb-6"></div>
+            <div className="h-9 w-40 bg-slate-200 dark:bg-slate-700 rounded-lg mb-6"></div>
+            <div className="space-y-4">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="space-y-2">
+                  <div className="flex justify-between">
+                    <div className="h-3.5 w-24 bg-slate-200 dark:bg-slate-700 rounded"></div>
+                    <div className="h-3.5 w-16 bg-slate-200 dark:bg-slate-700 rounded"></div>
+                  </div>
+                  <div className="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-1.5"></div>
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
+          <div className="bg-white dark:bg-[#1a1f2e] border border-gray-100 dark:border-[var(--sidebar-border)] rounded-2xl p-6 flex flex-col justify-between min-h-[220px]">
+            <div className="flex justify-between">
+              <div className="h-4 w-48 bg-slate-200 dark:bg-slate-700 rounded mb-6"></div>
+              <div className="h-5 w-5 bg-slate-200 dark:bg-slate-700 rounded-full"></div>
+            </div>
+            <div className="mb-6">
+              <div className="h-9 w-48 bg-slate-200 dark:bg-slate-700 rounded mb-2"></div>
+              <div className="h-4 w-32 bg-slate-200 dark:bg-slate-700 rounded"></div>
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="h-[72px] bg-slate-100 dark:bg-slate-800 rounded-lg"></div>
+              <div className="h-[72px] bg-slate-100 dark:bg-slate-800 rounded-lg"></div>
+            </div>
+          </div>
         </div>
 
         {/* ROW 2: SKELETON */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-2 h-72 bg-white dark:bg-[#1a1f2e] border border-gray-100 dark:border-[var(--sidebar-border)] rounded-2xl p-6">
-             <div className="h-4 w-40 bg-slate-100 dark:bg-slate-800 rounded mb-8"></div>
-             <div className="flex justify-around items-center">
-                <div className="w-32 h-32 rounded-full bg-slate-100 dark:bg-slate-800"></div>
-                <div className="w-32 h-32 rounded-full bg-slate-100 dark:bg-slate-800"></div>
+          <div className="lg:col-span-2 bg-white dark:bg-[#1a1f2e] border border-gray-100 dark:border-[var(--sidebar-border)] rounded-2xl p-8 h-[460px]">
+             <div className="flex justify-between items-center mb-8">
+               <div className="h-4 w-32 bg-slate-200 dark:bg-slate-700 rounded"></div>
+               <div className="h-6 w-24 bg-slate-200 dark:bg-slate-700 rounded"></div>
+             </div>
+             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 h-[360px]">
+               <div className="h-full w-full bg-slate-100 dark:bg-slate-800 rounded-xl"></div>
+               <div className="h-full w-full bg-slate-100 dark:bg-slate-800 rounded-xl hidden md:block"></div>
              </div>
           </div>
-          <div className="h-72 bg-white dark:bg-[#1a1f2e] border border-gray-100 dark:border-[var(--sidebar-border)] rounded-2xl p-6">
-             <div className="h-4 w-32 bg-slate-100 dark:bg-slate-800 rounded mb-6"></div>
-             <div className="h-40 w-full bg-slate-100 dark:bg-slate-800 rounded"></div>
+          <div className="bg-white dark:bg-[#1a1f2e] border border-gray-100 dark:border-[var(--sidebar-border)] rounded-2xl p-6 h-[460px]">
+             <div className="h-4 w-40 bg-slate-200 dark:bg-slate-700 rounded mb-6"></div>
+             <div className="h-[340px] w-full bg-slate-100 dark:bg-slate-800 rounded-xl"></div>
+          </div>
+        </div>
+
+        {/* ROW 3: SKELETON */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-2 bg-white dark:bg-[#1a1f2e] border border-gray-100 dark:border-[var(--sidebar-border)] rounded-2xl p-6 min-h-[300px]">
+             <div className="h-4 w-40 bg-slate-200 dark:bg-slate-700 rounded mb-8"></div>
+             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+               {[1, 2, 3].map(i => (
+                 <div key={i} className="flex flex-col items-center">
+                   <div className="h-4 w-24 bg-slate-200 dark:bg-slate-700 rounded mb-4"></div>
+                   <div className="w-32 h-32 rounded-full bg-slate-100 dark:bg-slate-800"></div>
+                   <div className="h-4 w-32 bg-slate-100 dark:bg-slate-800 rounded mt-4"></div>
+                 </div>
+               ))}
+             </div>
+          </div>
+          <div className="bg-white dark:bg-[#1a1f2e] border border-gray-100 dark:border-[var(--sidebar-border)] rounded-2xl p-6 min-h-[300px]">
+             <div className="h-4 w-32 bg-slate-200 dark:bg-slate-700 rounded mb-8"></div>
+             <div className="space-y-6">
+               {[1, 2, 3, 4].map(i => (
+                 <div key={i} className="flex gap-4">
+                   <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 shrink-0"></div>
+                   <div className="flex-1 space-y-2">
+                     <div className="h-3 w-full bg-slate-100 dark:bg-slate-800 rounded"></div>
+                     <div className="h-2 w-2/3 bg-slate-100 dark:bg-slate-800 rounded"></div>
+                   </div>
+                 </div>
+               ))}
+             </div>
           </div>
         </div>
       </div>
