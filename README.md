@@ -2,7 +2,7 @@
 
 # 🏦 SISTEMA FINANCIERO CORPORATIVO
 
-### Manual de Usuario, Operaciones y Guía Técnica (Versión Mejorada)
+### Manual de Usuario, Operaciones y Guía Técnica
 
 [![React](https://img.shields.io/badge/React-18.x-61DAFB?style=for-the-badge&logo=react&logoColor=white)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
@@ -19,198 +19,284 @@
 
 | N° | Capítulo | Descripción |
 |----|----------|-------------|
-| 1 | [Introducción y Niveles de Acceso](#-capítulo-1-introducción-y-niveles-de-acceso) | Arquitectura jerárquica y permisos por nivel |
-| 2 | [Acceso y Seguridad](#-capítulo-2-acceso-y-seguridad-login) | Autenticación y aislamiento de datos |
-| 3 | [Nivel 1: Operaciones del Administrador](#-capítulo-3-nivel-1-operaciones-del-administrador) | Control total, configuración y monitoreo global |
-| 4 | [Nivel 2: Operaciones del Cajero](#-capítulo-4-nivel-2-operaciones-del-cajero) | Operativa diaria, aislamiento por sede y movimientos |
-| 5 | [Flujo de Trabajo y Aprobaciones](#-capítulo-5-flujo-de-trabajo-y-aprobaciones-inter-nivel) | Cómo interactúan ambos niveles (El ciclo del dinero) |
-| 6 | [Módulo Universal de Contribuyentes](#-capítulo-6-módulo-universal-de-contribuyentes) | CRM de clientes, proveedores y credenciales |
-| 7 | [Reportes y Exportación](#-capítulo-7-reportes-y-exportación-pdfexcel) | Generación de PDFs y Excel por nivel |
-| 8 | [Guía Técnica para Desarrolladores](#-capítulo-8-guía-técnica-para-desarrolladores) | Stack, instalación y arquitectura |
+| 1 | [Introducción y Glosario Extendido](#-capítulo-1-introducción-y-glosario-extendido) | Arquitectura del sistema y términos clave |
+| 2 | [Acceso y Recuperación de Contraseña](#-capítulo-2-acceso-y-recuperación-de-contraseña-login) | Autenticación segura y restablecimiento de claves |
+| 3 | [Nivel 1: Administrador (Gerencia)](#-capítulo-3-nivel-1-administrador-gerencia) | Control global, configuración y creación de catálogos |
+| 4 | [Nivel 2: Cajero / Operador](#-capítulo-4-nivel-2-cajero--operador) | Registro de dinero y restricciones por sede |
+| 5 | [Módulo Universal de Contribuyentes](#-capítulo-5-módulo-universal-de-contribuyentes) | Directorio, credenciales y documentos (Ambos niveles) |
+| 6 | [Módulo de Movimientos (Ingresos y Egresos)](#-capítulo-6-módulo-de-movimientos-ingresos-y-egresos) | Historial financiero y registro de tickets |
+| 7 | [Reportes y Exportación](#-capítulo-7-reportes-y-exportación-pdfexcel) | Generación de PDFs y Excel con membrete |
+| 8 | [Guía Técnica para Desarrolladores](#-capítulo-8-guía-técnica-para-desarrolladores) | Stack, instalación y rendimiento |
 | 9 | [Preguntas Frecuentes (FAQ)](#-capítulo-9-preguntas-frecuentes-faq) | Solución de problemas comunes |
 
 ---
 
-## 🏛️ CAPÍTULO 1: INTRODUCCIÓN Y NIVELES DE ACCESO
+## 🏛️ CAPÍTULO 1: INTRODUCCIÓN Y GLOSARIO EXTENDIDO
 
-El **Sistema Financiero Corporativo** ha sido diseñado bajo una arquitectura de seguridad estricta basada en **Niveles Jerárquicos**. Esto garantiza que cada usuario vea única y exclusivamente la información que le corresponde, previniendo fraudes y fugas de información.
+El **Sistema Financiero Corporativo** ha sido diseñado bajo una arquitectura de seguridad estricta basada en **Niveles Jerárquicos**. Esto garantiza que cada usuario visualice e interactúe únicamente con la información para la que ha sido autorizado.
 
 ### 1.1. Los Dos Niveles del Sistema
 
-Todo el sistema gira en torno a estos dos niveles fundamentales:
+Todo el sistema gira en torno a estos dos perfiles fundamentales:
 
 #### 👑 NIVEL 1: ADMINISTRADOR (Control Total)
-Es el rol gerencial de la empresa.
-- **Visibilidad Global:** Puede ver los saldos, gráficos y transacciones de **todas las sedes** y **todas las empresas**.
-- **Configuración Estratégica:** Es el único nivel que puede crear nuevos usuarios, abrir nuevas sedes, crear cajas bancarias, configurar empresas y series de comprobantes.
-- **Poder de Veto:** Es el encargado final de aprobar o rechazar transacciones delicadas o de alto monto creadas por el Nivel 2.
-- **Módulos Exclusivos:** Dashboard Global, Aprobaciones, Configuración, Usuarios.
+Es el rol gerencial de la corporación.
+- **Visibilidad Global:** Tiene acceso a los saldos, gráficos de flujo y todas las transacciones de **absolutamente todas las sedes** y **todas las empresas**.
+- **Configuración Estratégica:** Es el único perfil autorizado para crear nuevas Sedes, Empresas, Cajas Bancarias, Usuarios del sistema y Series de Comprobantes.
+- **Gestión de Catálogos:** Único con acceso para añadir Tipos de Documento, Tipos de Teléfono, Tipos de Credencial y Rubros Comerciales.
+- **Gestión de Contribuyentes:** Al igual que el Nivel 2, puede crear y administrar el directorio completo de Contribuyentes.
 
-#### 👷 NIVEL 2: CAJERO / OPERADOR (Control Aislado)
-Es el rol operativo de trinchera.
-- **Aislamiento por Sede (Silo):** Un cajero asignado a la "Sede A" jamás podrá ver el dinero, las cajas, ni las transacciones de la "Sede B".
-- **Operativa Restringida:** Su función principal es registrar ingresos y egresos.
-- **Sujeto a Aprobación:** Sus movimientos de salida de dinero (egresos) quedan congelados en estado "Pendiente" hasta que el Nivel 1 los apruebe.
-- **Módulos Habilitados:** Dashboard de Sede, Mis Movimientos, Directorio de Contribuyentes.
-
-### 1.2. Glosario Fundamental
-- **Sede:** Sucursal física (ej. Oficina Principal). Aísla a los cajeros.
-- **Empresa:** Razón Social / RUC.
-- **Caja:** Clasificación del dinero (Caja Efectivo, Cuenta BCP).
-- **Contribuyente:** Entidad a la que se le paga o cobra.
+#### 👷 NIVEL 2: CAJERO / OPERADOR (Control por Sede)
+Es el rol de trinchera y operaciones diarias.
+- **Visibilidad Restringida:** Un cajero tiene asignada **una o más sedes**. Solo podrá ver la información financiera de las sedes que el Administrador le haya habilitado. Todo lo que ocurra fuera de sus sedes asignadas es completamente invisible para él.
+- **Operativa Financiera:** Su función principal es registrar **Ingresos y Egresos** de dinero de las cajas habilitadas en su sede.
+- **Autonomía Operativa:** Sus registros de ingreso y egreso impactan los saldos de la caja de forma inmediata, agilizando el ritmo de trabajo.
+- **Gestión de Contribuyentes Avanzada:** Al igual que el Admin, el Cajero tiene la responsabilidad de alimentar el CRM. **Puede crear contribuyentes, y gestionar sus credenciales, agregar números de teléfono y subir documentos PDF/JPG** asociados a cada persona o empresa.
 
 ---
 
-## 🔑 CAPÍTULO 2: ACCESO Y SEGURIDAD (LOGIN)
+### 1.2. Glosario Extendido del Sistema
 
-El ingreso al sistema detecta automáticamente tu **Nivel** y reconstruye toda la interfaz gráfica para adaptarse a tus permisos.
+Comprender la terminología es clave para la correcta operación del software.
+
+| Término | Definición Técnica y Operativa |
+|---------|--------------------------------|
+| **Sede** | Localización física o lógica (ej. "Oficina Miraflores", "Sede Central"). Actúa como un muro de contención: los datos de una sede no se mezclan con los de otra. Un cajero puede tener varias sedes asignadas. |
+| **Empresa (Razón Social)** | Entidad legal con RUC. El sistema soporta operaciones de múltiples razones sociales simultáneamente bajo un mismo paraguas corporativo. |
+| **Tipo de Caja** | Cuentas financieras (ej. "Efectivo", "BCP Soles", "BBVA Dólares"). El saldo de la Sede es la suma de los saldos de todas sus Cajas. |
+| **Contribuyente** | Cualquier persona natural (DNI) o jurídica (RUC) que interactúa con la empresa. Abarca tanto a *Clientes* (que pagan) como a *Proveedores/Empleados* (a los que se les paga). |
+| **Movimiento** | Registro individual de dinero. Puede ser **Ingreso** (suma saldo a la caja) o **Egreso** (resta saldo a la caja). |
+| **Credenciales** | Sistema tipo "Caja Fuerte" donde se almacenan claves confidenciales (Clave SOL, Portal Bancario, etc.) de los contribuyentes. Las vistas de contraseñas son auditadas. |
+| **Documento Digital** | Archivo en la nube adjunto al perfil de un contribuyente (Fichas RUC, DNI escaneado, contratos, etc). |
+| **Rubro Comercial** | Clasificación económica del contribuyente que define su actividad (Ej. Minería, Servicios), usado muchas veces para determinar tasas de retención o detracción SUNAT. |
+
+---
+
+## 🔑 CAPÍTULO 2: ACCESO Y RECUPERACIÓN DE CONTRASEÑA (LOGIN)
+
+La puerta de entrada a la plataforma cifra los datos punto a punto para garantizar máxima privacidad financiera.
+
+<div align="center">
+
+![Pantalla de Login](docs/img/login.png)
+*Interfaz limpia y profesional de autenticación*
+
+</div>
 
 ### 2.1. Ingreso Inteligente
-1. El usuario ingresa su correo y contraseña.
-2. El sistema consulta la base de datos y verifica:
-   - ¿El usuario está Activo?
-   - ¿Es Nivel 1 o Nivel 2?
-   - Si es Nivel 2, ¿A qué sede pertenece?
-3. En base a eso, se genera un **Token de Seguridad (JWT)** que acompaña cada clic que hace el usuario. Si un Cajero intenta forzar la URL para ver el Dashboard del Admin (Nivel 1), el sistema lo bloqueará.
+1. El usuario ingresa su correo electrónico corporativo y su contraseña de seguridad.
+2. El sistema valida si el usuario está **Activo**, determina automáticamente su **Nivel (Admin o Cajero)** y averigua **qué sedes** tiene asignadas.
+3. El sistema redirige automáticamente al Dashboard correspondiente.
 
-### 2.2. Aislamiento Visual (Sidebar)
-El menú lateral cambia radicalmente según tu nivel:
-- **Nivel 1 ve:** Dashboard, Contribuyentes (+ submenús de configuración), Configuración (+ Sedes, Cajas, Empresas, Usuarios), Bandeja de Aprobaciones.
-- **Nivel 2 ve:** Dashboard (resumido), Contribuyentes (solo lista y formularios base), Mis Movimientos (para registrar).
+### 2.2. ¿Olvidaste tu contraseña? (Recuperación)
+Para evitar que un cajero quede bloqueado por olvido de credenciales:
+1. En la pantalla de login, se hace clic en el enlace **"¿Olvidaste tu contraseña?"**.
+2. Se solicitará el correo electrónico registrado en el sistema.
+3. El sistema enviará un **correo de recuperación con un enlace seguro** para que el usuario pueda crear una nueva contraseña y volver a ingresar inmediatamente, sin depender del Administrador en fines de semana o feriados.
 
 ---
 
-## 👑 CAPÍTULO 3: NIVEL 1 - OPERACIONES DEL ADMINISTRADOR
+## 👑 CAPÍTULO 3: NIVEL 1 - ADMINISTRADOR (GERENCIA)
 
-El Administrador tiene el control absoluto. Su panel es el **Centro de Mando**.
+El panel del administrador representa el **Centro de Mando**. La interfaz de navegación (Sidebar) se habilita en su totalidad, mostrando los paneles de configuración y control maestro.
 
-### 3.1. Dashboard Global Inteligente
-El panel principal del administrador carga de forma ultrarrápida cruzando datos locales en milisegundos y muestra:
-- **Capital Total Consolidado:** Suma de todas las cajas de todas las sedes a nivel nacional.
-- **Flujo Neto Diario:** Variación de ingresos vs egresos.
-- **Gráficos Expandibles:** Flujo Histórico y Evolución por Caja (con degradados interactivos y exportables).
-- **Distribución de Capital:** Gráficos de Dona que muestran qué sede y qué empresa concentra el mayor porcentaje de dinero de la corporación.
+<div align="center">
 
-### 3.2. Módulo de Configuraciones Maestras
-Solo el Nivel 1 puede acceder a esta sección para parametrizar el negocio:
-- **Gestión de Sedes:** Crear y desactivar sucursales.
-- **Gestión de Empresas:** Registrar razones sociales y RUCs.
-- **Gestión de Cajas:** Crear "Cuentas Corrientes" o "Cajas Fuertes" y asignarlas a Sedes específicas.
-- **Series de Comprobantes:** Configurar las boletas/facturas que los cajeros podrán usar.
-- **Gestión de Usuarios:** Crear nuevos Cajeros, asignarles su sede, y darles su contraseña inicial temporal.
+![Sidebar de Navegación](docs/img/sidebar.png)
+*El menú lateral del Administrador despliega configuraciones inaccesibles para el Cajero*
 
----
+</div>
 
-## 👷 CAPÍTULO 4: NIVEL 2 - OPERACIONES DEL CAJERO
+### 3.1. Dashboard Global
+El panel de inteligencia de negocios cruzando datos locales a velocidad ultra-rápida. Muestra:
+- **Capital Total Consolidado:** Suma de todas las cajas en la corporación (todas las sedes).
+- **Flujo Neto:** Ingresos vs Egresos del día.
+- **Gráficos Expandibles:** Gráficas de área (Flujo Histórico y Evolución por Caja) con degradados interactivos, totalmente clicables.
+- **Donas de Distribución:** ¿Qué sede concentra más liquidez? ¿Qué empresa (RUC) tiene más saldo?
 
-El Cajero vive en un entorno diseñado para la rapidez y precisión en caja, sin distracciones de otras sucursales.
+<div align="center">
 
-### 4.1. Dashboard de Sede (Silo)
-A diferencia del Admin, el Dashboard del cajero:
-- Solo muestra el Saldo Total de **su propia sede**.
-- Los gráficos solo dibujan las curvas de sus propias cajas.
-- Está diseñado para mostrar si su caja cuadra con el dinero físico.
+![Dashboard del Administrador](docs/img/dashboard-admin.png)
+*Visualización de gráficas financieras globales*
 
-### 4.2. Registro de Movimientos
-Es la tarea principal del Nivel 2.
-- El Cajero presiona "Nuevo Movimiento".
-- Selecciona si es **INGRESO** (suma) o **EGRESO** (resta).
-- Selecciona de qué **Caja** entrará o saldrá la plata (solo verá las cajas de su sede).
-- Ingresa el monto, el Contribuyente (proveedor/cliente) y el Comprobante (F001-00123).
-- **Control Antifraude:** Si intenta registrar un egreso para sacar dinero de la caja, el sistema lo advertirá y mandará la transacción a estado PENDIENTE.
+</div>
 
----
+### 3.2. Módulo de Configuraciones (Acceso Exclusivo)
+Bajo la pestaña **"Configuración"**, el Admin estructura el esqueleto del negocio:
 
-## 🔄 CAPÍTULO 5: FLUJO DE TRABAJO Y APROBACIONES INTER-NIVEL
+- **Empresas:** Registrar y editar Razones Sociales y sus números de RUC.
+- **Sedes:** Activar o desactivar sucursales.
+- **Tipos de Caja:** Crear cuentas corrientes o bóvedas y anclarlas a una Sede en específico y con una moneda base.
+- **Usuarios:** Creación de nuevos trabajadores (Nivel 1 o Nivel 2). Aquí se decide a qué **Sedes específicas** tendrá acceso el Cajero.
+- **Comprobantes:** Definir qué series y tipos de documentos (Facturas, Boletas, Recibos) operarán en cada sede.
 
-Esta es la funcionalidad más importante de seguridad del sistema. Muestra cómo interactúan ambos niveles.
+<div align="center">
 
-### El Ciclo de un Egreso (Salida de Dinero)
-1. **Acción del Nivel 2 (Cajero):** El cajero necesita pagarle a un proveedor S/ 5,000. Registra el egreso en su panel.
-2. **Congelamiento (Sistema):** El sistema **no descuenta el dinero de la caja**. La transacción queda marcada en amarillo como `PENDIENTE`.
-3. **Notificación al Nivel 1 (Admin):** El Administrador entra a su módulo exclusivo **"Aprobaciones"**. Allí ve una tarjeta que dice: *"El cajero Juan (Sede Norte) quiere sacar S/ 5,000 para pagar a Proveedores S.A.C."*
-4. **Decisión del Nivel 1:**
-   - **Opción A (APROBAR 🟢):** El Administrador acepta. Inmediatamente el sistema descuenta los S/ 5,000 de la caja del cajero y la transacción pasa a estado `APROBADO`.
-   - **Opción B (RECHAZAR 🔴):** El Administrador rechaza. El sistema le obliga a escribir un motivo (Ej. *"Factura incorrecta, emitir de nuevo"*). El dinero no se descuenta y la transacción muere.
+![Gestión de Empresas](docs/img/config-empresas.png)
+*Módulo de configuración de Empresas (Razones Sociales)*
 
-Este flujo por niveles garantiza que ningún empleado pueda extraer fondos de la empresa sin autorización gerencial.
+![Gestión de Usuarios](docs/img/config-usuarios.png)
+*Gestión de Usuarios y asignación de múltiples sedes*
+
+</div>
 
 ---
 
-## 📇 CAPÍTULO 6: MÓDULO UNIVERSAL DE CONTRIBUYENTES
+## 👷 CAPÍTULO 4: NIVEL 2 - CAJERO / OPERADOR
 
-El directorio de contactos (Clientes, Proveedores, Empleados) es transversal a la empresa, pero con configuraciones restringidas.
+La interfaz del cajero es operativa, priorizando la agilidad y el aislamiento por seguridad.
 
-### Funciones Compartidas (Nivel 1 y Nivel 2)
-Ambos pueden:
-- Ver la lista completa de contribuyentes y su RUC/DNI.
-- Crear nuevos contribuyentes.
-- Ingresar a su perfil y agregarles Teléfonos, correos o subirles Documentos (PDF, JPG) a su repositorio digital.
-- Consultar las Credenciales Confidenciales del contribuyente (El sistema audita y registra silenciosamente quién vio la contraseña).
+### 4.1. Dashboard de Sede
+A diferencia del Administrador, la pantalla inicial del Cajero:
+- Solo muestra los saldos totales de **la sede (o sedes) a la que fue asignado**.
+- Los gráficos ignoran completamente los movimientos económicos de las sedes externas a su perfil.
+- Le permite verificar el cierre de su propia caja de manera rápida y sin ruido visual exterior.
 
-### Funciones Exclusivas (Solo Nivel 1)
-Solo el Administrador puede:
-- Modificar los catálogos del sistema: Crear nuevos **Rubros Comerciales** (asociados a Detracciones SUNAT), crear nuevos Tipos de Documentos permitidos, Tipos de Teléfonos, etc.
-- Activar o Desactivar (banear) a un contribuyente de todo el sistema.
+<div align="center">
+
+![Dashboard del Cajero](docs/img/dashboard-cajero.png)
+*Vista del Cajero enfocada en su sede asignada*
+
+</div>
 
 ---
 
-## 📑 CAPÍTULO 7: REPORTES Y EXPORTACIÓN PDF/EXCEL
+## 📇 CAPÍTULO 5: MÓDULO UNIVERSAL DE CONTRIBUYENTES
 
-La herramienta de reportes es vital para la contabilidad y también obedece a las reglas de los Niveles.
+Es un CRM robusto que gestiona todos los actores externos de la empresa.
+**Tanto el Nivel 1 (Admin) como el Nivel 2 (Cajero) pueden operar libremente en la creación y administración de Contribuyentes y su data anidada.**
 
-- **Para el Nivel 1 (Admin):** Puede descargar un PDF/Excel "Consolidado Global" con los ingresos y egresos de absolutamente todas las sedes a nivel nacional.
-- **Para el Nivel 2 (Cajero):** Al presionar "Descargar PDF", el sistema generará automáticamente su reporte de "Caja Diaria" que sirve como sustento de cierre de caja para su sucursal exclusivamente.
+<div align="center">
 
-**Diseño de los Reportes:**
-Todos los PDFs se generan localmente en milisegundos con `jsPDF`.
-Incluyen automáticamente:
-- Papel Membretado oficial (Hoja en blanco corporativa de fondo).
-- Tablas estructuradas con separación de colores para Ingresos (Verde) y Egresos (Rojo).
-- Fechas de corte, totales acumulados y firma digital de quien generó el reporte.
+![Lista de Contribuyentes](docs/img/contribuyentes-lista.png)
+*Directorio interactivo de contribuyentes (DNI/RUC)*
+
+![Formulario de Contribuyente](docs/img/form-contribuyente.png)
+*Registro de contribuyente con campos esenciales*
+
+</div>
+
+### 5.1. Operaciones sobre el Contribuyente (Nivel 1 y Nivel 2)
+Al entrar al perfil de un cliente/proveedor, ambos roles tienen poder para gestionar:
+
+| Sub-módulo | Acción permitida |
+|------------|------------------|
+| **Teléfonos** | Agregar números celulares, fijos, marcar el canal principal de comunicación. |
+| **Documentos Digitales** | Subir PDFs o Imágenes al repositorio (Contratos, Ficha RUC, DNI escaneado). El sistema los guarda en la nube para acceso futuro. |
+| **Credenciales** | Almacenar usuarios y contraseñas (ej. Clave SOL, Accesos web). El sistema audita silenciosamente quién "destapa" la clave. |
+
+### 5.2. Catálogos del Contribuyente (Exclusivo Nivel 1)
+Aunque el Cajero crea contribuyentes, solo el **Administrador** puede modificar las reglas base en los submenús del sidebar:
+- Crear nuevos **Rubros** Comerciales.
+- Añadir nuevos **Tipos de Credenciales**.
+- Añadir **Tipos de Teléfonos**.
+- Añadir **Tipos de Documento**.
+
+---
+
+## 💵 CAPÍTULO 6: MÓDULO DE MOVIMIENTOS (INGRESOS Y EGRESOS)
+
+La bitácora contable de la empresa, donde se registra la historia financiera en tiempo real.
+
+<div align="center">
+
+![Tabla de Movimientos](docs/img/movimientos-tabla.png)
+*La tabla de transacciones muestra ingresos (verde) y egresos (rojo)*
+
+</div>
+
+### 6.1. Historial y Tabla
+- **Administrador:** Ve todos los movimientos de todas las sedes de la corporación. Puede usar filtros combinados para rastrear dinero globalmente.
+- **Cajero:** Ve exclusivamente la tabla de movimientos de las sedes que tiene asignadas.
+
+### 6.2. Registro de Operaciones
+El **Cajero (Nivel 2)** (y el Administrador si lo desea) puede registrar nuevas operaciones haciendo clic en "Nuevo Movimiento".
+
+<div align="center">
+
+![Formulario de Movimiento](docs/img/form-movimiento.png)
+*Formulario de Ingreso/Egreso*
+
+</div>
+
+1. Se indica el **Monto**.
+2. Se selecciona si es un **INGRESO** (incrementa la caja) o **EGRESO** (resta de la caja).
+3. Se selecciona la **Caja** (Ej. BCP Soles) de donde sale o entra.
+4. Se busca al **Contribuyente**.
+5. Se ingresa el N° de Comprobante (Factura/Boleta) y un concepto descriptivo.
+6. Al dar Guardar, el saldo se actualiza automáticamente.
+
+---
+
+## 📑 CAPÍTULO 7: REPORTES Y EXPORTACIÓN (PDF/EXCEL)
+
+El sistema integra un poderoso motor interno que arma reportes instantáneos (no se cuelga ni colapsa el navegador).
+
+<div align="center">
+
+![Reporte PDF](docs/img/reporte-pdf.png)
+*Exportación con membrete y cálculos automáticos de saldos*
+
+</div>
+
+- **Generación Local:** Al presionar "Exportar", la computadora arma el PDF o el Excel utilizando `jsPDF-autotable` y `ExcelJS`.
+- **Estilo Corporativo:** Los PDFs llevan un membrete oficial de fondo (hoja pre-membretada) y separan con color verde/rojo los ingresos de los egresos, incluyendo los totales matemáticos en la parte inferior de cada sede.
+- **Restricción de Nivel:**
+  - El Cajero exporta el "Reporte de Cierre de Caja" solo de su sede.
+  - El Administrador exporta el "Consolidado Global" con todas las sedes.
 
 ---
 
 ## 💻 CAPÍTULO 8: GUÍA TÉCNICA PARA DESARROLLADORES
 
-### Stack Tecnológico
-- **Frontend:** React 18 + TypeScript + Vite.
-- **Estilos:** Tailwind CSS 3.x (Soporte Nativo de Modo Claro / Oscuro).
-- **Gráficos:** Recharts (SVG responsivos con degradados y optimización asíncrona).
-- **Reportes:** jsPDF + jsPDF-AutoTable (PDF) y ExcelJS (Excel).
-- **Iconografía:** Lucide React.
+### 8.1. Stack Tecnológico Moderno
+| Tecnología | Versión | Uso Core |
+|------------|---------|----------|
+| **React** | 18.x | Librería frontend, uso intensivo de Hooks (`useState`, `useEffect`). |
+| **TypeScript** | 5.x | Aporta seguridad previniendo errores de "undefined" y modelando interfaces como `Contribuyente` o `Movimiento`. |
+| **Vite** | 5.x | Sustituto de Webpack. Arranque del servidor de desarrollo instantáneo. |
+| **Tailwind CSS** | 3.x | Framework utilitario para diseño fluido. Permite el cambio a "Dark Mode" con un solo clic. |
+| **Recharts** | 2.x | Biblioteca de Gráficos SVG interactivos y renderizado responsivo. |
 
-### Arquitectura de Rendimiento
-- **Carga Síncrona vs Asíncrona:** El Dashboard Nivel 1 cruza datos localmente desde la memoria del navegador tras descargar el bloque central de transacciones. Esto elimina los bucles de peticiones HTTP (`N * peticiones`) y hace que los esqueletos de carga desaparezcan en milisegundos.
-- **Responsive Design:** Interfaces que se adaptan dinámicamente desde pantallas de PC anchas hasta teléfonos celulares, colapsando menús y reorganizando columnas (Grid y Flexbox).
+### 8.2. Optimización de Rendimiento
+Para evitar demoras (esqueletos infinitos de carga) en la pantalla inicial:
+- **Cálculo en Memoria (0x Network Overhead):** El Dashboard descarga un *pool* masivo de transacciones una única vez, y luego el procesador del usuario realiza todos los filtros, cruces de Sedes, y métricas matemáticas a nivel local de forma **asíncrona pero inmediata** (< 2 ms). Esto reemplaza el anticuado enfoque de disparar múltiples peticiones API por cada caja o sede.
 
-### Instalación Local
+### 8.3. Instalación para Desarrollo
 ```bash
+# 1. Clonar
 git clone https://github.com/skyps2003/cajas.git
+
+# 2. Entrar a carpeta
 cd cajas
+
+# 3. Descargar módulos (Node.js requerido)
 npm install
+
+# 4. Servir ambiente de prueba local
 npm run dev
-# URL local: http://localhost:5173
+
+# Se abrirá: http://localhost:5173
 ```
 
 ---
 
 ## 🆘 CAPÍTULO 9: PREGUNTAS FRECUENTES (FAQ)
 
-| Problema | Nivel Afectado | Solución |
-|----------|----------------|----------|
-| **"No puedo iniciar sesión"** | Todos | Revisa tu correo y contraseña. Si eres cajero nuevo, pídele al Nivel 1 (Admin) que resetee tu clave en la pestaña Usuarios. |
-| **"Registré un pago pero la caja no descontó la plata"** | Nivel 2 | Es correcto. Todo egreso requiere autorización. Espera a que el Nivel 1 lo revise en su Bandeja de Aprobaciones. |
-| **"Soy cajero y no veo las ventas de la otra tienda"** | Nivel 2 | Es la seguridad del sistema. Tu nivel aísla tu visión exclusivamente a tu Sede. |
-| **"Quiero crear una nueva Sede pero no tengo el botón"** | Nivel 2 | La creación de la estructura empresarial es potestad exclusiva del Nivel 1. Comunícate con Gerencia. |
-| **"Los gráficos demoran mucho en cargar"** | Nivel 1 | Ya ha sido solucionado. El sistema ahora realiza cruces en memoria ultrarrápidos. Si notas un retardo, actualiza con `F5`. |
+| Síntoma | Diagnóstico y Solución |
+|---------|------------------------|
+| **"Olvidé mi contraseña y soy el único cajero hoy"** | En la pantalla principal, presiona *"¿Olvidaste tu contraseña?"*. Te llegará un correo automático para crear una nueva al instante. |
+| **"Soy cajero y me sale que no tengo cajas disponibles al intentar registrar un ingreso"** | Significa que el Administrador no ha creado ninguna caja física/bancaria activa asignada a tu Sede. Pide que lo hagan desde `Configuración -> Tipos de Caja`. |
+| **"Quiero ingresar a la Sede Norte pero solo veo la Sede Sur"** | El sistema soporta que un Cajero tenga **Múltiples Sedes**, pero el Administrador debe asignártelas desde la sección `Usuarios`. |
+| **"No encuentro el botón para agregar Rubros Comerciales"** | Solo el Nivel 1 (Administrador) tiene autorización para modificar el catálogo maestro de rubros o tipos de documentos. |
+| **"¿El sistema funciona en mi teléfono celular?"** | Sí, el diseño es 100% responsivo. El menú lateral colapsa y las tablas muestran _scroll horizontal_ automático en pantallas pequeñas para que nada se descuadre. |
 
 ---
 
 <div align="center">
 
-**Sistema Financiero Corporativo** · Manual de Usuario V3.0  
+**Sistema Financiero Corporativo** · Manual de Usuario V4.0  
 Desarrollado para optimizar la seguridad jerárquica y velocidad operativa.  
-*Documento actualizado y estructurado por Niveles de Acceso.*
+*Manual redactado y estructurado según las políticas de acceso por Niveles.*
 
 </div>
