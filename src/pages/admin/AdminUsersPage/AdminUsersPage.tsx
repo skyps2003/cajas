@@ -424,22 +424,25 @@ export const AdminUsersPage: React.FC = () => {
               }
 
               // Update sede assignment
-              if (formData.sedes_ids) {
-                // Delete old ones
-                if (userToEdit.asignaciones && userToEdit.asignaciones.length > 0) {
-                  await Promise.all(userToEdit.asignaciones.map((a: any) => usuarioSedeService.delete(token, a.id)));
-                }
-                // Create new ones
-                await Promise.all(formData.sedes_ids.map(sedeId => 
+              const currentAsignaciones = userToEdit.asignaciones || [];
+              const currentSedesIds = currentAsignaciones.map((a: any) => a.sede_id);
+              const newSedesIds = formData.sedes_ids || [];
+              
+              const sedesToAdd = newSedesIds.filter(id => !currentSedesIds.includes(id));
+              const sedesToRemove = currentSedesIds.filter(id => !newSedesIds.includes(id));
+
+              if (sedesToRemove.length > 0) {
+                const asignacionesToRemove = currentAsignaciones.filter((a: any) => sedesToRemove.includes(a.sede_id));
+                await Promise.all(asignacionesToRemove.map((a: any) => usuarioSedeService.delete(token, a.id)));
+              }
+
+              if (sedesToAdd.length > 0) {
+                await Promise.all(sedesToAdd.map(sedeId => 
                   usuarioSedeService.create(token, {
                     usuario_id: userToEdit.id,
                     sede_id: sedeId
                   })
                 ));
-              } else {
-                if (userToEdit.asignaciones && userToEdit.asignaciones.length > 0) {
-                  await Promise.all(userToEdit.asignaciones.map((a: any) => usuarioSedeService.delete(token, a.id)));
-                }
               }
 
               showToast('success', 'Usuario actualizado', `Los datos de ${formData.nombre} fueron guardados.`);
