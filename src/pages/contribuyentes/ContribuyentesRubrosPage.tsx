@@ -226,23 +226,15 @@ export const ContribuyentesRubrosPage: React.FC = () => {
       {/* Table */}
       <div className="bg-white dark:bg-[#16212E] border border-slate-200 dark:border-[#1E2D3D] rounded-xl shadow-sm overflow-hidden mb-6">
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm table-fixed">
-            <colgroup>
-              <col className="w-[100px]" />
-              <col />
-              <col />
-              <col className="w-[130px]" />
-              <col className="w-[100px]" />
-              <col className="w-[100px]" />
-            </colgroup>
+          <table className="w-full min-w-[900px] text-left text-sm">
             <thead className="bg-[#1B2E4B] text-white">
               <tr>
-                <th className="px-4 py-3.5 font-semibold text-[11px] tracking-wider uppercase">Código</th>
-                <th className="px-4 py-3.5 font-semibold text-[11px] tracking-wider uppercase">Nombre del Rubro</th>
-                <th className="px-4 py-3.5 font-semibold text-[11px] tracking-wider uppercase">Descripción</th>
-                <th className="px-4 py-3.5 font-semibold text-[11px] tracking-wider uppercase text-center">Detracción</th>
-                <th className="px-4 py-3.5 font-semibold text-[11px] tracking-wider uppercase text-center">Estado</th>
-                <th className="px-4 py-3.5 font-semibold text-[11px] tracking-wider uppercase text-center">Acciones</th>
+                <th className="px-4 py-3.5 font-semibold text-[11px] tracking-wider uppercase whitespace-nowrap">Código</th>
+                <th className="px-4 py-3.5 font-semibold text-[11px] tracking-wider uppercase whitespace-nowrap">Nombre del Rubro</th>
+                <th className="px-4 py-3.5 font-semibold text-[11px] tracking-wider uppercase whitespace-nowrap">Descripción</th>
+                <th className="px-4 py-3.5 font-semibold text-[11px] tracking-wider uppercase text-center whitespace-nowrap">Detracción</th>
+                <th className="px-4 py-3.5 font-semibold text-[11px] tracking-wider uppercase text-center whitespace-nowrap">Estado</th>
+                <th className="px-4 py-3.5 font-semibold text-[11px] tracking-wider uppercase text-center whitespace-nowrap">Acciones</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 dark:divide-[#1E2D3D] bg-white dark:bg-[#16212E]">
@@ -256,11 +248,11 @@ export const ContribuyentesRubrosPage: React.FC = () => {
                         {r.codigo_sunat}
                       </span>
                     </td>
-                    <td className="px-4 py-3.5">
-                      <span className="font-semibold text-sm text-slate-800 dark:text-slate-100 leading-snug">{r.nombre_rubro}</span>
+                    <td className="px-4 py-3.5 whitespace-nowrap">
+                      <span className="font-semibold text-sm text-slate-800 dark:text-slate-100 leading-snug truncate max-w-[250px] inline-block align-bottom">{r.nombre_rubro}</span>
                     </td>
-                    <td className="px-4 py-3.5">
-                      <span className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">{r.descripcion}</span>
+                    <td className="px-4 py-3.5 whitespace-nowrap">
+                      <span className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed truncate max-w-[250px] inline-block align-bottom">{r.descripcion}</span>
                     </td>
                     <td className="px-4 py-3.5 text-center whitespace-nowrap">
                       <span className="inline-flex items-center gap-1 bg-[#C4933F]/10 dark:bg-[#C4933F]/15 text-[#A07030] dark:text-[#D4A960] px-2.5 py-1 rounded-md text-xs font-bold border border-[#C4933F]/20">
