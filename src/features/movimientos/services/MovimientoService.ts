@@ -66,7 +66,15 @@ export const MovimientoService = {
 
   getMovimientosBySede: async (token: string, sedeId: number, filters?: { fecha_inicio?: string; fecha_fin?: string }): Promise<{ success: boolean; data?: Movimiento[]; message?: string }> => {
     try {
-      const response = await fetch(`${API_URL}/movimiento/sede/${sedeId}`, {
+      const queryParams = new URLSearchParams();
+      if (filters) {
+        if (filters.fecha_inicio) queryParams.append('fecha_inicio', filters.fecha_inicio);
+        if (filters.fecha_fin) queryParams.append('fecha_fin', filters.fecha_fin);
+      }
+      const qs = queryParams.toString();
+      const url = qs ? `${API_URL}/movimiento/sede/${sedeId}?${qs}` : `${API_URL}/movimiento/sede/${sedeId}`;
+
+      const response = await fetch(url, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
