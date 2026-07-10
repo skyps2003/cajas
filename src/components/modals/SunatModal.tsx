@@ -56,14 +56,14 @@ export const SunatModal: React.FC<SunatModalProps> = ({ isOpen, onClose }) => {
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="bg-white dark:bg-[#1a1f2e] w-full max-w-2xl rounded-2xl shadow-2xl border border-rose-100 dark:border-rose-900/50 overflow-hidden relative mx-auto">
+      <div className="bg-white dark:bg-[#1a1f2e] w-full max-w-2xl max-h-[90vh] flex flex-col rounded-2xl shadow-2xl border border-rose-100 dark:border-rose-900/50 overflow-hidden relative mx-auto">
         <button 
           onClick={onClose}
-          className="absolute top-4 right-4 text-white/70 hover:text-white p-1 rounded-full hover:bg-black/20 transition-colors z-20"
+          className="absolute top-3 right-3 sm:top-4 sm:right-4 text-white/80 hover:text-white p-1.5 rounded-full hover:bg-black/20 transition-colors z-20"
         >
           <X size={20} />
         </button>
-        <div className="bg-gradient-to-r from-rose-500 to-orange-500 px-6 py-8 text-white relative overflow-hidden">
+        <div className="bg-gradient-to-r from-rose-500 to-orange-500 px-5 py-6 sm:px-6 sm:py-8 text-white relative overflow-hidden shrink-0">
           <div className="absolute top-0 right-0 opacity-10 transform translate-x-1/4 -translate-y-1/4">
             <AlertTriangle size={150} />
           </div>
@@ -72,16 +72,16 @@ export const SunatModal: React.FC<SunatModalProps> = ({ isOpen, onClose }) => {
               <AlertTriangle size={32} className="text-white" />
             </div>
             <div>
-              <h2 className="text-2xl font-black mb-1">Aviso Importante: Vencimientos SUNAT</h2>
-              <p className="text-rose-100 font-medium">Periodo {upcomingDeadlines[0].periodo}</p>
+              <h2 className="text-xl sm:text-2xl font-black mb-1 pr-6 sm:pr-0">Aviso Importante: Vencimientos SUNAT</h2>
+              <p className="text-rose-100 font-medium text-sm sm:text-base">Periodo {upcomingDeadlines[0].periodo}</p>
             </div>
           </div>
         </div>
-        <div className="p-6">
-          <p className="text-slate-700 dark:text-slate-300 font-medium mb-6">
+        <div className="p-5 sm:p-6 overflow-y-auto">
+          <p className="text-sm sm:text-base text-slate-700 dark:text-slate-300 font-medium mb-5 sm:mb-6 leading-relaxed">
             Hola <span className="font-bold text-rose-600 dark:text-rose-400 uppercase">{user?.name}</span>, como parte del equipo es vital tu apoyo. Recuerda que debes realizar las declaraciones y pagos de los contribuyentes a tu cargo antes de las fechas límite para evitar multas de SUNAT.
           </p>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 mb-6">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2.5 sm:gap-3 mb-6">
             {upcomingDeadlines.map((d, i) => (
               <div key={i} className="bg-rose-50 dark:bg-rose-900/10 border border-rose-100 dark:border-rose-900/30 rounded-xl p-3 flex flex-col items-center justify-center text-center">
                 <span className="text-[11px] font-bold text-rose-600 dark:text-rose-400 uppercase tracking-widest mb-1">
