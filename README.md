@@ -74,16 +74,23 @@ La puerta de entrada a la plataforma cifra los datos punto a punto para garantiz
 
 </div>
 
-### 2.1. Ingreso Inteligente
-1. El usuario ingresa su correo electrónico corporativo y su contraseña de seguridad.
-2. El sistema valida si el usuario está **Activo**, determina automáticamente su **Nivel (Admin o Cajero)** y averigua **qué sedes** tiene asignadas.
-3. El sistema redirige automáticamente al Dashboard correspondiente.
+### 2.1. Ingreso Inteligente al Sistema
+El acceso a la plataforma se realiza única y exclusivamente a través del enlace oficial:
+👉 **[https://sistema-financiero.corporacionjjja.com/](https://sistema-financiero.corporacionjjja.com/)**
 
-### 2.2. ¿Olvidaste tu contraseña? (Recuperación)
-Para evitar que un cajero quede bloqueado por olvido de credenciales:
-1. En la pantalla de login, se hace clic en el enlace **"¿Olvidaste tu contraseña?"**.
-2. Se solicitará el correo electrónico registrado en el sistema.
-3. El sistema enviará un **correo de recuperación con un enlace seguro** para que el usuario pueda crear una nueva contraseña y volver a ingresar inmediatamente, sin depender del Administrador en fines de semana o feriados.
+1. Ingresa a la URL desde cualquier navegador web moderno (Chrome, Safari, Edge).
+2. El usuario introduce su **correo electrónico corporativo** y su **contraseña de seguridad**.
+3. El sistema valida instantáneamente si el usuario está **Activo**.
+4. Detrás de escena, el motor de seguridad determina automáticamente el **Nivel (Admin o Cajero)** y averigua exactamente **qué sedes** tiene permitidas.
+5. Finalmente, el sistema te redirige de forma automática al Dashboard que te corresponde.
+
+### 2.2. ¿Olvidaste tu contraseña? (Recuperación Autónoma)
+Para evitar que un cajero o administrador quede bloqueado por olvido de credenciales (especialmente en fines de semana o feriados):
+
+1. En la pantalla de login principal, haz clic en el enlace inferior **"¿Olvidaste tu contraseña?"**.
+2. Ingresa el **correo electrónico** que tienes registrado en el sistema y presiona enviar.
+3. El servidor te enviará un **correo de recuperación con un enlace temporal y seguro**.
+4. Haz clic en el enlace que llegó a tu correo, crea tu nueva contraseña y vuelve a ingresar inmediatamente. Todo el proceso es 100% automático y no requiere intervención de soporte técnico.
 
 ---
 
