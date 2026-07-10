@@ -270,26 +270,26 @@ export const AdminDashboard: React.FC = () => {
         // Stop blocking UI for the main metrics
         setLoading(false);
 
-        // Background loading for Sedes Pie Chart
-        const sedesConMovimientos = await Promise.all(
-          sedesData.map(async (sede: any) => {
-            const movs = await movimientoService.getMovimientosBySede(user?.token || '', sede.id);
-            let total_ingresos = 0;
-            let total_egresos = 0;
-            if (movs.success && movs.data) {
-              movs.data.forEach((m: any) => {
-                if (m.tipo_movimiento) total_ingresos += m.monto;
-                else total_egresos += m.monto;
-              });
+        // Calculate Sedes data from the already fetched transactions (no extra network requests needed)
+        const sedesConMovimientos = sedesData.map((sede: any) => {
+          let total_ingresos = 0;
+          let total_egresos = 0;
+          
+          transaccionesData.forEach((tx: any) => {
+            if (tx.sede === sede.nombre) {
+              const monto = Number(tx.monto || 0);
+              if (tx.tipo_movimiento) total_ingresos += monto;
+              else total_egresos += monto;
             }
-            return {
-              sede: sede.nombre,
-              color: sede.color,
-              total_ingresos,
-              total_egresos
-            };
-          })
-        );
+          });
+
+          return {
+            sede: sede.nombre,
+            color: sede.color,
+            total_ingresos,
+            total_egresos
+          };
+        });
 
         // Parse Sedes Dist
         const sDist = sedesConMovimientos.map((s: any, idx: number) => {
