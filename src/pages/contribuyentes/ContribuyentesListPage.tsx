@@ -742,7 +742,7 @@ export const ContribuyentesListPage: React.FC = () => {
       {/* Table */}
       <div className="bg-white dark:bg-[#16212E] border border-slate-200 dark:border-[#1E2D3D] rounded-xl shadow-sm overflow-hidden mb-6">
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm table-fixed">
+          <table className="w-full min-w-[1000px] text-left text-sm">
             <colgroup>
               <col className={isAdmin ? "w-[28%] sm:w-[28%]" : "w-[35%] sm:w-[40%]"} />
               <col className="w-[12%] sm:w-[14%]" />
@@ -782,19 +782,19 @@ export const ContribuyentesListPage: React.FC = () => {
                 <TableSkeleton isAdmin={isAdmin} />
               ) : paginated.length > 0 ? paginated.map(c => (
                 <tr key={c.id} className="hover:bg-slate-50 dark:hover:bg-[#1E2D3D]/50 transition-colors">
-                  <td className="px-4 sm:px-6 py-4 whitespace-normal break-words">
+                  <td className="px-4 sm:px-6 py-4 whitespace-nowrap">
                     <div className="flex flex-col">
-                      <span className="font-semibold text-slate-800 dark:text-slate-100 leading-tight">{c.razonSocial}</span>
+                      <span className="font-semibold text-slate-800 dark:text-slate-100 leading-tight truncate max-w-[300px]">{c.razonSocial}</span>
                     </div>
                   </td>
-                  <td className="px-2 sm:px-6 py-4 font-mono text-xs text-slate-600 dark:text-slate-300 whitespace-normal break-all">
+                  <td className="px-4 sm:px-6 py-4 font-mono text-xs text-slate-600 dark:text-slate-300 whitespace-nowrap">
                     {c.ruc}
                   </td>
-                  <td className="px-2 sm:px-6 py-4 text-xs text-slate-500 dark:text-slate-400 whitespace-normal">
+                  <td className="px-4 sm:px-6 py-4 text-xs text-slate-500 dark:text-slate-400 whitespace-nowrap">
                     {c.tipoContribuyente}
                   </td>
                   {isAdmin && (
-                    <td className="px-2 sm:px-6 py-4 text-xs text-slate-500 dark:text-slate-400 whitespace-normal">
+                    <td className="px-4 sm:px-6 py-4 text-xs text-slate-500 dark:text-slate-400 whitespace-nowrap truncate max-w-[150px]">
                       {c.sede}
                     </td>
                   )}
