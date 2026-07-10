@@ -39,19 +39,13 @@ El **Sistema Financiero Corporativo** ha sido diseñado bajo una arquitectura de
 
 Todo el sistema gira en torno a estos dos perfiles fundamentales:
 
-#### 👑 NIVEL 1: ADMINISTRADOR (Control Total)
-Es el rol gerencial de la corporación.
-- **Visibilidad Global:** Tiene acceso a los saldos, gráficos de flujo y todas las transacciones de **absolutamente todas las sedes** y **todas las empresas**.
-- **Configuración Estratégica:** Es el único perfil autorizado para crear nuevas Sedes, Empresas, Cajas Bancarias, Usuarios del sistema y Series de Comprobantes.
-- **Gestión de Catálogos:** Único con acceso para añadir Tipos de Documento, Tipos de Teléfono, Tipos de Credencial y Rubros Comerciales.
-- **Gestión de Contribuyentes:** Al igual que el Nivel 2, puede crear y administrar el directorio completo de Contribuyentes.
-
-#### 👷 NIVEL 2: CAJERO / OPERADOR (Control por Sede)
-Es el rol de trinchera y operaciones diarias.
-- **Visibilidad Restringida:** Un cajero tiene asignada **una o más sedes**. Solo podrá ver la información financiera de las sedes que el Administrador le haya habilitado. Todo lo que ocurra fuera de sus sedes asignadas es completamente invisible para él.
-- **Operativa Financiera:** Su función principal es registrar **Ingresos y Egresos** de dinero de las cajas habilitadas en su sede.
-- **Autonomía Operativa:** Sus registros de ingreso y egreso impactan los saldos de la caja de forma inmediata, agilizando el ritmo de trabajo.
-- **Gestión de Contribuyentes Avanzada:** Al igual que el Admin, el Cajero tiene la responsabilidad de alimentar el CRM. **Puede crear contribuyentes, y gestionar sus credenciales, agregar números de teléfono y subir documentos PDF/JPG** asociados a cada persona o empresa.
+| Área de Operación | 👑 NIVEL 1: ADMINISTRADOR (Gerencia) | 👷 NIVEL 2: CAJERO / OPERADOR (Trinchera) |
+|-------------------|--------------------------------------|-------------------------------------------|
+| **Visibilidad** | **Global:** Tiene acceso a los saldos, gráficos de flujo y todas las transacciones de **absolutamente todas las sedes** y empresas. | **Restringida:** Un cajero tiene asignada **una o más sedes**. Solo podrá ver la información financiera de esas sedes. Todo lo que ocurra fuera de ellas es invisible. |
+| **Configuración** | **Estratégica:** Único perfil autorizado para crear nuevas Sedes, Empresas, Cajas Bancarias, Usuarios del sistema y Series de Comprobantes. | **Nula:** No tiene acceso a la estructura y catálogos de negocio. |
+| **Operativa** | **Monitoreo y Auditoría:** Su rol principal es analizar flujos, no el día a día. | **Financiera Directa:** Registra **Ingresos y Egresos** de dinero en sus cajas. Sus registros impactan los saldos de forma inmediata, con total autonomía operativa. |
+| **Gestión de Catálogos** | **Catálogos Base:** Único con acceso para añadir Tipos de Documento, Tipos de Teléfono, Tipos de Credencial y Rubros Comerciales. | **Consumidor:** Usa los catálogos creados por el administrador pero no puede inventar nuevos. |
+| **Contribuyentes (CRM)** | **Administrador:** Puede crear y administrar el directorio completo de Contribuyentes. | **Gestión Avanzada:** Al igual que el Admin, el Cajero puede crear contribuyentes, gestionar sus credenciales, agregar teléfonos y subir documentos PDF/JPG. |
 
 ---
 
