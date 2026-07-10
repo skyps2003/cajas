@@ -39,13 +39,10 @@ El **Sistema Financiero Corporativo** ha sido diseñado bajo una arquitectura de
 
 Todo el sistema gira en torno a estos dos perfiles fundamentales:
 
-| Área de Operación | 👑 NIVEL 1: ADMINISTRADOR (Gerencia) | 👷 NIVEL 2: CAJERO / OPERADOR (Trinchera) |
-|-------------------|--------------------------------------|-------------------------------------------|
-| **Visibilidad** | **Global:** Tiene acceso a los saldos, gráficos de flujo y todas las transacciones de **absolutamente todas las sedes** y empresas. | **Restringida:** Un cajero tiene asignada **una o más sedes**. Solo podrá ver la información financiera de esas sedes. Todo lo que ocurra fuera de ellas es invisible. |
-| **Configuración** | **Estratégica:** Único perfil autorizado para crear nuevas Sedes, Empresas, Cajas Bancarias, Usuarios del sistema y Series de Comprobantes. | **Nula:** No tiene acceso a la estructura y catálogos de negocio. |
-| **Operativa** | **Monitoreo y Auditoría:** Su rol principal es analizar flujos, no el día a día. | **Financiera Directa:** Registra **Ingresos y Egresos** de dinero en sus cajas. Sus registros impactan los saldos de forma inmediata, con total autonomía operativa. |
-| **Gestión de Catálogos** | **Catálogos Base:** Único con acceso para añadir Tipos de Documento, Tipos de Teléfono, Tipos de Credencial y Rubros Comerciales. | **Consumidor:** Usa los catálogos creados por el administrador pero no puede inventar nuevos. |
-| **Contribuyentes (CRM)** | **Administrador:** Puede crear y administrar el directorio completo de Contribuyentes. | **Gestión Avanzada:** Al igual que el Admin, el Cajero puede crear contribuyentes, gestionar sus credenciales, agregar teléfonos y subir documentos PDF/JPG. |
+| Rol | Nivel | Permisos Clave |
+|-----|-------|----------------|
+| **Administrador** | **1 (Control Global)** | **Visibilidad Total:** Acceso a los saldos, gráficos y transacciones de absolutamente todas las sedes y empresas.<br><br>**Configuración Exclusiva:** Único perfil autorizado para crear y gestionar Usuarios, Sedes, Cajas Bancarias, Empresas y Series de Comprobantes.<br><br>**Gestión de Contribuyentes:** Acceso completo para crear, editar, eliminar y actualizar contribuyentes, así como gestionar todos sus catálogos (Rubros, Credenciales, etc.). |
+| **Cajero / Operador** | **2 (Control por Sede)** | **Visibilidad Aislada:** Un cajero tiene asignada una o más sedes. Solo podrá ver la información financiera de esas sedes. Todo lo que ocurra fuera de ellas es invisible.<br><br>**Operativa Financiera:** Su función principal es registrar **Ingresos y Egresos** de dinero. Sus registros impactan los saldos de forma inmediata con total autonomía.<br><br>**Módulo de Contribuyentes Completo:** Tiene acceso **total** a todo el menú de Contribuyentes. Puede gestionar contribuyentes, crear rubros, tipos de credenciales, tipos de teléfono y tipos de documentos. |
 
 ---
 
@@ -179,12 +176,12 @@ Al entrar al perfil de un cliente/proveedor, ambos roles tienen poder para gesti
 | **Documentos Digitales** | Subir PDFs o Imágenes al repositorio (Contratos, Ficha RUC, DNI escaneado). El sistema los guarda en la nube para acceso futuro. |
 | **Credenciales** | Almacenar usuarios y contraseñas (ej. Clave SOL, Accesos web). El sistema audita silenciosamente quién "destapa" la clave. |
 
-### 5.2. Catálogos del Contribuyente (Exclusivo Nivel 1)
-Aunque el Cajero crea contribuyentes, solo el **Administrador** puede modificar las reglas base en los submenús del sidebar:
-- Crear nuevos **Rubros** Comerciales.
-- Añadir nuevos **Tipos de Credenciales**.
-- Añadir **Tipos de Teléfonos**.
-- Añadir **Tipos de Documento**.
+### 5.2. Catálogos y Parámetros del Contribuyente
+Para asegurar fluidez, **tanto el Administrador como el Cajero** tienen acceso directo para alimentar y gestionar las reglas base y submenús asociados a los contribuyentes:
+- Crear y editar **Rubros** Comerciales.
+- Añadir y modificar **Tipos de Credenciales**.
+- Añadir y editar **Tipos de Teléfonos**.
+- Crear nuevos **Tipos de Documentos** aceptados en el sistema.
 
 ---
 
