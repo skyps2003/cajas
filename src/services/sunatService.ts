@@ -34,8 +34,11 @@ export const sunatService = {
       throw new Error('El RUC debe tener exactamente 11 dígitos numéricos.');
     }
 
-    const url = import.meta.env.PROD ? `https://api.apis.net.pe/v1/ruc?numero=${ruc}` : `/api/peru/v1/ruc?numero=${ruc}`;
-    const response = await fetch(url);
+    const API_URL = import.meta.env.VITE_API_URL || 'https://caja.corporacionjjja.com/api';
+    const token = localStorage.getItem('auth_token');
+    const response = await fetch(`${API_URL}/consulta-documento/ruc/${ruc}`, {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
 
     if (!response.ok) {
       if (response.status === 404) {
@@ -44,37 +47,14 @@ export const sunatService = {
       throw new Error(`Error al consultar SUNAT (${response.status}). Intente nuevamente.`);
     }
 
-    const data = await response.json();
+    const res = await response.json();
+    if (!res.success) throw new Error('RUC no encontrado');
+    const data = res.data;
 
     // Detectar tipo según dígitos del RUC
     const tipoContribuyente = sunatService.detectTipoContribuyente(ruc);
 
-    // La API devuelve distintos campos según tipo
-    // Para persona jurídica: razonSocial, nombreComercial, direccion, estado
-    // Para persona natural: nombre, apellidoPaterno, apellidoMaterno, direccion, estado
-    let razonSocial = '';
-    if (tipoContribuyente === 'Persona Natural') {
-      const nombres = (data.nombre || data.nombres || '').trim();
-      const apPat = (data.apellidoPaterno || '').trim();
-      const apMat = (data.apellidoMaterno || '').trim();
-      
-      if (apPat || apMat) {
-        // Formato: APELLIDO PATERNO APELLIDO MATERNO, NOMBRES
-        razonSocial = `${apPat} ${apMat}`.trim();
-        if (nombres) {
-          razonSocial += `, ${nombres}`;
-        }
-        razonSocial = razonSocial.toUpperCase();
-      } else {
-        razonSocial = nombres.toUpperCase();
-      }
-      
-      if (!razonSocial) {
-        razonSocial = data.razonSocial || '';
-      }
-    } else {
-      razonSocial = data.razonSocial || data.nombre || '';
-    }
+    const razonSocial = data.razonSocial || data.nombre || '';
 
     const estadoRaw = (data.estado || '').toUpperCase();
     const estado: 'ACTIVO' | 'INACTIVO' =

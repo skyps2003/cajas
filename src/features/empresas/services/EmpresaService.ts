@@ -102,35 +102,41 @@ export const EmpresaService = {
     }
   },
 
-  // SUNAT / RENIEC using apis.net.pe v1 (free, no API key required) via Vite proxy
+  // SUNAT / RENIEC using backend API
   consultarDocumento: async (documento: string): Promise<{ success: boolean; razon_social?: string; direccion?: string; message?: string }> => {
     try {
       if (documento.length === 8) {
         // DNI
-        const url = import.meta.env.PROD ? `https://api.apis.net.pe/v1/dni?numero=${documento}` : `/api/peru/v1/dni?numero=${documento}`;
-        const response = await fetch(url);
+        const token = localStorage.getItem('auth_token');
+        const response = await fetch(`${API_URL}/consulta-documento/dni/${documento}`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
         if (!response.ok) {
-          const errData = await response.json().catch(() => ({}));
-          return { success: false, message: errData.error || 'DNI no encontrado o inválido' };
+          return { success: false, message: 'DNI no encontrado o inválido' };
         }
-        const data = await response.json();
+        const res = await response.json();
+        if (!res.success) return { success: false, message: 'DNI no encontrado' };
+        const data = res.data;
         return { success: true, razon_social: `${data.nombres} ${data.apellidoPaterno} ${data.apellidoMaterno}`, direccion: '' };
 
       } else if (documento.length === 11) {
         // RUC
-        const url = import.meta.env.PROD ? `https://api.apis.net.pe/v1/ruc?numero=${documento}` : `/api/peru/v1/ruc?numero=${documento}`;
-        const response = await fetch(url);
+        const token = localStorage.getItem('auth_token');
+        const response = await fetch(`${API_URL}/consulta-documento/ruc/${documento}`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
         if (!response.ok) {
-          const errData = await response.json().catch(() => ({}));
-          return { success: false, message: errData.error || 'RUC no encontrado o inválido' };
+          return { success: false, message: 'RUC no encontrado o inválido' };
         }
-        const data = await response.json();
-        return { success: true, razon_social: data.nombre, direccion: data.direccion };
+        const res = await response.json();
+        if (!res.success) return { success: false, message: 'RUC no encontrado' };
+        const data = res.data;
+        return { success: true, razon_social: data.razonSocial || data.nombre, direccion: data.direccion || '' };
       }
       return { success: false, message: 'Documento debe tener 8 (DNI) u 11 (RUC) dígitos' };
     } catch (error) {
       console.error('Error fetching sunat/reniec data:', error);
-      return { success: false, message: 'Error de conexión con servicio externo' };
+      return { success: false, message: 'Error de conexión con servicio' };
     }
   }
 };
