@@ -7,6 +7,7 @@ import type { DocumentoResponse } from '../../services/documentoService';
 import { tipoDocumentoService } from '../../services/tipoDocumentoService';
 import type { TipoDocumentoResponse } from '../../services/tipoDocumentoService';
 import { rubroService } from '../../services/rubroService';
+import type { RubroResponse } from '../../services/rubroService';
 
 
 interface DocumentoModalProps {
@@ -19,6 +20,7 @@ interface DocumentoModalProps {
 
 const EMPTY_FORM = {
   id_tipo_documento: '',
+  id_rubro: '',
   nombre_documento: '',
   observaciones: '',
   estado: true
@@ -38,6 +40,7 @@ export const DocumentoModal: React.FC<DocumentoModalProps> = ({
   const { user } = useAuth();
   
   const [tiposDocumento, setTiposDocumento] = useState<TipoDocumentoResponse[]>([]);
+  const [rubros, setRubros] = useState<RubroResponse[]>([]);
 
   
   const [formData, setFormData] = useState<any>({ ...EMPTY_FORM });
@@ -54,6 +57,7 @@ export const DocumentoModal: React.FC<DocumentoModalProps> = ({
       if (editingDocumento) {
         setFormData({
           id_tipo_documento: '',
+          id_rubro: '',
           nombre_documento: editingDocumento.nombre_documento || '',
           observaciones: editingDocumento.observaciones || '',
           estado: editingDocumento.estado
@@ -70,17 +74,19 @@ export const DocumentoModal: React.FC<DocumentoModalProps> = ({
   const loadDependencies = async () => {
     if (!user?.token) return;
     try {
-      const [tdRes] = await Promise.all([
+      const [tdRes, rubrosRes] = await Promise.all([
         tipoDocumentoService.getAll(user.token),
         rubroService.getAll(user.token)
       ]);
       setTiposDocumento(tdRes);
+      setRubros(rubrosRes);
 
       // Si estamos editando y faltaban los IDs, tratamos de matchearlos por nombre
       if (editingDocumento) {
         setFormData((prev: any) => ({
           ...prev,
           id_tipo_documento: prev.id_tipo_documento || tdRes.find(t => t.nombre_tipo_documento === editingDocumento.tipo_documento)?.id.toString() || '',
+          id_rubro: prev.id_rubro || rubrosRes.find(r => r.nombre_rubro === editingDocumento.rubro)?.id.toString() || '',
         }));
       }
     } catch (error) {
@@ -92,7 +98,7 @@ export const DocumentoModal: React.FC<DocumentoModalProps> = ({
     e.preventDefault();
     if (!user?.token) return;
     
-    if (!formData.nombre_documento || !formData.id_tipo_documento) {
+    if (!formData.nombre_documento || !formData.id_tipo_documento || !formData.id_rubro) {
       showToast('warning', 'Campos incompletos', 'Llene todos los campos requeridos.');
       return;
     }
@@ -107,6 +113,7 @@ export const DocumentoModal: React.FC<DocumentoModalProps> = ({
       const formPayload = new FormData();
       formPayload.append('id_registro_contribuyente', String(contribuyenteId));
       formPayload.append('id_tipo_documento', formData.id_tipo_documento);
+      formPayload.append('id_rubro', formData.id_rubro);
       formPayload.append('nombre_documento', formData.nombre_documento);
       formPayload.append('observaciones', formData.observaciones || '');
       
@@ -181,21 +188,41 @@ export const DocumentoModal: React.FC<DocumentoModalProps> = ({
               />
             </div>
 
-            <div className="flex flex-col">
-              <label className={labelCls}>Tipo de Documento</label>
-              <div className="relative">
-                <select
-                  className={`${inputCls} appearance-none cursor-pointer`}
-                  required
-                  value={formData.id_tipo_documento}
-                  onChange={(e) => setFormData({ ...formData, id_tipo_documento: e.target.value })}
-                >
-                  <option value="" disabled className="text-slate-400">Seleccione tipo...</option>
-                  {tiposDocumento.map(td => (
-                    <option key={td.id} value={td.id}>{td.nombre_tipo_documento}</option>
-                  ))}
-                </select>
-                <ChevronDown size={16} className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
+            <div className="grid grid-cols-2 gap-4">
+              <div className="flex flex-col">
+                <label className={labelCls}>Tipo de Documento</label>
+                <div className="relative">
+                  <select
+                    className={`${inputCls} appearance-none cursor-pointer`}
+                    required
+                    value={formData.id_tipo_documento}
+                    onChange={(e) => setFormData({ ...formData, id_tipo_documento: e.target.value })}
+                  >
+                    <option value="" disabled className="text-slate-400">Seleccione tipo...</option>
+                    {tiposDocumento.map(td => (
+                      <option key={td.id} value={td.id}>{td.nombre_tipo_documento}</option>
+                    ))}
+                  </select>
+                  <ChevronDown size={16} className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
+                </div>
+              </div>
+
+              <div className="flex flex-col">
+                <label className={labelCls}>Rubro / Área</label>
+                <div className="relative">
+                  <select
+                    className={`${inputCls} appearance-none cursor-pointer`}
+                    required
+                    value={formData.id_rubro}
+                    onChange={(e) => setFormData({ ...formData, id_rubro: e.target.value })}
+                  >
+                    <option value="" disabled className="text-slate-400">Seleccione rubro...</option>
+                    {rubros.map(r => (
+                      <option key={r.id} value={r.id}>{r.nombre_rubro}</option>
+                    ))}
+                  </select>
+                  <ChevronDown size={16} className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
+                </div>
               </div>
             </div>
             

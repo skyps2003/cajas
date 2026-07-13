@@ -688,7 +688,7 @@ export const CajeroMovimientosPage: React.FC = () => {
             </div>
             
             <div style={{ width: '100%', height: 192 }}>
-              <ResponsiveContainer width="100%" height={192}>
+              <ResponsiveContainer width="100%" height={192} minWidth={1} minHeight={1}>
                 <AreaChart data={chartDataSemanal}>
                   <defs>
                     <linearGradient id="colorIngresos" x1="0" y1="0" x2="0" y2="1">

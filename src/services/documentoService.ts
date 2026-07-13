@@ -32,7 +32,11 @@ export const documentoService = {
       },
       body: formData
     });
-    if (!response.ok) throw new Error(`HTTP error ${response.status}`);
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      console.error('Validation errors:', errorData);
+      throw new Error(`HTTP error ${response.status}: ${JSON.stringify(errorData)}`);
+    }
     const result = await response.json();
     return result;
   },
@@ -45,7 +49,11 @@ export const documentoService = {
       },
       body: formData
     });
-    if (!response.ok) throw new Error(`HTTP error ${response.status}`);
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      console.error('Validation errors:', errorData);
+      throw new Error(`HTTP error ${response.status}: ${JSON.stringify(errorData)}`);
+    }
     const result = await response.json();
     return result;
   },

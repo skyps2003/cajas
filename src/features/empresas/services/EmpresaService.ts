@@ -107,7 +107,7 @@ export const EmpresaService = {
     try {
       if (documento.length === 8) {
         // DNI
-        const response = await fetch(`https://api.apis.net.pe/v1/dni?numero=${documento}`);
+        const response = await fetch(`/api/peru/v1/dni?numero=${documento}`);
         if (!response.ok) {
           const errData = await response.json().catch(() => ({}));
           return { success: false, message: errData.error || 'DNI no encontrado o inválido' };
@@ -117,7 +117,7 @@ export const EmpresaService = {
 
       } else if (documento.length === 11) {
         // RUC
-        const response = await fetch(`https://api.apis.net.pe/v1/ruc?numero=${documento}`);
+        const response = await fetch(`/api/peru/v1/ruc?numero=${documento}`);
         if (!response.ok) {
           const errData = await response.json().catch(() => ({}));
           return { success: false, message: errData.error || 'RUC no encontrado o inválido' };
