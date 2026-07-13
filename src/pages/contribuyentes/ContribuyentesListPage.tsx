@@ -132,7 +132,7 @@ const ContribuyenteModal: React.FC<ContribuyenteModalProps> = ({ isOpen, onClose
         razonSocial: data.razonSocial,
         tipoContribuyente: data.tipoContribuyente,
         estado: data.estado,
-        direccionFiscal: data.direccionFiscal,
+        direccionFiscal: data.direccionFiscal || '-',
         ubigeo: data.ubigeo || '',
       }));
       showToast('success', 'RUC Consultado', `${data.razonSocial} — datos importados de SUNAT.`);
@@ -146,7 +146,6 @@ const ContribuyenteModal: React.FC<ContribuyenteModalProps> = ({ isOpen, onClose
   const handleSubmit = async () => {
     if (formData.ruc.length !== 11) { setError('El RUC debe tener 11 dígitos numéricos.'); return; }
     if (!formData.razonSocial.trim()) { setError('La Razón Social es obligatoria.'); return; }
-    if (!formData.direccionFiscal.trim()) { setError('La Dirección Fiscal es obligatoria.'); return; }
     setError(null);
     setIsSaving(true);
     
