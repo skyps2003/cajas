@@ -34,7 +34,8 @@ export const sunatService = {
       throw new Error('El RUC debe tener exactamente 11 dígitos numéricos.');
     }
 
-    const response = await fetch(`/api/peru/v1/ruc?numero=${ruc}`);
+    const url = import.meta.env.PROD ? `https://api.apis.net.pe/v1/ruc?numero=${ruc}` : `/api/peru/v1/ruc?numero=${ruc}`;
+    const response = await fetch(url);
 
     if (!response.ok) {
       if (response.status === 404) {
