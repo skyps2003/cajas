@@ -10,6 +10,8 @@ export * from './admin/AdminApprovalsPage/AdminApprovalsPage';
 export * from './admin/AdminDocumentsPage/AdminDocumentsPage';
 export * from './admin/AdminComprobantesPage/AdminComprobantesPage';
 export * from './CajeroMovimientosPage/CajeroMovimientosPage';
+export * from './CajeroCierresPage/CajeroCierresPage';
+export * from './admin/AdminMovimientosCerradosPage/AdminMovimientosCerradosPage';
 
 // Contribuyentes Pages
 export * from './contribuyentes/ContribuyentesListPage';

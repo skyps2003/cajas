@@ -150,6 +150,50 @@ export const movimientoService = {
       console.error('Error deleting movimiento:', error);
       return { success: false, message: 'Error de red al eliminar movimiento' };
     }
+  },
+
+  getMovimientosCerrados: async (token: string): Promise<{ success: boolean; data?: MovimientoResponse[]; message?: string }> => {
+    try {
+      const response = await fetch(`${API_URL}/movimiento/cerrados/`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      const result = await response.json();
+      if (result.success && result.data && Array.isArray(result.data)) {
+        result.data = result.data.map((m: any) => ({
+          ...m,
+          monto: Number(m.monto),
+          tipo_movimiento: m.tipo_movimiento === 1 || m.tipo_movimiento === true
+        }));
+      } else {
+        result.data = [];
+      }
+      return result;
+    } catch (error) {
+      console.error('Error fetching movimientos cerrados:', error);
+      return { success: false, message: 'Error de red' };
+    }
+  },
+
+  getMovimientosCerradosBySede: async (token: string, sedeId: number): Promise<{ success: boolean; data?: MovimientoResponse[]; message?: string }> => {
+    try {
+      const response = await fetch(`${API_URL}/movimiento/cerrados/usuario-sede/${sedeId}`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      const result = await response.json();
+      if (result.success && result.data && Array.isArray(result.data)) {
+        result.data = result.data.map((m: any) => ({
+          ...m,
+          monto: Number(m.monto),
+          tipo_movimiento: m.tipo_movimiento === 1 || m.tipo_movimiento === true
+        }));
+      } else {
+        result.data = [];
+      }
+      return result;
+    } catch (error) {
+      console.error(`Error fetching movimientos cerrados for sede ${sedeId}:`, error);
+      return { success: false, message: 'Error de red' };
+    }
   }
 };
 

@@ -17,7 +17,11 @@ import {
   Edit2,
   Trash2,
   X,
-  CheckCircle2
+  CheckCircle2,
+  Archive,
+  Loader2,
+  RefreshCw,
+  AlertTriangle
 } from 'lucide-react';
 import { AreaChart, Area, XAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { Pagination } from '../../components/Pagination';
@@ -44,6 +48,7 @@ export const CajeroMovimientosPage: React.FC = () => {
   const [razonSocial, setRazonSocial] = useState('');
   const [serie, setSerie] = useState('');
   const [correlativo, setCorrelativo] = useState('');
+  const [cambio, setCambio] = useState('');
   
   const [empresaBuscada, setEmpresaBuscada] = useState<Empresa | null>(null);
 
@@ -52,8 +57,18 @@ export const CajeroMovimientosPage: React.FC = () => {
   const [movimientoToDelete, setMovimientoToDelete] = useState<Movimiento | null>(null);
   const [isConfirmingSubmit, setIsConfirmingSubmit] = useState(false);
 
+  // Cierre de Caja
+  const [showCierreModal, setShowCierreModal] = useState(false);
+  const [isSyncing, setIsSyncing] = useState(false);
+  const [isCerrando, setIsCerrando] = useState(false);
+  const [syncedMovimientos, setSyncedMovimientos] = useState<Movimiento[]>([]);
+  const [syncedCajas, setSyncedCajas] = useState<Caja[]>([]);
+  const [cierreResult, setCierreResult] = useState<any>(null);
+
   // Filters
   const [filterCaja, setFilterCaja] = useState<string>('all');
+  const [filterTipo, setFilterTipo] = useState<string>('all');
+  const [filterFecha, setFilterFecha] = useState<string>('');
   const [searchTerm, setSearchTerm] = useState<string>('');
 
   // Pagination
@@ -163,7 +178,7 @@ export const CajeroMovimientosPage: React.FC = () => {
       }
     } else if (nombreTipo.includes('BOLETA')) {
       if (!serie || !correlativo) {
-        showToast('error', 'Datos incompletos', 'Para BOLETA son obligatorios: Serie y Correlativo');
+        showToast('error', 'Datos incompletos', 'Para BOLETA son obligatorios la Serie y el Correlativo');
         return;
       }
     }
@@ -204,6 +219,7 @@ export const CajeroMovimientosPage: React.FC = () => {
       razon_social: razonSocial || undefined,
       serie: serie || undefined,
       correlativo: correlativo || undefined,
+      recibidode: cambio || undefined,
       fecha: fecha || undefined,
       updated_at: movimientoToEdit ? (fecha || undefined) : undefined
     };
@@ -232,8 +248,71 @@ export const CajeroMovimientosPage: React.FC = () => {
     setRazonSocial('');
     setSerie('');
     setCorrelativo('');
+    setCambio('');
     setFecha(new Date().toISOString().split('T')[0]);
     setEmpresaBuscada(null);
+  };
+
+  // ── Cierre de Caja ─────────────────────────────────────────────────────────
+  const handleAbrirCierre = async () => {
+    setIsSyncing(true);
+    setCierreResult(null);
+    try {
+      // Sincronizar movimientos y saldos desde el servidor antes de mostrar el resumen
+      const [resMovs, resCajas] = await Promise.all([
+        user?.sedeId
+          ? MovimientoService.getMovimientosBySede(jwt, user.sedeId)
+          : MovimientoService.getMovimientos(jwt),
+        user?.sedeId
+          ? CajaService.getCajasSedeSaldosById(jwt, user.sedeId)
+          : CajaService.getCajasSedeSaldos(jwt)
+      ]);
+
+      // Actualizar el estado global con los datos frescos
+      if (resMovs.success) {
+        const raw = (resMovs as any).data;
+        const arr: Movimiento[] = Array.isArray(raw) ? raw
+          : Array.isArray(raw?.data) ? raw.data
+          : [];
+        setMovimientos(arr);
+        setSyncedMovimientos(arr);
+      }
+      if (resCajas.success && resCajas.data) {
+        const cajasActivas = resCajas.data.filter(c => c.estado);
+        setCajas(cajasActivas);
+        setSyncedCajas(cajasActivas);
+      }
+
+      setShowCierreModal(true);
+    } catch (error) {
+      showToast('error', 'Error de red', 'No se pudo sincronizar los movimientos con el servidor');
+    } finally {
+      setIsSyncing(false);
+    }
+  };
+
+  const handleEjecutarCierre = async () => {
+    const usuarioSedeId = user?.usuarioSedeId || Number(localStorage.getItem('usuario_sede_id'));
+    if (!usuarioSedeId) {
+      showToast('error', 'Sin sesión de sede', 'No se pudo identificar la sesión de sede del cajero');
+      return;
+    }
+    setIsCerrando(true);
+    try {
+      const res = await MovimientoService.cerrarCaja(jwt, usuarioSedeId);
+      if (res.success) {
+        setCierreResult(res.data);
+        showToast('success', '¡Caja cerrada!', `Se cerraron ${res.data?.movimientos_cerrados || 0} movimientos correctamente`);
+        // Recargar datos frescos tras el cierre
+        loadData();
+      } else {
+        showToast('error', 'Error al cerrar caja', res.message || 'Ocurrió un error inesperado');
+      }
+    } catch (error) {
+      showToast('error', 'Error de red', 'No se pudo conectar con el servidor');
+    } finally {
+      setIsCerrando(false);
+    }
   };
 
   const handleEditClick = (mov: Movimiento) => {
@@ -291,7 +370,8 @@ export const CajeroMovimientosPage: React.FC = () => {
   // Helper para mostrar campos según comprobante seleccionado
   const tipoSeleccionado = tiposComprobante.find(t => t.id === Number(tipoComprobanteId));
   const requiresRuc = tipoSeleccionado?.nombre.toUpperCase().includes('FACTURA');
-  const requiresSerie = tipoSeleccionado?.nombre.toUpperCase().includes('FACTURA') || tipoSeleccionado?.nombre.toUpperCase().includes('BOLETA');
+  const requiresSerie = tipoSeleccionado?.nombre.toUpperCase().includes('FACTURA');
+  const requiresReciboPor = tipoSeleccionado?.nombre.toUpperCase().includes('BOLETA');
 
   // Stats computation
   const selectedCaja = cajas.find(c => c.id === Number(cajaId));
@@ -339,14 +419,29 @@ export const CajeroMovimientosPage: React.FC = () => {
     return { name, ingresos, egresos };
   });
 
-  // Table Filtering logic
   const filteredMovimientos = movimientos.filter(mov => {
     // 1. Filter by Caja
     if (filterCaja !== 'all' && mov.caja_id.toString() !== filterCaja) {
       return false;
     }
     
-    // 2. Filter by Search Term (Concepto/Descripción, RUC, Razón Social)
+    // 2. Filter by Tipo de Movimiento (Ingreso / Egreso)
+    // API may return 1/0 (number) or true/false (boolean) — coerce to boolean
+    if (filterTipo !== 'all') {
+      const esIngreso = Boolean(mov.tipo_movimiento);
+      if (filterTipo === 'ingreso' && !esIngreso) return false;
+      if (filterTipo === 'egreso' && esIngreso) return false;
+    }
+    
+    // 3. Filter by Fecha / Día
+    if (filterFecha) {
+      const movDate = (mov.fecha || (mov as any).created_at || '').split('T')[0];
+      if (movDate !== filterFecha) {
+        return false;
+      }
+    }
+    
+    // 4. Filter by Search Term (Concepto/Descripción, RUC, Razón Social)
     if (searchTerm) {
       const term = searchTerm.toLowerCase();
       const matchDescripcion = mov.descripcion?.toLowerCase().includes(term);
@@ -362,20 +457,48 @@ export const CajeroMovimientosPage: React.FC = () => {
     return true;
   });
 
+  // Sort by date descending (newest first). Compare date strings directly (yyyy-mm-dd is lexicographically safe)
+  const sortedMovimientos = [...filteredMovimientos].sort((a, b) => {
+    const dateA = (a.fecha || (a as any).created_at || '').split('T')[0];
+    const dateB = (b.fecha || (b as any).created_at || '').split('T')[0];
+    if (dateB > dateA) return 1;
+    if (dateB < dateA) return -1;
+    // Same date: most recently inserted (highest id) first
+    return (b.id || 0) - (a.id || 0);
+  });
+
   // Pagination logic
-  const totalPages = Math.ceil(filteredMovimientos.length / itemsPerPage);
-  const currentMovs = filteredMovimientos.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+  const totalPages = Math.ceil(sortedMovimientos.length / itemsPerPage);
+  const currentMovs = sortedMovimientos.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
   return (
-    <div className="space-y-6 animate-fade-in max-w-7xl mx-auto pb-10">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-[var(--sidebar-text-hover)] flex items-center gap-3">
-          Gestión de Movimientos
-        </h1>
-        <p className="text-sm text-[var(--sidebar-text)] mt-2 flex items-center gap-2">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#C4933F]"></span>
-          Operaciones de Caja y Registro de Transacciones
-        </p>
+    <>
+    <div className="p-6 md:p-8 max-w-[1400px] mx-auto w-full animate-fade-in space-y-6 pb-10">
+      <div className="mb-8 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+        <div>
+          <h1 className="text-2xl md:text-3xl font-bold text-[#1B2E4B] dark:text-white tracking-tight flex items-center gap-2">
+            <span className="w-1 h-8 bg-[#C4933F] rounded-full inline-block"></span>
+            Gestión de Movimientos
+          </h1>
+          <p className="text-sm text-[#6B7A94] dark:text-[#8899B4] mt-1 ml-3">
+            Operaciones de Caja y Registro de Transacciones
+          </p>
+        </div>
+
+        {/* Botón Cierre de Caja */}
+        {user?.usuarioSedeId && (
+          <button
+            onClick={handleAbrirCierre}
+            disabled={isSyncing}
+            className="flex items-center gap-2 bg-[#1A1E38] hover:bg-[#252B4A] disabled:opacity-60 disabled:cursor-not-allowed text-white px-5 py-3 rounded-xl font-bold text-sm transition-all shadow-md border border-[#C4933F]/30 hover:border-[#C4933F]/60 active:scale-[0.98] self-start"
+          >
+            {isSyncing ? (
+              <><Loader2 size={16} className="animate-spin" /> Sincronizando...</>
+            ) : (
+              <><RefreshCw size={15} /> <Archive size={16} /> Cerrar Caja</>
+            )}
+          </button>
+        )}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -533,7 +656,7 @@ export const CajeroMovimientosPage: React.FC = () => {
             </div>
 
             {/* Campos condicionales de comprobante */}
-            {(requiresSerie || requiresRuc) && (
+            {(requiresSerie || requiresRuc || requiresReciboPor) && (
               <div className="bg-[var(--sidebar-bg)] border border-[var(--sidebar-border)] p-4 rounded-lg space-y-4 animate-fade-in relative overflow-hidden">
                 <div className="absolute top-0 left-0 w-1 h-full bg-[#C4933F]"></div>
                 
@@ -608,6 +731,44 @@ export const CajeroMovimientosPage: React.FC = () => {
                         />
                       </div>
                     </div>
+                  )}
+
+                  {/* Campos Boleta: Serie + Correlativo + Recibo Por */}
+                  {requiresReciboPor && (
+                    <>
+                      <div className={`flex gap-3 ${requiresRuc ? 'md:col-span-4' : 'md:col-span-12'}`}>
+                        <div className="w-1/3 space-y-1.5">
+                          <label className="text-[10px] font-bold text-[var(--sidebar-text)] uppercase tracking-wider">Serie *</label>
+                          <input
+                            type="text"
+                            value={serie}
+                            onChange={(e) => setSerie(e.target.value.toUpperCase())}
+                            placeholder="B001"
+                            className="w-full bg-[var(--sidebar-bg)] border border-[var(--sidebar-border)] rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-[#C4933F] focus:border-transparent outline-none text-[var(--sidebar-text-hover)] transition-all"
+                          />
+                        </div>
+                        <div className="w-2/3 space-y-1.5">
+                          <label className="text-[10px] font-bold text-[var(--sidebar-text)] uppercase tracking-wider">Nº Correlativo *</label>
+                          <input
+                            type="text"
+                            value={correlativo}
+                            onChange={(e) => setCorrelativo(e.target.value)}
+                            placeholder="000001"
+                            className="w-full bg-[var(--sidebar-bg)] border border-[var(--sidebar-border)] rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-[#C4933F] focus:border-transparent outline-none text-[var(--sidebar-text-hover)] transition-all"
+                          />
+                        </div>
+                      </div>
+                      <div className="md:col-span-12 space-y-1.5">
+                        <label className="text-[10px] font-bold text-[var(--sidebar-text)] uppercase tracking-wider">Recibo Por</label>
+                        <input
+                          type="text"
+                          value={cambio}
+                          onChange={(e) => setCambio(e.target.value)}
+                          placeholder="Nombre de quien recibe..."
+                          className="w-full bg-[var(--sidebar-bg)] border border-[var(--sidebar-border)] rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-[#C4933F] focus:border-transparent outline-none text-[var(--sidebar-text-hover)] transition-all"
+                        />
+                      </div>
+                    </>
                   )}
                 </div>
               </div>
@@ -738,7 +899,7 @@ export const CajeroMovimientosPage: React.FC = () => {
             <div className="w-1 h-5 bg-[#C4933F] rounded-full"></div>
             <h2 className="font-bold text-[var(--sidebar-text-hover)] text-lg">Auditoría de Movimientos</h2>
           </div>
-          <div className="flex items-center gap-3 w-full sm:w-auto">
+          <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto">
             <select 
               value={filterCaja}
               onChange={(e) => { setFilterCaja(e.target.value); setCurrentPage(1); }}
@@ -747,6 +908,32 @@ export const CajeroMovimientosPage: React.FC = () => {
               <option value="all">Todas las Cajas</option>
               {cajas.map(c => <option key={c.id} value={c.id.toString()}>{c.nombre}</option>)}
             </select>
+            <select 
+              value={filterTipo}
+              onChange={(e) => { setFilterTipo(e.target.value); setCurrentPage(1); }}
+              className="bg-[var(--sidebar-bg)] border border-[var(--sidebar-border)] text-[var(--sidebar-text-hover)] text-xs rounded-md px-3 py-2 outline-none focus:border-[#C4933F]"
+            >
+              <option value="all">Todos los Tipos</option>
+              <option value="ingreso">Solo Ingresos</option>
+              <option value="egreso">Solo Egresos</option>
+            </select>
+            <div className="flex items-center gap-1.5 bg-[var(--sidebar-bg)] border border-[var(--sidebar-border)] rounded-md px-3 py-2">
+              <input 
+                type="date"
+                value={filterFecha}
+                onChange={(e) => { setFilterFecha(e.target.value); setCurrentPage(1); }}
+                className="bg-transparent text-[var(--sidebar-text-hover)] text-xs outline-none focus:border-[#C4933F] w-28"
+              />
+              {filterFecha && (
+                <button 
+                  onClick={() => { setFilterFecha(''); setCurrentPage(1); }}
+                  className="text-[var(--sidebar-text)] hover:text-red-500 transition-colors cursor-pointer"
+                  title="Limpiar fecha"
+                >
+                  <X size={12} />
+                </button>
+              )}
+            </div>
             <div className="relative flex-1 sm:w-64">
               <Search className="absolute left-3 top-2 text-[var(--sidebar-text)]" size={14} />
               <input 
@@ -1020,6 +1207,15 @@ export const CajeroMovimientosPage: React.FC = () => {
                 <p className="text-sm font-semibold text-slate-800 dark:text-white">{movimientoToView.descripcion || 'Sin información'}</p>
               </div>
 
+              {(movimientoToView.tipo_comprobante?.toUpperCase().includes('BOLETA') || tiposComprobante.find(t => t.id === movimientoToView.tipo_comprobante_id)?.nombre.toUpperCase().includes('BOLETA')) && (
+                <div>
+                  <label className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Recibo Por</label>
+                  <p className="text-sm font-semibold text-slate-800 dark:text-white">
+                    {movimientoToView.boleta?.recibidode || movimientoToView.recibidode || movimientoToView.cambio || '-'}
+                  </p>
+                </div>
+              )}
+
               <div className="pt-2 border-t border-slate-100 dark:border-slate-800/50">
                 <label className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Responsable</label>
                 <p className="text-sm font-semibold text-slate-800 dark:text-white">
@@ -1031,6 +1227,216 @@ export const CajeroMovimientosPage: React.FC = () => {
         </div>,
         document.body
       )}
+
+      {/* Modal: Cierre de Caja */}
+      {showCierreModal && ReactDOM.createPortal(
+        <div
+          className="fixed inset-0 z-[10000] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-fade-in"
+          onClick={() => { if (!isCerrando) { setShowCierreModal(false); setCierreResult(null); } }}
+        >
+          <div
+            className="bg-white dark:bg-[#1a1f2e] w-[580px] max-w-[95vw] rounded-[24px] shadow-2xl flex flex-col border border-gray-100 dark:border-[var(--sidebar-border)] overflow-hidden relative"
+            style={{ maxHeight: '90vh' }}
+            onClick={e => e.stopPropagation()}
+          >
+            {/* Header integrado */}
+            <div className="px-6 sm:px-8 pt-8 pb-4 relative">
+              <div className="inline-block bg-blue-100/80 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full mb-3">
+                FORMULARIO DE GESTIÓN
+              </div>
+              <h2 className="text-[22px] font-black text-[#1B2E4B] dark:text-white tracking-tight leading-none">
+                Cierre de Caja
+              </h2>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-2">
+                {cierreResult ? 'Cierre ejecutado exitosamente' : 'Resumen sincronizado desde el servidor. Verifique los montos.'}
+              </p>
+
+              {!isCerrando && (
+                <button
+                  onClick={() => { setShowCierreModal(false); setCierreResult(null); }}
+                  className="absolute top-6 right-6 p-2 text-slate-400 hover:text-slate-600 dark:hover:text-white bg-white hover:bg-slate-50 dark:bg-[#16212E] dark:hover:bg-[#1E2D3D] rounded-full transition-all border border-gray-200 dark:border-[var(--sidebar-border)] shadow-sm"
+                >
+                  <X size={16} strokeWidth={2.5} />
+                </button>
+              )}
+            </div>
+
+            <div className="overflow-y-auto flex-1 p-6 space-y-5">
+              {/* Si ya se ejecutó el cierre: mostrar resultado */}
+              {cierreResult ? (
+                <>
+                  <div className="flex items-center gap-3 p-4 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800/40 rounded-xl">
+                    <CheckCircle2 className="text-emerald-500 flex-shrink-0" size={22} />
+                    <div>
+                      <p className="text-sm font-bold text-emerald-800 dark:text-emerald-300">Caja cerrada correctamente</p>
+                      <p className="text-xs text-emerald-700 dark:text-emerald-400 mt-0.5">
+                        {cierreResult.movimientos_cerrados} movimiento(s) cerrado(s) · Fecha: {new Date(cierreResult.fecha_cierre).toLocaleString('es-PE')}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-3 gap-3">
+                    <div className="bg-emerald-50 dark:bg-emerald-900/10 border border-emerald-100 dark:border-emerald-900/30 rounded-xl p-4 text-center">
+                      <p className="text-[10px] font-bold text-emerald-600 uppercase tracking-wider">Total Ingresos</p>
+                      <p className="text-lg font-black text-emerald-700 dark:text-emerald-400 mt-1">S/ {Number(cierreResult.total_ingresos).toLocaleString('en-US', {minimumFractionDigits: 2})}</p>
+                    </div>
+                    <div className="bg-rose-50 dark:bg-rose-900/10 border border-rose-100 dark:border-rose-900/30 rounded-xl p-4 text-center">
+                      <p className="text-[10px] font-bold text-rose-600 uppercase tracking-wider">Total Egresos</p>
+                      <p className="text-lg font-black text-rose-700 dark:text-rose-400 mt-1">S/ {Number(cierreResult.total_egresos).toLocaleString('en-US', {minimumFractionDigits: 2})}</p>
+                    </div>
+                    <div className="bg-blue-50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-900/30 rounded-xl p-4 text-center">
+                      <p className="text-[10px] font-bold text-blue-600 uppercase tracking-wider">Saldo Neto</p>
+                      <p className="text-lg font-black text-blue-700 dark:text-blue-400 mt-1">S/ {Number(cierreResult.saldo_cierre).toLocaleString('en-US', {minimumFractionDigits: 2})}</p>
+                    </div>
+                  </div>
+
+                  {cierreResult.cajas && cierreResult.cajas.length > 0 && (
+                    <div>
+                      <h4 className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-3">Detalle por Caja</h4>
+                      <div className="space-y-2">
+                        {cierreResult.cajas.map((c: any, idx: number) => (
+                          <div key={idx} className="flex items-center justify-between p-3.5 bg-[var(--sidebar-bg)] border border-[var(--sidebar-border)] rounded-xl text-sm">
+                            <div>
+                              <span className="font-bold text-[var(--sidebar-text-hover)]">{c.caja}</span>
+                              <span className="ml-2 text-[10px] text-slate-400">{c.movimientos_cerrados} mov.</span>
+                            </div>
+                            <div className="flex gap-4 text-xs">
+                              <span className="text-emerald-600 dark:text-emerald-400 font-semibold">+S/{Number(c.total_ingresos).toLocaleString()}</span>
+                              <span className="text-rose-600 dark:text-rose-400 font-semibold">-S/{Number(c.total_egresos).toLocaleString()}</span>
+                              <span className="font-black text-[var(--sidebar-text-hover)]">= S/{Number(c.saldo_cierre).toLocaleString()}</span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  <button
+                    onClick={() => { setShowCierreModal(false); setCierreResult(null); }}
+                    className="w-full py-3 bg-[#1A1E38] hover:bg-[#252B4A] text-white rounded-xl font-bold text-sm transition-colors"
+                  >
+                    Cerrar
+                  </button>
+                </>
+              ) : (
+                /* Vista previa antes de confirmar */
+                <>
+                  <div className="flex items-start gap-3 p-4 bg-amber-50 dark:bg-amber-900/15 border border-amber-200 dark:border-amber-800/40 rounded-xl">
+                    <AlertTriangle className="text-amber-500 flex-shrink-0 mt-0.5" size={18} />
+                    <div>
+                      <p className="text-sm font-bold text-amber-800 dark:text-amber-300">Movimientos sincronizados ✓</p>
+                      <p className="text-xs text-amber-700 dark:text-amber-400 mt-1 leading-relaxed">
+                        Los datos mostrados a continuación reflejan el estado actual del servidor.
+                        Al confirmar el cierre, todos los movimientos abiertos de esta sede quedarán registrados y los saldos de caja se reiniciarán a 0.
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Resumen por caja */}
+                  {syncedCajas.length > 0 && (
+                    <div>
+                      <h4 className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-3">Saldos Actuales por Caja</h4>
+                      <div className="space-y-3">
+                        {syncedCajas.map(caja => {
+                          const ingresos = syncedMovimientos.filter(m => m.caja_id === caja.id && m.tipo_movimiento).reduce((s, m) => s + Number(m.monto), 0);
+                          const egresos = syncedMovimientos.filter(m => m.caja_id === caja.id && !m.tipo_movimiento).reduce((s, m) => s + Number(m.monto), 0);
+                          const saldo = Number(caja.saldo);
+                          const color = caja.color || '#C4933F';
+                          return (
+                            <div
+                              key={caja.id}
+                              className="rounded-xl overflow-hidden border border-gray-100 dark:border-[var(--sidebar-border)] shadow-sm relative"
+                              style={{ backgroundColor: `${color}08` }}
+                            >
+                              {/* Barra de color superior */}
+                              <div className="absolute top-0 left-0 w-full h-1" style={{ backgroundColor: color }} />
+
+                              <div className="pt-4 px-4 pb-3">
+                                {/* Nombre + Saldo */}
+                                <div className="flex items-center justify-between mb-3">
+                                  <div className="flex items-center gap-2">
+                                    <span className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ backgroundColor: color }} />
+                                    <span className="text-sm font-black text-[var(--sidebar-text-hover)]">{caja.nombre}</span>
+                                  </div>
+                                  <div className="flex items-center gap-1.5 bg-white dark:bg-[#121622] px-3 py-1 rounded-lg shadow-sm border border-slate-100 dark:border-[#1E2D3D]">
+                                    <span className="text-[10px] font-bold text-slate-400 uppercase">Saldo</span>
+                                    <span className={`text-sm font-black ${saldo < 0 ? 'text-rose-600 dark:text-rose-400' : 'text-slate-800 dark:text-white'}`}>
+                                      S/ {saldo.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                                    </span>
+                                  </div>
+                                </div>
+
+                                {/* Stats rows */}
+                                <div className="grid grid-cols-2 gap-2">
+                                  <div className="flex justify-between items-center px-3 py-2 bg-emerald-50/80 dark:bg-emerald-900/10 rounded-lg border border-emerald-100 dark:border-emerald-900/30">
+                                    <span className="text-xs font-bold text-emerald-700 dark:text-emerald-400">Ingresos</span>
+                                    <span className="text-xs font-black text-emerald-600 dark:text-emerald-400">+S/ {ingresos.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
+                                  </div>
+                                  <div className="flex justify-between items-center px-3 py-2 bg-rose-50/80 dark:bg-rose-900/10 rounded-lg border border-rose-100 dark:border-rose-900/30">
+                                    <span className="text-xs font-bold text-rose-700 dark:text-rose-400">Egresos</span>
+                                    <span className="text-xs font-black text-rose-600 dark:text-rose-400">-S/ {egresos.toLocaleString('en-US', { minimumFractionDigits: 2 })}</span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+
+
+                  {/* Totales globales */}
+                  {syncedMovimientos.length > 0 && (() => {
+                    const totalIng = syncedMovimientos.filter(m => m.tipo_movimiento).reduce((s, m) => s + Number(m.monto), 0);
+                    const totalEg = syncedMovimientos.filter(m => !m.tipo_movimiento).reduce((s, m) => s + Number(m.monto), 0);
+                    return (
+                      <div className="grid grid-cols-3 gap-3">
+                        <div className="bg-emerald-50 dark:bg-emerald-900/10 border border-emerald-100 dark:border-emerald-900/30 rounded-xl p-3 text-center">
+                          <p className="text-[10px] font-bold text-emerald-600 uppercase tracking-wider">Ingresos Totales</p>
+                          <p className="text-base font-black text-emerald-700 dark:text-emerald-400 mt-1">S/ {totalIng.toLocaleString('en-US', {minimumFractionDigits: 2})}</p>
+                        </div>
+                        <div className="bg-rose-50 dark:bg-rose-900/10 border border-rose-100 dark:border-rose-900/30 rounded-xl p-3 text-center">
+                          <p className="text-[10px] font-bold text-rose-600 uppercase tracking-wider">Egresos Totales</p>
+                          <p className="text-base font-black text-rose-700 dark:text-rose-400 mt-1">S/ {totalEg.toLocaleString('en-US', {minimumFractionDigits: 2})}</p>
+                        </div>
+                        <div className="bg-slate-50 dark:bg-slate-800/30 border border-slate-200 dark:border-slate-700/30 rounded-xl p-3 text-center">
+                          <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Movimientos</p>
+                          <p className="text-base font-black text-slate-700 dark:text-slate-300 mt-1">{syncedMovimientos.length}</p>
+                        </div>
+                      </div>
+                    );
+                  })()}
+
+                  {/* Botones */}
+                  <div className="flex items-center justify-center gap-4 pt-6 mt-2">
+                    <button
+                      onClick={handleEjecutarCierre}
+                      disabled={isCerrando}
+                      className="w-48 py-3 bg-[#C4933F] hover:bg-[#b08438] disabled:opacity-60 disabled:cursor-not-allowed text-white rounded-xl text-sm font-bold transition-all shadow-md flex items-center justify-center gap-2 active:scale-95"
+                    >
+                      {isCerrando ? (
+                        <><Loader2 size={16} className="animate-spin" /> Procesando...</>
+                      ) : (
+                        'Confirmar Cierre'
+                      )}
+                    </button>
+                    <button
+                      onClick={() => { setShowCierreModal(false); setCierreResult(null); }}
+                      disabled={isCerrando}
+                      className="w-40 py-3 bg-white dark:bg-[#1a1f2e] border border-gray-200 dark:border-[var(--sidebar-border)] rounded-xl text-sm font-bold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-[#16212E] transition-all shadow-sm active:scale-95 disabled:opacity-50"
+                    >
+                      Descartar
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+        </div>,
+        document.body
+      )}
     </div>
+    </>
   );
 };

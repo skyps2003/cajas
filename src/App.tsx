@@ -13,6 +13,7 @@ import {
   AdminDocumentsPage,
   AdminComprobantesPage,
   CajeroMovimientosPage,
+  CajeroCierresPage,
   ContribuyentesListPage,
   ContribuyentesFormPage,
   ContribuyentesTelefonosPage,
@@ -21,7 +22,8 @@ import {
   ContribuyentesRubrosPage,
   ContribuyentesTiposCredencialesPage,
   ContribuyentesTiposTelefonoPage,
-  ContribuyentesTiposDocumentoPage
+  ContribuyentesTiposDocumentoPage,
+  AdminMovimientosCerradosPage
 } from './pages';
 import { AdminLayout, CajeroLayout } from './layouts';
 import { ThemeProvider, AuthProvider } from './contexts';
@@ -50,6 +52,8 @@ function App() {
                 <Route path="aprobaciones" element={<AdminApprovalsPage />} />
                 <Route path="comprobantes" element={<AdminComprobantesPage />} />
                 <Route path="documentos" element={<AdminDocumentsPage />} />
+                <Route path="movimientos-cerrados" element={<AdminMovimientosCerradosPage />} />
+
                 
                 {/* Contribuyentes Admin */}
                 <Route path="contribuyentes" element={<ContribuyentesListPage />} />
@@ -70,6 +74,7 @@ function App() {
                 <Route index element={<Navigate to="dashboard" replace />} />
                 <Route path="dashboard" element={<CajeroDashboard />} />
                 <Route path="movimientos" element={<CajeroMovimientosPage />} />
+                <Route path="cierres" element={<CajeroCierresPage />} />
                 
                 {/* Contribuyentes Cajero */}
                 <Route path="contribuyentes" element={<ContribuyentesListPage />} />

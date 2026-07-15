@@ -19,7 +19,8 @@ import {
   KeyRound,
   Tags,
   Smartphone,
-  ClipboardList
+  ClipboardList,
+  Archive
 } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useTheme, useAuth } from '../../contexts';
@@ -244,6 +245,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isExpanded, toggleSidebar, role, isMo
                   <SubMenuItem isActive={location.pathname.includes('/admin/cajas')} icon={<Wallet size={16} />} label="Tipos de Caja" onClick={() => navigate('/admin/cajas')} />
                   <SubMenuItem isActive={location.pathname.includes('/admin/empresas')} icon={<Landmark size={16} />} label="Empresas" onClick={() => navigate('/admin/empresas')} />
                   <SubMenuItem isActive={location.pathname.includes('/admin/aprobaciones')} icon={<SlidersHorizontal size={16} />} label="Movimientos" onClick={() => navigate('/admin/aprobaciones')} />
+                  <SubMenuItem isActive={location.pathname.includes('/admin/movimientos-cerrados')} icon={<Archive size={16} />} label="Cierres de Caja" onClick={() => navigate('/admin/movimientos-cerrados')} />
                 </div>
               )}
             </div>
@@ -263,6 +265,22 @@ const Sidebar: React.FC<SidebarProps> = ({ isExpanded, toggleSidebar, role, isMo
               >
                 <Wallet size={18} className="shrink-0" strokeWidth={1.8} />
                 {isExpanded && <span className="ml-3 font-medium text-sm whitespace-nowrap">Movimientos</span>}
+              </button>
+
+              {/* Cierres */}
+              <button
+                onClick={() => navigate('/cajero/cierres')}
+                className={`w-full flex items-center rounded-lg transition-all duration-200 mt-1 ${
+                  isExpanded ? 'px-3 py-2.5' : 'p-3 justify-center'
+                } ${
+                  location.pathname.includes('/cajero/cierres')
+                    ? 'bg-[#C4933F] text-white font-semibold'
+                    : 'text-[var(--sidebar-text)] hover:bg-[var(--sidebar-hover)] hover:text-[var(--sidebar-text-hover)]'
+                }`}
+                title={!isExpanded ? 'Cierres' : undefined}
+              >
+                <Archive size={18} className="shrink-0" strokeWidth={1.8} />
+                {isExpanded && <span className="ml-3 font-medium text-sm whitespace-nowrap">Cierres</span>}
               </button>
 
               {/* Contribuyentes Collapsible */}
