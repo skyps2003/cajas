@@ -31,9 +31,12 @@ export interface Movimiento {
     correlativo: string;
   };
   boleta?: {
-    serie: string;
+    serie?: string;
     correlativo: string;
+    recibidode?: string;
   };
+  recibidode?: string;
+  cambio?: string;
 }
 
 const API_URL = import.meta.env.VITE_API_URL || 'https://caja.corporacionjjja.com/api';

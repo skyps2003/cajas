@@ -31,6 +31,7 @@ type Cierre = {
     total_egresos: number;
     saldo_cierre: number;
   }>;
+  movimientos_ids?: number[];
 };
 
 export const CajeroCierresPage: React.FC = () => {
