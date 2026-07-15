@@ -10,7 +10,7 @@ import {
   Archive,
   TrendingUp, TrendingDown, RefreshCw,
   Loader2, User, MapPin, Eye, X, ArrowUpRight, ArrowDownRight, Calendar, CreditCard, Activity,
-  Trash2, Download
+  Download
 } from 'lucide-react';
 
 type Cierre = {
