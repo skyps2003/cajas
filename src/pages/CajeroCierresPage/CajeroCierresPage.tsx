@@ -50,7 +50,7 @@ export const CajeroCierresPage: React.FC = () => {
   const [cierres, setCierres] = useState<Cierre[]>([]);
   const [loading, setLoading] = useState(false);
   const [expandedId, setExpandedId] = useState<number | null>(null);
-  const [deleteId, setDeleteId] = useState<number | null>(null);
+
 
   // Cargar sedes (solo admin)
   useEffect(() => {
@@ -373,41 +373,7 @@ export const CajeroCierresPage: React.FC = () => {
     }
   };
 
-  const [isDeleting, setIsDeleting] = useState(false);
 
-  const handleDeleteCierre = (id: number) => {
-    setDeleteId(id);
-  };
-
-  const confirmDelete = async () => {
-    if (deleteId) {
-      const cierre = cierres.find(c => c.id === deleteId);
-      if (cierre && cierre.movimientos_ids && cierre.movimientos_ids.length > 0) {
-        setIsDeleting(true);
-        try {
-          // Delete all movements associated with this Cierre sequentially or parallel
-          // Using Promise.all for parallel deletion
-          const token = jwt || user?.token || '';
-          await Promise.all(
-            cierre.movimientos_ids.map(movId => MovimientoService.deleteMovimiento(token, movId))
-          );
-          
-          setCierres(prev => prev.filter(c => c.id !== deleteId));
-          showToast('success', 'Cierre Eliminado', 'Se han eliminado todos los movimientos de este cierre.');
-        } catch (error) {
-          showToast('error', 'Error', 'No se pudieron eliminar todos los movimientos del cierre.');
-        } finally {
-          setIsDeleting(false);
-          setDeleteId(null);
-        }
-      } else {
-        // Fallback to just removing from state if no IDs
-        setCierres(prev => prev.filter(c => c.id !== deleteId));
-        showToast('success', 'Cierre Eliminado', 'El cierre ha sido eliminado localmente.');
-        setDeleteId(null);
-      }
-    }
-  };
 
   return (
     <div className="p-6 md:p-8 max-w-[1400px] mx-auto w-full animate-fade-in">
@@ -737,37 +703,7 @@ export const CajeroCierresPage: React.FC = () => {
         </div>
       , document.body)}
 
-      {/* Delete Confirmation Modal */}
-      {deleteId && createPortal(
-        <div className="fixed inset-0 z-[10000] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-fade-in">
-          <div className="bg-white dark:bg-[#16212E] border border-[#E2E8F0] dark:border-[#1E2D3D] w-[360px] max-w-[90vw] rounded-xl shadow-2xl p-5 text-center">
-            <div className="w-12 h-12 mx-auto bg-red-50 dark:bg-red-900/20 rounded-full flex items-center justify-center mb-3">
-              <Trash2 className="text-red-600 dark:text-red-400" size={22} />
-            </div>
-            <h3 className="text-lg font-bold text-[#1B2E4B] dark:text-[#E8EDF5] mb-1">Eliminar Cierre</h3>
-            <p className="text-sm text-[#6B7A94] dark:text-[#8899B4] mb-5 leading-relaxed">
-              ¿Está seguro de eliminar este cierre?
-              <br/><span className="text-xs">Esta acción solo lo ocultará de esta vista.</span>
-            </p>
-            <div className="flex gap-3 w-full">
-              <button 
-                onClick={() => setDeleteId(null)}
-                className="flex-1 py-2.5 border border-[#CBD5E1] dark:border-[#1E2D3D] rounded-lg text-sm font-semibold text-[#1B2E4B] dark:text-[#E8EDF5] hover:bg-[#F0F4F9] dark:hover:bg-[#1E2D3D] transition-colors"
-              >
-                Cancelar
-              </button>
-              <button 
-                onClick={confirmDelete}
-                disabled={isDeleting}
-                className="flex-1 py-2.5 bg-red-600 hover:bg-red-700 disabled:opacity-60 disabled:cursor-not-allowed text-white rounded-lg text-sm font-semibold transition-colors flex items-center justify-center gap-2"
-              >
-                {isDeleting ? <Loader2 size={16} className="animate-spin" /> : 'Sí, eliminar'}
-              </button>
-            </div>
-          </div>
-        </div>,
-        document.body
-      )}
+
     </div>
   );
 };
