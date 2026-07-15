@@ -588,13 +588,6 @@ export const AdminMovimientosCerradosPage: React.FC = () => {
                             <Eye size={18} />
                           </button>
                           <button
-                            onClick={() => handleDeleteCierre(cierre.id)}
-                            className="p-1.5 text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-900/30 rounded-lg transition-colors"
-                            title="Eliminar cierre"
-                          >
-                            <Trash2 size={18} />
-                          </button>
-                          <button
                             onClick={() => handleExportPDF(cierre)}
                             className="p-1.5 text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-900/30 rounded-lg transition-colors"
                             title="Descargar PDF"
